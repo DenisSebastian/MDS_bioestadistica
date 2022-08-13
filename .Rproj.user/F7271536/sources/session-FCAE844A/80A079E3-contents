@@ -12,6 +12,7 @@ book:
     - fundamentos.qmd
     - references.qmd
   always_allow_html: true
+  output_dir: docs
 
 
 bibliography: references.bib
@@ -21,7 +22,6 @@ format:
     theme: cosmo
     html-math-method: katex
     css: style.css
-  pdf:
-    documentclass: scrreprt
-output_dir: docs
+
 editor: visual
+always_allow_html: true
