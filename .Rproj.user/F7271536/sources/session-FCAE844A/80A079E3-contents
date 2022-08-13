@@ -13,6 +13,7 @@ book:
     - references.qmd
   always_allow_html: true
 
+
 bibliography: references.bib
 
 format:
@@ -22,5 +23,5 @@ format:
     css: style.css
   pdf:
     documentclass: scrreprt
-
+output_dir: docs
 editor: visual
