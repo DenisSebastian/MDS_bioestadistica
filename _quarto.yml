@@ -23,4 +23,4 @@ format:
     documentclass: scrreprt
 
 editor: visual
-
+always_allow_html: true
