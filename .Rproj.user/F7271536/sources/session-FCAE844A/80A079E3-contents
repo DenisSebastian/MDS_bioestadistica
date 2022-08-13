@@ -11,6 +11,7 @@ book:
     - index.qmd
     - fundamentos.qmd
     - references.qmd
+  always_allow_html: true
 
 bibliography: references.bib
 
@@ -23,4 +24,3 @@ format:
     documentclass: scrreprt
 
 editor: visual
-always_allow_html: true
