@@ -1,0 +1,36 @@
+
+@book{mcclave2003statistics,
+	title = {Statistics},
+	author = {McClave, J.T. and Sincich, T.},
+	year = {2003},
+	date = {2003},
+	publisher = {Prentice Hall},
+	note = {Citation Key: mcclave2003statistics
+tex.lccn: 2001055495}
+}
+
+@book{zar1999biostatistical,
+  title={Biostatistical analysis},
+  author={Zar, Jerrold H},
+  year={1999},
+  publisher={Pearson Education India}
+}
+
+@misc{varianza2022,
+	title = {Varianza},
+	year = {2022},
+	month = {06},
+	date = {2022-06-28},
+	url = {https://es.wikipedia.org/w/index.php?title=Varianza&oldid=144468342},
+	note = {Page Version ID: 144468342},
+	langid = {es}
+}
+
+@article{matemáticasprofealex2017,
+	title = {Varianza y desviación estándar | Introducción},
+	author = {{Matemáticas profe Alex}, },
+	year = {2017},
+	month = {06},
+	date = {2017-06-12},
+	url = {https://www.youtube.com/watch?v=oZRaDwnpXkY}
+}

@@ -1,0 +1,10 @@
+# R and Rstudio specific files
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata"
+.DS_Store
+
+/.quarto/
+/_site/

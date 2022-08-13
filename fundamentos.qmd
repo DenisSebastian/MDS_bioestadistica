@@ -1,0 +1,483 @@
+# Fundamendos Básicos  {#fundamentos}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(kableExtra))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(vegan))
+```
+
+## Definción de Estadística
+
+La **estadística** es la ciencia de los datos. Consiste en recoger, clasificar, resumir, organizar analizar e interpretar la información numérica. [@mcclave2003statistics]
+
+La estadística es el análisis y la interpretación de los datos con vistas a una evaluación objetiva de la fiabilidad de las conclusiones basadas en los datos. [@zar1999biostatistical]
+
+### Rol de la Estadística en el Pesamiento Crítico
+
+-   La capacidad de utilizar el pensamiento racional para interpretar el significado de los datos
+
+-   Esta capacidad puede ayudarle a tomar decisiones inteligentes, inferencias y generalizaciones
+
+    [@mcclave2003statistics]
+
+### Parámetros en estadísticas
+
+El objetivo principal del análisis estadístico es inferir los parámetros de la población a partir de una muestra.
+
+-   Palabra "**Parámetro**" se refiere a las Poblaciones, e.j., µ, σ (i.e., letras Griegas)
+
+-   Palabra "**Estadígrafo**" (Statistics) se refiere a las Muestras, e.j., X, Sx (i.e., letras latinas)
+
+    -   Estadígrafos pueden variar de muestra a muestra.
+
+    -   Queremos que estos Estadígrafos sean buenas representaciones de los parámetros de la población.
+
+![Parámetros en estadística (población y muestra)](images/poblacion.png){fig-align="center" width="450"}
+
+### Tipos de Estadística
+
+Dos tipos principales de estadística:
+
+-   Descriptiva: utiliza métodos numéricos y gráficos para buscar patrones en un conjunto de datos, para resumir la información revelada en un conjunto de datos y presentar esa información en una forma conveniente.
+-   Inferencial: es una estimación, predicción o alguna otra generalización sobre una población basada en la información contenida en una muestra.
+
+[@mcclave2003statistics]
+
+# Estadística Descriptiva {#e-descriptiva}
+
+Ejemplos Estadísticass descriptiva con datos:
+
+![](images/descriptiva.png){width="800"}
+
+Representación de tipos de datos
+
+![](images/desc_datos.png){width="800"}
+
+### Muestras reperesentativas
+
+-   Contiene características similares o típicas de la población.
+-   La forma más común de obtener muestras representativas es mediante selección aleatoria.
+-   Una muestra aleatoria garantiza que cada subconjunto de tamaño fijo de la población tiene la misma probabilidad de ser incluido en la muestra
+
+### Consideraciones de la Estadísticas Descriptiva
+
+-   Definir la población o muestra de interés
+-   Definir las variables o características de la población que se van a investigar.
+-   Definir el tipo de estadística descriptiva a usar: gráficos, tablas, valores de resumen
+-   Identificar patrones en los datos.
+
+[@mcclave2003statistics]
+
+# Medidas de Tendencias Central {#m-tendencia-central}
+
+![Medidas de tendencia central](images/Visualisation_mode_median_mean.png){fig-align="center" width="200"}
+
+![Distribuciones](images/distribucion.png) [@zar1999biostatistical]
+
+## Media Aritmética
+
+$$
+\mu=\frac{\displaystyle\sum_{i=1}^{N}X_i}{N}
+$$
+
+-   $X_i$: cada observación de la población/muestra
+-   $N$: tamaño de la población o muestra
+
+**Ejemplo de Media Aritmétrica con R**
+
+24 registros de población de mariposas cuyo valor corresponde a el largo en cm.
+
+::: panel-tabset
+## Valores
+
+```{r}
+W <- c(3.3,3.5,3.6,3.6,3.7,3.8,
+       3.8,3.8,3.9,3.9,3.9,4.0,
+       4.0,4.0,4.0,4.1,4.1,4.1,
+       4.2,4.2,4.3,4.3,4.4,4.5)
+```
+
+## Suma
+
+$$
+\displaystyle\sum_{i=1}^{N}X_i=95cm
+$$
+
+```{r}
+sum(W)
+```
+
+## Media
+
+$$
+\mu=\frac{\displaystyle\sum_{i=1}^{N}X_i}{N}=3.96 cm
+$$
+
+```{r}
+mean(W)
+```
+
+## Alternativa Media
+
+```{r}
+ma <-  function(vector){
+  N = length(vector)
+  ma = sum(vector)/N
+  return(ma)
+}
+ma(W)
+```
+
+## Histograma
+
+```{r}
+hist(W, col = "gray97")
+abline(v=mean(W), col="red")
+```
+:::
+
+## Mediana
+
+-   Es el valor del medio de un set de datos ordenados.
+-   Se puede entender también como el valor donde está el 50% de los datos.
+
+![Encontrar la mediana](images/Finding_the_median.png){fig-align="center"}
+
+```{r}
+sort(W)
+```
+
+```{r}
+median(W)
+```
+
+## Moda
+
+Valor más frecuente en un set de datos.
+
+```{r}
+table(W)
+```
+
+En R no existe una función específica pero se puede crear una:
+
+```{r}
+moda <- function(x) {
+  uniqv <- unique(x)
+  uniqv[which.max(tabulate(match(x, uniqv)))]
+}
+moda(W)
+
+```
+
+# Medidas de Dispersión y Variabilidad
+
+## Rango
+
+-   Diferencia entre el valor más alto y más bajo de la muestra
+-   OJO: rango de la muestra subestima el rango de la población (problema con los extremos)
+
+Ej., botánicos lo usan para medir las dimensiones de hojas y flores.
+
+![Rango](images/ej_rango.jpeg){fig-align="center"}
+
+Cálculo en R
+
+```{r}
+max(W) - min(W)
+```
+
+La función `rango()` retorna valores mínimos y máximos
+
+```{r}
+range(W) 
+```
+
+## Cuartiles, Cuantiles y Percentiles
+
+-   **Cuartiles**: dividen la población en 4 partes iguales, describiendo los valores acumulados al *0%, 25%, 50%, 75% y 100%* (steps de 25%).
+
+-   **Cuantiles y Percentiles** (i.e., son =) describen lo mismo, pero no necesariamente se divide la muestra en 4 partes. Ej., se puede dividir en 10: *0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%*
+
+![](images/quartiles.png){fig-align="center" width="300"}
+
+Cálculo de cuartiles en R
+
+```{r}
+
+quantile(W)
+
+```
+
+Ajuste de los porcentadjes
+
+```{r}
+quantile(W, probs = c(0.05, 0.25, 0.5, 0.75, 0.95)) # especificar el rango de porcentaje acumulado a entregar
+```
+
+### Rango Intercuartil (IQR)
+
+-   Distancia entre Q1 y Q3, el primer y segundo cuartil (25% y 75%).
+-   Más robusto que el rango normal
+-   No afectan los outliars.
+
+$$
+IQR = Q3 - Q1
+$$
+
+Rango intercuantil IQR = 75% - 25%
+
+![](images/intercuartil.png){fig-align="center" width="800"}
+
+Cáculo en R
+
+```{r}
+quantile(W, 0.75) - quantile(W, 0.25)
+
+# alternativa
+quantile(W)[4] - quantile(W)[2]
+
+```
+
+## Varianza
+
+-   Suma de los cuadrados (SS) de las desviaciones de la media.
+-   Describe la dispersión media en torno al valor medio
+
+Datos Población Total
+
+$$
+\sigma^2 = \frac{\displaystyle\sum_{i=1}^{n}(X_i - \mu)^2} {N}
+$$
+
+Datos Muestrales
+
+$$
+S^2 = \frac{\displaystyle\sum_{i=1}^{n}(X_i - \bar{X})^2} {n-1}
+$$
+
+-   Wikipedia: [@varianza2022]
+-   Video: [@matemáticasprofealex2017]
+
+```{r}
+var(W)
+```
+
+## Desviación Estándar
+
+Es una medida que se utiliza para cuantificar la variación o la dispersión de un conjunto de datos numéricos.
+
+Una desviación estándar baja indica que la mayor parte de los datos de una muestra tienden a estar agrupados cerca de su media (también denominada el valor esperado), mientras que una desviación estándar alta indica que los datos se extienden sobre un rango de valores más amplio.
+
+![](images/Standard_deviation_diagram.png)
+
+Desviación Estándar paraDatos Población Total
+
+$$
+\sigma = \sqrt{\frac{\displaystyle\sum_{i=1}^{n}(X_i - \mu)^2} {N}}
+$$
+
+Desviación Estándar para Datos Muestrales:
+
+$$
+S = \sqrt{\frac{\displaystyle\sum_{i=1}^{n}(X_i - \bar{X})^2} {n-1}}
+$$
+
+::: panel-tabset
+## Valores
+
+```{r}
+W <- c(3.3,3.5,3.6,3.6,3.7,3.8,
+       3.8,3.8,3.9,3.9,3.9,4.0,
+       4.0,4.0,4.0,4.1,4.1,4.1,
+       4.2,4.2,4.3,4.3,4.4,4.5)
+```
+
+## Fórmula
+
+$$
+\sigma = \sqrt{\frac{\displaystyle\sum_{i=1}^{n}(X_i - \mu)^2} {N}}
+$$
+
+## Función sd()
+
+```{r}
+sd(W)
+
+```
+
+## Gráfico
+
+```{r echo=FALSE}
+# graficar la +- 1 DE y +- 2 DE en un histograma?
+hist(W)
+abline(v=mean(W), col='red')
+
+## +- 1 DE ---------------------------------------------------------------
+abline(v=mean(W)+sd(W), col='blue')
+abline(v=mean(W)-sd(W), col='blue')
+
+## +- 2 DE ---------------------------------------------------------------
+abline(v=mean(W)+sd(W)*2, col='green')
+abline(v=mean(W)-sd(W)*2, col='green')
+```
+
+## Cod_Graph
+
+```{r eval=FALSE}
+# graficar la +- 1 DE y +- 2 DE en un histograma?
+hist(W)
+abline(v=mean(W), col='red')
+
+## +- 1 DE ---------------------------------------------------------------
+abline(v=mean(W)+sd(W), col='blue')
+abline(v=mean(W)-sd(W), col='blue')
+
+## +- 2 DE ---------------------------------------------------------------
+abline(v=mean(W)+sd(W)*2, col='green')
+abline(v=mean(W)-sd(W)*2, col='green')
+```
+:::
+
+## Coeficiente de Variación
+
+-   Cómo la desviación estándar, pero normalizado a un porcentaje.
+-   Sirve para comparar la variación entre datos de distintas poblaciones/muestras!
+
+$$V=\frac{s}{\bar{X}}$$
+
+```{r}
+sd(W) / mean(W) * 100
+```
+
+## índices de Diversidad
+
+-   En el caso de los datos de escala nominal, no existe una media o una mediana que sirva de referencia para hablar de la dispersión
+-   Podemos invocar el concepto de diversidad, la distribución de las observaciones entre las categorías
+-   Observaciones distribuidas uniformemente en las categorías tienen Diversidad alta, mientras que observaciones que ocurren en pocas clases tiene Div. baja.
+
+Shannon-Wiener diversity index
+
+$$
+H'= \sum_{i=1}^k {p_i \ log \ p_i}
+$$
+
+-   $K$ = número de clases
+-   $P_i$ proporción de obs. de la clases $i$
+
+Shannon-Wiener evenness index (índice de uniformidad)
+
+$$
+J' = \frac{H'}{H_{max}} \qquad H_{max}= log\ k
+$$
+
+#### Datos con una dimensión 1D
+
+::: panel-tabset
+## Data
+
+```{r echo=FALSE}
+especies   <- c('a','b','c','d','e','f')
+frecuencia <- c(44,3,28,12,2,8)
+data <- data.frame(especies, frecuencia)
+
+
+kable_styling(
+              kable(data, digits = 3, row.names = FALSE, align = "c",
+              caption = NULL, format = "html"),
+        bootstrap_options = c("striped", "hover", "condensed"),
+        position = "center", full_width = FALSE) 
+
+```
+
+## Formula
+
+$$
+H'= \sum_{i=1}^k {p_i \ log \ p_i}
+$$
+
+## Código
+
+```{r}
+especies   <- c('a','b','c','d','e','f')
+frecuencia <- c(44,3,28,12,2,8)
+
+# funcion manual para vector de 1D
+diversidad <- function(x){
+  x <- x/(total <- sum(x)) # Proporcion de cada especie
+  x <- -x * log(x, exp(1)) 
+  H <- sum(x, na.rm = TRUE)
+  H
+}
+
+```
+
+## Resultado
+
+```{r}
+diversidad(frecuencia)
+```
+:::
+
+Ejemplo en R de ídice de diversidad con la función `diversity()` de la librería *vegan*.
+
+::: panel-tabset
+## Data
+
+```{r echo=FALSE}
+especies   <- c('a','b','c','d','e','f')
+frecuencia <- c(44,3,28,12,2,8)
+data <- data.frame(especies, frecuencia)
+
+
+kable_styling(
+              kable(data, digits = 3, row.names = FALSE, align = "c",
+              caption = NULL, format = "html"),
+        bootstrap_options = c("striped", "hover", "condensed"),
+        position = "center", full_width = FALSE) 
+
+```
+
+## Código
+
+```{r}
+library(vegan)
+diversity(frecuencia) 
+
+```
+:::
+
+#### Datos con más de una dimensión
+
+Lectura de datos
+
+**Barro Colorado Island Tree Counts**: Tree counts in 1-hectare plots in the Barro Colorado Island and associated site information.
+
+```{r}
+data(BCI)
+data(BCI.env)
+```
+
+Cálculo de BCI
+
+```{r}
+#### Diversity  ---------------------------------------------------------
+div <- diversity(BCI)
+div
+```
+
+Analizar gradientes entre diversidad y variables
+
+```{r}
+# analizar gradientes entre diversidad y variables
+plot(x = div, y = BCI.env$Precipitation)
+abline(h=2530, col="red")
+
+```
+
+```{r}
+plot(x = div, y = BCI.env$Habitat)
+```

@@ -1,0 +1,87 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "McClave",
+                    "given": "J. T."
+                },
+                {
+                    "family": "Sincich",
+                    "given": "T."
+                }
+            ],
+            "id": "mcclave2003statistics",
+            "issued": {
+                "date-parts": [
+                    [
+                        2003
+                    ]
+                ]
+            },
+            "note": "Citation Key: mcclave2003statistics tex.lccn: 2001055495",
+            "publisher": "Prentice Hall",
+            "title": "Statistics",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Zar",
+                    "given": "Jerrold H"
+                }
+            ],
+            "id": "zar1999biostatistical",
+            "issued": {
+                "date-parts": [
+                    [
+                        1999
+                    ]
+                ]
+            },
+            "publisher": "Pearson Education India",
+            "title": "Biostatistical analysis",
+            "type": "book"
+        },
+        {
+            "URL": "https://es.wikipedia.org/w/index.php?title=Varianza&oldid=144468342",
+            "id": "varianza2022",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        6,
+                        28
+                    ]
+                ]
+            },
+            "language": "es",
+            "note": "Page Version ID: 144468342",
+            "title": "Varianza",
+            "type": ""
+        },
+        {
+            "URL": "https://www.youtube.com/watch?v=oZRaDwnpXkY",
+            "author": [
+                {
+                    "family": "Matemáticas profe Alex"
+                }
+            ],
+            "id": "matemáticasprofealex2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017,
+                        6,
+                        12
+                    ]
+                ]
+            },
+            "title": "Varianza y desviación estándar | introducción",
+            "type": "article-journal"
+        }
+    ],
+    "project_biblios": [
+        "references.bib"
+    ]
+}
