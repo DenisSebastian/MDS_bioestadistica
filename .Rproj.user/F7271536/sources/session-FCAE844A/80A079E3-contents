@@ -11,8 +11,6 @@ book:
     - index.qmd
     - fundamentos.qmd
     - references.qmd
-  always_allow_html: true
-  output_dir: docs
 
 
 bibliography: references.bib
