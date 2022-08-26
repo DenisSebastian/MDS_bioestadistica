@@ -4,12 +4,14 @@ project:
 book:
   title: "Curso: Bioestadística 2022"
   subtitle: "Master of Data Science"
-  institution: "Universidad Adolfo Ibáñez - Chile"
+  affiliation-title: "Universidad Adolfo Ibáñez - Chile"
   author: "Denis Berroeta González (denis.berroeta@uai.cl)"
   date: "2022-08-12"
   chapters:
     - index.qmd
     - fundamentos.qmd
+    - d_prob.qmd
+    - t_limite_central.qmd
     - references.qmd
 
 

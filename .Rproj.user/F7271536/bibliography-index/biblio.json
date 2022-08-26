@@ -79,6 +79,46 @@
             },
             "title": "Varianza y desviación estándar | introducción",
             "type": "article-journal"
+        },
+        {
+            "DOI": "10.1016/0167-9473(88)90061-8",
+            "ISSN": "0167-9473",
+            "URL": "https://www.sciencedirect.com/science/article/pii/0167947388900618",
+            "abstract": "By Monte Carlo simulation, this study illustrates and summarizes the extent of robustness of the one-sample and two-sample Student t statistics for inferences on means to the assumptions of normality and/or equal variances when very small sample sizes are involved. It is determined that in a relative sense the two-sample t statistic is more robust to the assumption of normality than the one-sample statistic, if equal sample sizes are used. Whereas the robustness of the two-sample statistic is truly exceptional for both the normality and equal variance assumptions when n1 = n2, that of the one-sample statistic appears to be restricted to situations in which the underlined distribution is either symmetrical or only modestly skewed. The robustness of the two-sample statistic deteriorates considerably when the sample sizes differ by a factor of two or more. Therefore, the best protection available to a practitioner for the one-sample case is to use relatively large sample sizes, say around 25 to 30 observations, and to use equal sample sizes for the two-sample case.",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2022,
+                        8,
+                        20
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Canavos",
+                    "given": "George C."
+                }
+            ],
+            "container-title": "Computational Statistics & Data Analysis",
+            "container-title-short": "Computational Statistics & Data Analysis",
+            "id": "canavos_sensitivity_1988",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1988,
+                        1,
+                        1
+                    ]
+                ]
+            },
+            "keyword": "Monte Carlo simulation.,Robustness,Student t statistics",
+            "language": "en-US",
+            "page": "39-46",
+            "title": "The sensitivity of the one-sample and two-sample student t statistics",
+            "type": "article-journal",
+            "volume": "6"
         }
     ],
     "project_biblios": [
