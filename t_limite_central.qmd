@@ -3,6 +3,7 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
 # Teorema del Límite Central {#fundamentos}
 
 ```{r setup, include=FALSE}
@@ -14,16 +15,17 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(vegan))
 ```
 
-## Teorema del Límite Central 
+## Teorema del Límite Central
+
+El teorema central del límite (TCL) es una teoría estadística que establece que, dada una muestra aleatoria suficientemente grande de la población, la distribución de las medias muestrales seguirá una distribución normal.
 
 Si se toman muestras repetidas de una población con varianza ﬁnita y se calculan sus promedios, entonces los promedios se distribuirán normalmente.
 
 Esto es verdad incluso cuando las muestras son tomadas de una distribución NO normal, siempre y cuando se tomen el suficiente número de muestras.
 
-
 ## Demostración en R
 
-Calculemos la media de cinco números aleatorios distribuidos uniformemente entre 0 y 10. La media será baja cuando obtengamos, ej., 2,3,1,2,1 y alta cuando obtengamos 9,8,9,6,8. Lo normal es que la media se acerque a 5. Hagamos esto    10.000 veces y observamos la distribución de las 10.000 medias. Los datos se distribuyen de forma rectangular (uniforme) en el intervalo de 0 a 10, por lo que la distribución de los datos brutos debería ser plana:
+Calculemos la media de cinco números aleatorios distribuidos uniformemente entre 0 y 10. La media será baja cuando obtengamos, ej., 2,3,1,2,1 y alta cuando obtengamos 9,8,9,6,8. Lo normal es que la media se acerque a 5. Hagamos esto 10.000 veces y observamos la distribución de las 10.000 medias. Los datos se distribuyen de forma rectangular (uniforme) en el intervalo de 0 a 10, por lo que la distribución de los datos brutos debería ser plana:
 
 ```{r}
 # distribución de 10.000 números 
@@ -33,7 +35,6 @@ hist(runif(10000)*10, main="")
 ```
 
 ¿Qué ocurre con la distribución de las medias muestrales, basada en la toma de sólo cinco números aleatorios uniformemente distribuidos?
-
 
 ```{r}
 # creamos un vector numérico vacío de tamaño 10.000
@@ -47,11 +48,10 @@ hist(means,ylim=c(0,1600),main="")
 
 ```
 
-
 Se ve bien, pero ¿cuan cerca está de una distribución normal?
 
-* Dibujar un distribución normal teórica usando X y S de la muestra.
-* Test de normalidad.
+-   Dibujar un distribución normal teórica usando X y S de la muestra.
+-   Test de normalidad.
 
 ```{r}
 m <- mean(means)
@@ -65,7 +65,6 @@ lines(xv, yv)
 
 ```
 
-
 ### Test de Normalidad
 
 ```{r}
@@ -75,9 +74,71 @@ shapiro.test(sample(x = means, 5000))
 
 ```
 
+Función para generar muestras de medias y visualiza el histograma
 
-![Distribuciones en $n$](images/distribuciones_en_n.png){fig-align="center" width="700"}
+```{r}
+generar_muestras_de_medias <- function(numero, muestras = 5){
+  means <- numeric(numero)
+  for (i in 1:numero){ means[i] <- mean(runif(muestras)*10) }
+  hist(means, main = paste('Distribucion', i, 'muestras'))
+}
 
-holaalgo
+```
 
+Diferencias entre medias muestrales con diferentes repeticiones
 
+```{r fig.cap="Distribuciones en $n$"}
+# como se ven las diferencias entre medias muestrales con diferentes repeticiones?
+par(mfrow = c(2, 2))
+for(i in c(10, 100, 1000, 100000)){
+  generar_muestras_de_medias(i)
+}
+```
+
+### Incrementar el número muestral
+
+Cuando seleccionamos muestras de una distribución normal, la distribución de las medias muestrales de la muestra también tiene una forma "normal".
+
+Aumentar el tamaño muestral disminuye la dispersión.
+
+Este comportamiento parece bastante razonable. Se esperaría una estimación más precisa de la media de la población original si tomamos la media de muestras de mayor tamaño.
+
+### Distribución muestral de X
+
+Media de la distribución muestral es = a las media de la población original
+
+$$\mu_{\bar{x}}=E(\bar{x})=\mu$$
+
+Desviación estándar de la distribución muestral igual:
+
+$$\sigma_{\bar{x}}=\frac{\sigma}{\sqrt{n}}$$ Este es el error estándar de la media.
+
+![error estándar de la media](images/error_standar.png)
+
+## Distribución $t$ de Student
+
+<br>
+
+$t$ de Student
+
+:   En probabilidad y estadística, la distribución $t$ (de Student) es una distribución de probabilidad que surge del problema de estimar la media de una población normalmente distribuida cuando el tamaño de la muestra es pequeño y la desviación estándar poblacional es desconocida.
+
+::: callout-note
+completar formulación [wiki](https://es.wikipedia.org/wiki/Distribución_t_de_Student)
+:::
+
+Si el tamaño muestral ($n$) es muy largo (e.g., \> 30), la distribución de t Student se aproxima a una distribución Normal.
+
+La distribución Normal necesita de valores de $\mu$ y $\sigma$. Acabamos de demostrar que no es posible estimar σ a partir de S:
+
+-   $X$ es un estimador sin sesgo de $\mu$
+-   $S$ es un estimador sesgado de $\sigma$
+
+t Student es una distribución que se describe con dos parámetros:
+
+-   $X$
+-   $DF$ (deegrees of freedom), o grados de libertad
+
+Tiene distinta forma según los grados de libertad (Degrees of freedom \[DF\])
+
+$DF = ν = n - 1$

@@ -4,7 +4,6 @@ always_allow_html: yes
 
 # Prefacio {#prefacio}
 
-
 Este libro que contiene los apuntes personales del curso de Bioestadística. [Master of Science](https://ingenieria.uai.cl/master-of-science/master-of-science-in-data-science/), de la Universidad Adolfo Ibañez. Chile 2022.
 
 Porfesor Titular: Prof. Javier Lopatin \| [javier.lopatin\@uai.cl](javier.lopatin@uai.cl)
@@ -30,4 +29,3 @@ Principalmente para los procesos análisis de datos y visualización de resultad
 8.  **Estadística no paramétrica:** Introducción a la estadística no paramétrica. Cuando utilizarla. Principio de parsimonia.
 
 9.  **Series de tiempo**: Ajuste estacional, media móvil, suavizado exponencial, extrapolación, predicción lineal, Estimación de tendencias, estacionalidad y modelado ARIMA.
-

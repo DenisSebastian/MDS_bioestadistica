@@ -9,11 +9,13 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(vegan))
 ```
 
-## Definción de Estadística
+## Definición de Estadística
 
-La **estadística** es la ciencia de los datos. Consiste en recoger, clasificar, resumir, organizar analizar e interpretar la información numérica. [@mcclave2003statistics]
+> Estadística:
+>
+> :   La estadística es la ciencia de los datos. Consiste en recoger, clasificar, resumir, organizar analizar e interpretar la información numérica. [@mcclave2003statistics]
 
-La estadística es el análisis y la interpretación de los datos con vistas a una evaluación objetiva de la fiabilidad de las conclusiones basadas en los datos. [@zar1999biostatistical]
+> La estadística es el análisis y la interpretación de los datos con vistas a una evaluación objetiva de la fiabilidad de las conclusiones basadas en los datos. [@zar1999biostatistical]
 
 ### Rol de la Estadística en el Pesamiento Crítico
 
@@ -35,26 +37,29 @@ El objetivo principal del análisis estadístico es inferir los parámetros de l
 
     -   Queremos que estos Estadígrafos sean buenas representaciones de los parámetros de la población.
 
-![Parámetros en estadística (población y muestra)](images/poblacion.png){fig-align="center" width="450"}
+![Parámetros en estadística (población y muestra)](images/poblacion.png){fig-align="center" width="300"}
 
 ### Tipos de Estadística
 
 Dos tipos principales de estadística:
 
--   Descriptiva: utiliza métodos numéricos y gráficos para buscar patrones en un conjunto de datos, para resumir la información revelada en un conjunto de datos y presentar esa información en una forma conveniente.
--   Inferencial: es una estimación, predicción o alguna otra generalización sobre una población basada en la información contenida en una muestra.
+> Descriptiva
+>
+> :   Utiliza métodos numéricos y gráficos para buscar patrones en un conjunto de datos, para resumir la información revelada en un conjunto de datos y presentar esa información en una forma conveniente.
+
+> Inferencial
+>
+> :   Es una estimación, predicción o alguna otra generalización sobre una población basada en la información contenida en una muestra.
 
 [@mcclave2003statistics]
 
-# Estadística Descriptiva {#e-descriptiva}
+{{< pagebreak >}}
 
-Ejemplos Estadísticass descriptiva con datos:
+## Estadística Descriptiva {#e-descriptiva}
 
-![](images/descriptiva.png){width="800"}
+![Ejemplos Estadísticas descriptiva con datos](images/descriptiva.png){width="600"}
 
-Representación de tipos de datos
-
-![](images/desc_datos.png){width="800"}
+![Representación de tipos de datos](images/desc_datos.png){width="400"}
 
 ### Muestras reperesentativas
 
@@ -71,13 +76,21 @@ Representación de tipos de datos
 
 [@mcclave2003statistics]
 
-# Medidas de Tendencias Central {#m-tendencia-central}
+{{< pagebreak >}}
+
+## Medidas de Tendencias Central {#m-tendencia-central}
 
 ![Medidas de tendencia central](images/Visualisation_mode_median_mean.png){fig-align="center" width="200"}
 
-![Distribuciones](images/distribucion.png) [@zar1999biostatistical]
+![Distribuciones Normales y Sesgadas](images/distribucion.png)
 
-## Media Aritmética
+[@zar1999biostatistical]
+
+### Media Aritmética
+
+Definición:
+
+:   *La media aritmética es un concepto matemático usado en estadística. También llamada promedio o simplemente media, se obtiene con la suma de un conjunto de valores dividida entre el número total de sumandos*. Detalles en [Wikipedia](https://es.wikipedia.org/wiki/Media_aritmética).
 
 $$
 \mu=\frac{\displaystyle\sum_{i=1}^{N}X_i}{N}
@@ -88,7 +101,7 @@ $$
 
 **Ejemplo de Media Aritmétrica con R**
 
-24 registros de población de mariposas cuyo valor corresponde a el largo en cm.
+Muestra de 24 registros de población de mariposas cuyo valor corresponde a el largo en cm.
 
 ::: panel-tabset
 ## Valores
@@ -139,7 +152,13 @@ abline(v=mean(W), col="red")
 ```
 :::
 
-## Mediana
+### Mediana
+
+Definición:
+
+:   En el ámbito de la estadística, la mediana (del latín medianus 'del medio') representa el valor de la variable de posición central en un conjunto de datos ordenados. Se le denota mediana, si la serie tiene un número par de puntuaciones, la mediana es la media entre las dos puntuaciones centrales.
+
+Detalles en [wikipedia](https://es.wikipedia.org/wiki/Mediana_(estad%C3%ADstica))
 
 -   Es el valor del medio de un set de datos ordenados.
 -   Se puede entender también como el valor donde está el 50% de los datos.
@@ -154,7 +173,13 @@ sort(W)
 median(W)
 ```
 
-## Moda
+### Moda
+
+Definición:
+
+:   En la estadística, la moda es el valor que aparece con mayor frecuencia en un conjunto de datos. Esto va en forma de una columna cuando encontremos dos modas, es decir, dos datos que tengan la misma frecuencia absoluta máxima. Una distribución trimodal de los datos es en la que encontramos tres modas. En el caso de la distribución uniforme discreta, cuando todos los datos tienen una misma frecuencia, se puede definir las modas como indicado, pero estos lores no tienen utilidad. Por eso algunos matemáticos califican esta distribución como "sin moda".
+
+Detalles en [wikipedia](https://es.wikipedia.org/wiki/Moda_(estad%C3%ADstica))
 
 Valor más frecuente en un set de datos.
 
@@ -173,38 +198,58 @@ moda(W)
 
 ```
 
-# Medidas de Dispersión y Variabilidad
+{{< pagebreak >}}
 
-## Rango
+## Medidas de Dispersión y Variabilidad
 
--   Diferencia entre el valor más alto y más bajo de la muestra
--   OJO: rango de la muestra subestima el rango de la población (problema con los extremos)
+### Rango
+
+<br>
+
+Definición:
+
+:   Diferencia entre el valor más alto y más bajo de la muestra
+
+::: callout-warning
+Rango de la muestra subestima el rango de la población (problema con los extremos)
+:::
 
 Ej., botánicos lo usan para medir las dimensiones de hojas y flores.
 
-![Rango](images/ej_rango.jpeg){fig-align="center"}
+![Rango](images/ej_rango.jpeg){fig-align="center" width="500"}
 
-Cálculo en R
+::: panel-tabset
+## Cálculo Directo R
 
 ```{r}
 max(W) - min(W)
 ```
 
-La función `rango()` retorna valores mínimos y máximos
+## La función `rango()`
+
+Retorna los valores mínimos y máximos de la muestra
 
 ```{r}
 range(W) 
 ```
+:::
 
-## Cuartiles, Cuantiles y Percentiles
+### Cuartiles, Cuantiles y Percentiles
 
--   **Cuartiles**: dividen la población en 4 partes iguales, describiendo los valores acumulados al *0%, 25%, 50%, 75% y 100%* (steps de 25%).
+<br>
 
--   **Cuantiles y Percentiles** (i.e., son =) describen lo mismo, pero no necesariamente se divide la muestra en 4 partes. Ej., se puede dividir en 10: *0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%*
+Cuartiles:
+
+:   Dividen la población en 4 partes iguales, describiendo los valores acumulados al *0%, 25%, 50%, 75% y 100%* (steps de 25%).
+
+Cuantiles y Percentiles:
+
+:   Describen lo mismo, pero no necesariamente se divide la muestra en 4 partes. Ej., se puede dividir en 10: *0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%*
 
 ![](images/quartiles.png){fig-align="center" width="300"}
 
-Cálculo de cuartiles en R
+::: panel-tabset
+## Cuartiles en R
 
 ```{r}
 
@@ -212,11 +257,12 @@ quantile(W)
 
 ```
 
-Ajuste de los porcentadjes
+## Ajuste de los porcentajes
 
 ```{r}
-quantile(W, probs = c(0.05, 0.25, 0.5, 0.75, 0.95)) # especificar el rango de porcentaje acumulado a entregar
+quantile(W, probs = c(0.05, 0.25, 0.5, 0.75, 0.95)) #
 ```
+:::
 
 ### Rango Intercuartil (IQR)
 
@@ -228,23 +274,28 @@ $$
 IQR = Q3 - Q1
 $$
 
-Rango intercuantil IQR = 75% - 25%
+Rango intercuantil *IQR = 75% - 25%*
 
 ![](images/intercuartil.png){fig-align="center" width="800"}
 
-Cáculo en R
+::: panel-tabset
+## Cáculo en R
 
 ```{r}
 quantile(W, 0.75) - quantile(W, 0.25)
+```
 
-# alternativa
+## Alternativa
+
+```{r}
 quantile(W)[4] - quantile(W)[2]
 
 ```
+:::
 
-## Varianza
+### Varianza
 
--   Suma de los cuadrados (SS) de las desviaciones de la media.
+-   Suma de los cuadrados (*SS*) de las desviaciones de la media.
 -   Describe la dispersión media en torno al valor medio
 
 Datos Población Total
@@ -266,7 +317,7 @@ $$
 var(W)
 ```
 
-## Desviación Estándar
+### Desviación Estándar
 
 Es una medida que se utiliza para cuantificar la variación o la dispersión de un conjunto de datos numéricos.
 
@@ -342,7 +393,7 @@ abline(v=mean(W)-sd(W)*2, col='green')
 ```
 :::
 
-## Coeficiente de Variación
+### Coeficiente de Variación
 
 -   Cómo la desviación estándar, pero normalizado a un porcentaje.
 -   Sirve para comparar la variación entre datos de distintas poblaciones/muestras!
@@ -353,13 +404,13 @@ $$V=\frac{s}{\bar{X}}$$
 sd(W) / mean(W) * 100
 ```
 
-## índices de Diversidad
+### índices de Diversidad
 
 -   En el caso de los datos de escala nominal, no existe una media o una mediana que sirva de referencia para hablar de la dispersión
 -   Podemos invocar el concepto de diversidad, la distribución de las observaciones entre las categorías
 -   Observaciones distribuidas uniformemente en las categorías tienen Diversidad alta, mientras que observaciones que ocurren en pocas clases tiene Div. baja.
 
-Shannon-Wiener diversity index
+#### Shannon-Wiener diversity index
 
 $$
 H'= \sum_{i=1}^k {p_i \ log \ p_i}
@@ -368,7 +419,7 @@ $$
 -   $K$ = número de clases
 -   $P_i$ proporción de obs. de la clases $i$
 
-Shannon-Wiener evenness index (índice de uniformidad)
+#### Shannon-Wiener evenness index (índice de uniformidad)
 
 $$
 J' = \frac{H'}{H_{max}} \qquad H_{max}= log\ k

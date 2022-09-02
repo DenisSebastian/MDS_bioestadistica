@@ -7,6 +7,8 @@ book:
   affiliation-title: "Universidad Adolfo Ibáñez - Chile"
   author: "Denis Berroeta González (denis.berroeta@uai.cl)"
   date: "2022-08-12"
+  page-footer:
+    left: "Copyright 2022, Denis Berroeta"
   chapters:
     - index.qmd
     - fundamentos.qmd
@@ -22,6 +24,13 @@ format:
     theme: cosmo
     html-math-method: katex
     css: style.css
+    fig-cap-location: "margin"
+    tab-cap-location: "bottom"
+    fig-align: "center"
+    mailto: "denis.berroeta@uai.cl"
 
-editor: visual
+execute:
+  warning: false
+
+editor: source
 always_allow_html: true

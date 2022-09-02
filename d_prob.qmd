@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Distribuciones de Probabilidades {#d-prob}
+# Dist. de Probabilidad {#d-prob}
 
 ## Glosario
 
@@ -41,14 +41,13 @@ La función de distribución acumulativa de la variable aleatoria $X$, es la pro
 
 $$
 F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
-$$ 
-
+$$
 
 **Propiedades:**
 
 ::: columns
 ::: {.column width="50%"}
-$0\leq F(x)\leq, \forall x$ 
+$0\leq F(x)\leq, \forall x$
 :::
 
 ::: {.column width="50%"}
@@ -72,7 +71,7 @@ $P(X>x)= 1-F(x)$
 :::
 
 ::: {.column width="50%"}
- La $P$ acumulada de $x$ es igual a 1 - la $P$ del número.
+La $P$ acumulada de $x$ es igual a 1 - la $P$ del número.
 :::
 :::
 
@@ -117,7 +116,7 @@ curve(dnorm(x), -4, 4, col='green', ylab='y', lwd=4, las=1)
 ```
 :::
 
-diferentes media y misma desviación estandar
+diferentes media $\mu$ y misma desviación estandar $\sigma$
 
 ::: panel-tabset
 ## diferentes $\mu$ y misma $\sigma$
@@ -143,7 +142,7 @@ legend('topleft', legend=c('mean=0; sd=1','mean=0; sd=1.5','mean=0; sd=2'),
 ```
 :::
 
-Distribuciópn Acumulada
+Distribución Acumulada
 
 ```{r}
 prob <- pnorm(1, mean=0, sd=1)
@@ -154,7 +153,8 @@ xmax <- 1
 x = seq(xmin, xmax, length=200)
 y = dnorm(x)
 
-curve(dnorm(x), -4, 4, col = 'red', ylab = 'y', lwd = 2, las = 1, main = 'Distribucion')
+curve(dnorm(x), -4, 4, col = 'red', ylab = 'y', lwd = 2, las = 1, 
+      main = 'Distribucion')
 
 polygon(c(xmin, x, xmax), c(0, y, 0), col = "gray")
 text(0, 0.1, round(prob, 2), col = "Red")
@@ -216,7 +216,7 @@ dsds
 
 ## Tarea
 
-# Usando la distribucion de largos de alas de mariposa que usamos en clases:
+### Usando la distribucion de largos de alas de mariposa que usamos en clases:
 
 ```{r}
 W <- c(3.3,3.5,3.6,3.6,3.7,3.8,
@@ -290,3 +290,7 @@ text(4.2, 0.5,round(prob, 2), col = "Red")
 ```
 
 ### 4. Obtenga la probabilidad de que un valor sea mayor a 3.5
+
+```{r}
+# En Proceso
+```
