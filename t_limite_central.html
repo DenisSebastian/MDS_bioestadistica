@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuciones de Probabilidades</span></a>
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dist. de Probabilidad</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -206,12 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#demostración-en-r" id="toc-demostración-en-r" class="nav-link" data-scroll-target="#demostración-en-r"> <span class="header-section-number">4.2</span> Demostración en R</a>
   <ul class="collapse">
   <li><a href="#test-de-normalidad" id="toc-test-de-normalidad" class="nav-link" data-scroll-target="#test-de-normalidad"> <span class="header-section-number">4.2.1</span> Test de Normalidad</a></li>
+  <li><a href="#incrementar-el-número-muestral" id="toc-incrementar-el-número-muestral" class="nav-link" data-scroll-target="#incrementar-el-número-muestral"> <span class="header-section-number">4.2.2</span> Incrementar el número muestral</a></li>
+  <li><a href="#distribución-muestral-de-x" id="toc-distribución-muestral-de-x" class="nav-link" data-scroll-target="#distribución-muestral-de-x"> <span class="header-section-number">4.2.3</span> Distribución muestral de X</a></li>
+  <li><a href="#ajustar-una-curva-normal" id="toc-ajustar-una-curva-normal" class="nav-link" data-scroll-target="#ajustar-una-curva-normal"> <span class="header-section-number">4.2.4</span> Ajustar una curva normal</a></li>
+  <li><a href="#test-de-normalidad-1" id="toc-test-de-normalidad-1" class="nav-link" data-scroll-target="#test-de-normalidad-1"> <span class="header-section-number">4.2.5</span> Test de Normalidad</a></li>
+  </ul></li>
+  <li><a href="#distribución-t-de-student" id="toc-distribución-t-de-student" class="nav-link" data-scroll-target="#distribución-t-de-student"> <span class="header-section-number">4.3</span> Distribución <span class="math inline">t</span> de Student</a>
+  <ul class="collapse">
+  <li><a href="#funciones-para-estimar-el-error" id="toc-funciones-para-estimar-el-error" class="nav-link" data-scroll-target="#funciones-para-estimar-el-error"> <span class="header-section-number">4.3.1</span> Funciones para estimar el error</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -231,10 +239,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="teorema-del-límite-central" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="teorema-del-límite-central"><span class="header-section-number">4.1</span> Teorema del Límite Central</h2>
+<p>El teorema central del límite (TCL) es una teoría estadística que establece que, dada una muestra aleatoria suficientemente grande de la población, la distribución de las medias muestrales seguirá una distribución normal.</p>
 <p>Si se toman muestras repetidas de una población con varianza ﬁnita y se calculan sus promedios, entonces los promedios se distribuirán normalmente.</p>
 <p>Esto es verdad incluso cuando las muestras son tomadas de una distribución NO normal, siempre y cuando se tomen el suficiente número de muestras.</p>
 </section>
-<section id="demostración-en-r" class="level2" data-number="4.2">
+<section id="demostración-en-r" class="level2 page-columns page-full" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="demostración-en-r"><span class="header-section-number">4.2</span> Demostración en R</h2>
 <p>Calculemos la media de cinco números aleatorios distribuidos uniformemente entre 0 y 10. La media será baja cuando obtengamos, ej., 2,3,1,2,1 y alta cuando obtengamos 9,8,9,6,8. Lo normal es que la media se acerque a 5. Hagamos esto 10.000 veces y observamos la distribución de las 10.000 medias. Los datos se distribuyen de forma rectangular (uniforme) en el intervalo de 0 a 10, por lo que la distribución de los datos brutos debería ser plana:</p>
 <div class="cell">
@@ -244,17 +253,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><img src="t_limite_central_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># fijar semilla para que el proceso aleatorio sea siempre igual</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10000</span>)<span class="sc">*</span><span class="dv">10</span> <span class="co"># distribucion aleatoria uniforme</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># media de la poblacion</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mediaA <span class="ot">&lt;-</span> <span class="fu">mean</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>¿Qué ocurre con la distribución de las medias muestrales, basada en la toma de sólo cinco números aleatorios uniformemente distribuidos?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># creamos un vector numérico vacío de tamaño 10.000</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10000</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># llenamos el vector vacío con medias de 5 números aleatorios</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>){</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">runif</span>(<span class="dv">5</span>)<span class="sc">*</span><span class="dv">10</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1600</span>),<span class="at">main=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># creamos un vector numérico vacío de tamaño 10.000</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10000</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># llenamos el vector vacío con medias de 5 números aleatorios</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>){</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">runif</span>(<span class="dv">5</span>)<span class="sc">*</span><span class="dv">10</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1600</span>),<span class="at">main=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="t_limite_central_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -265,42 +282,308 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Test de normalidad.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(means)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>desv <span class="ot">&lt;-</span> <span class="fu">sd</span>(means)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>xv <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>, <span class="fl">0.1</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>yv <span class="ot">&lt;-</span>  <span class="fu">dnorm</span>(xv, <span class="at">mean =</span> m, <span class="at">sd =</span> desv)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1600</span>),<span class="at">main=</span><span class="st">""</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xv, yv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(means)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>desv <span class="ot">&lt;-</span> <span class="fu">sd</span>(means)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>xv <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>, <span class="fl">0.1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>yv <span class="ot">&lt;-</span>  <span class="fu">dnorm</span>(xv, <span class="at">mean =</span> m, <span class="at">sd =</span> desv)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1600</span>),<span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xv, yv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="t_limite_central_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="test-de-normalidad" class="level3" data-number="4.2.1">
+<section id="test-de-normalidad" class="level3 page-columns page-full" data-number="4.2.1">
 <h3 data-number="4.2.1" class="anchored" data-anchor-id="test-de-normalidad"><span class="header-section-number">4.2.1</span> Test de Normalidad</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(means)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(means, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(means)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(means, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="t_limite_central_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">sample</span>(<span class="at">x =</span> means, <span class="dv">5000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">sample</span>(<span class="at">x =</span> means, <span class="dv">5000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Shapiro-Wilk normality test
 
 data:  sample(x = means, 5000)
-W = 0.99942, p-value = 0.1145</code></pre>
+W = 0.99905, p-value = 0.006669</code></pre>
 </div>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/distribuciones_en_n.png" class="img-fluid figure-img" width="700"></p>
-<p></p><figcaption class="figure-caption">Distribuciones en <span class="math inline">n</span></figcaption><p></p>
+<p>Función para generar muestras de medias y visualiza el histograma</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>generar_muestras_de_medias <span class="ot">&lt;-</span> <span class="cf">function</span>(numero, <span class="at">muestras =</span> <span class="dv">5</span>){</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  means <span class="ot">&lt;-</span> <span class="fu">numeric</span>(numero)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>numero){ means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">runif</span>(muestras)<span class="sc">*</span><span class="dv">10</span>) }</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(means, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">'Distribucion'</span>, i, <span class="st">'muestras'</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Diferencias entre medias muestrales con diferentes repeticiones</p>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># como se ven las diferencias entre medias muestrales con diferentes repeticiones?</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">100000</span>)){</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generar_muestras_de_medias</span>(i)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption margin-caption">Distribuciones en <span class="math inline">n</span></figcaption><p></p>
 </figure>
 </div>
-<p>holaalgo</p>
+</div>
+</div>
+</section>
+<section id="incrementar-el-número-muestral" class="level3 page-columns page-full" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="incrementar-el-número-muestral"><span class="header-section-number">4.2.2</span> Incrementar el número muestral</h3>
+<p>Cuando seleccionamos muestras de una distribución normal, la distribución de las medias muestrales de la muestra también tiene una forma “normal”.</p>
+<p>Aumentar el tamaño muestral disminuye la dispersión.</p>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">5000</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>){ </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">runif</span>(<span class="dv">5</span>)<span class="sc">*</span><span class="dv">10</span>) </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means, <span class="at">col =</span> <span class="st">'lightblue'</span>, <span class="at">main =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption margin-caption">Distribución normal de 5000 muestras</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(means), <span class="at">main =</span> <span class="st">'5.000 muestras'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption margin-caption">valor de la media de todas estas medias muestreales</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(means)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.977626</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(means)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.296756</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># media de la poblacion?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mediaA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.003123</code></pre>
+</div>
+</div>
+<p>Este comportamiento parece bastante razonable. Se esperaría una estimación más precisa de la media de la población original si tomamos la media de muestras de mayor tamaño.</p>
+</section>
+<section id="distribución-muestral-de-x" class="level3 page-columns page-full" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="distribución-muestral-de-x"><span class="header-section-number">4.2.3</span> Distribución muestral de X</h3>
+<p>Media de la distribución muestral es = a las media de la población original</p>
+<p><span class="math display">\mu_{\bar{x}}=E(\bar{x})=\mu</span></p>
+<p>Desviación estándar de la distribución muestral igual:</p>
+<p><span class="math display">\sigma_{\bar{x}}=\frac{\sigma}{\sqrt{n}}</span> Este es el error estándar de la media.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/error_standar.png" class="img-fluid figure-img" width="400"></p>
+<p></p><figcaption class="figure-caption margin-caption">Error estándar de la media</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="ajustar-una-curva-normal" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="ajustar-una-curva-normal"><span class="header-section-number">4.2.4</span> Ajustar una curva normal</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generar datos entre 0-1</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>xv <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="fl">0.1</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(xv, <span class="at">mean =</span> <span class="fu">mean</span>(means), <span class="at">sd =</span> <span class="fu">sd</span>(means))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 0.0001943350 0.0002605044 0.0003471333 0.0004598275 0.0006054955
+  [6] 0.0007925820 0.0010313233 0.0013340214 0.0017153317 0.0021925564
+ [11] 0.0027859336 0.0035189095 0.0044183769 0.0055148635 0.0068426465
+ [16] 0.0084397733 0.0103479613 0.0126123539 0.0152811078 0.0184047900
+ [21] 0.0220355671 0.0262261737 0.0310286566 0.0364928978 0.0426649328
+ [26] 0.0495850913 0.0572860011 0.0657905072 0.0751095740 0.0852402473
+ [31] 0.0961637610 0.1078438832 0.1202255942 0.1332341894 0.1467748933
+ [36] 0.1607330553 0.1749749848 0.1893494580 0.2036899049 0.2178172558
+ [41] 0.2315433947 0.2446751414 0.2570186494 0.2683840879 0.2785904518
+ [46] 0.2874703311 0.2948744665 0.3006759172 0.3047736796 0.3070956111
+ [51] 0.3076005435 0.3062794967 0.3031559445 0.2982851205 0.2917523940
+ [56] 0.2836707811 0.2741776932 0.2634310538 0.2516049365 0.2388848918
+ [61] 0.2254631380 0.2115337888 0.1972882800 0.1829111425 0.1685762449
+ [66] 0.1544436036 0.1406568265 0.1273412300 0.1146026351 0.1025268240
+ [71] 0.0911796125 0.0806074751 0.0708386426 0.0618845848 0.0537417828
+ [76] 0.0463936984 0.0398128491 0.0339629072 0.0288007499 0.0242784005
+ [81] 0.0203448121 0.0169474606 0.0140337237 0.0115520364 0.0094528226
+ [86] 0.0076892115 0.0062175523 0.0049977488 0.0039934361 0.0031720234
+ [91] 0.0025046288 0.0019659284 0.0015339435 0.0011897846 0.0009173703
+ [96] 0.0007031344 0.0005357342 0.0004057679 0.0003055086 0.0002286580
+[101] 0.0001701245</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(means, <span class="at">main =</span> <span class="st">""</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">800</span>)) </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>yv <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(xv, <span class="at">mean =</span> <span class="fu">mean</span>(means), <span class="at">sd =</span> <span class="fl">1.28996</span>)<span class="sc">*</span><span class="dv">2500</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xv,yv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="test-de-normalidad-1" class="level3 page-columns page-full" data-number="4.2.5">
+<h3 data-number="4.2.5" class="anchored" data-anchor-id="test-de-normalidad-1"><span class="header-section-number">4.2.5</span> Test de Normalidad</h3>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(means)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(means, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption margin-caption">Test de Normalidad shapiro.test</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(means)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  means
+W = 0.99869, p-value = 0.0004339</code></pre>
+</div>
+</div>
+<p><span class="math inline">p &gt; 0.05</span> –&gt; NO se rechaza H0 = es normal</p>
+<p><span class="math inline">p &lt; 0.05</span> –&gt; se rechaza H0 = NO es normal</p>
+<p>Referencias <a href="https://bookdown.org/dietrichson/metodos-cuantitativos/test-de-normalidad.html" class="uri">https://bookdown.org/dietrichson/metodos-cuantitativos/test-de-normalidad.html</a></p>
+</section>
+</section>
+<section id="distribución-t-de-student" class="level2 page-columns page-full" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="distribución-t-de-student"><span class="header-section-number">4.3</span> Distribución <span class="math inline">t</span> de Student</h2>
+<p><br></p>
+<dl>
+<dt><span class="math inline">t</span> de Student</dt>
+<dd>
+<p>En probabilidad y estadística, la distribución <span class="math inline">t</span> (de Student) es una distribución de probabilidad que surge del problema de estimar la media de una población normalmente distribuida cuando el tamaño de la muestra es pequeño y la desviación estándar poblacional es desconocida.</p>
+</dd>
+</dl>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>completar formulación <a href="https://es.wikipedia.org/wiki/Distribución_t_de_Student">wiki</a></p>
+</div>
+</div>
+<p>Si el tamaño muestral (<span class="math inline">n</span>) es muy largo (e.g., &gt; 30), la distribución de t Student se aproxima a una distribución Normal.</p>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x, <span class="at">df =</span> <span class="dv">15</span>), <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">ylab =</span> <span class="st">'y'</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">'Dist. t Student'</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">pt</span>(x, <span class="at">df =</span> <span class="dv">15</span>), <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">col =</span> <span class="st">'blue'</span>, <span class="at">ylab =</span> <span class="st">'y'</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">'Probabilidad t Student'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption margin-caption">las distribuciones de probabilidad de la t student se generan a partir de dt y pt</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>La distribución Normal necesita de valores de <span class="math inline">\mu</span> y <span class="math inline">\sigma</span>. Acabamos de demostrar que no es posible estimar σ a partir de S:</p>
+<ul>
+<li><span class="math inline">X</span> es un estimador sin sesgo de <span class="math inline">\mu</span></li>
+<li><span class="math inline">S</span> es un estimador sesgado de <span class="math inline">\sigma</span></li>
+</ul>
+<p>t Student es una distribución que se describe con dos parámetros:</p>
+<ul>
+<li><span class="math inline">X</span></li>
+<li><span class="math inline">DF</span> (deegrees of freedom), o grados de libertad</li>
+</ul>
+<p>Tiene distinta forma según los grados de libertad (Degrees of freedom [DF])</p>
+<p><span class="math inline">DF = ν = n - 1</span></p>
+<p>Variación de la distribucion de t Student con distintos DF</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>degf <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">30</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"darkgreen"</span>, <span class="st">"gold"</span>, <span class="st">"black"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"df = 1"</span>, <span class="st">"df = 3"</span>, <span class="st">"df = 8"</span>, <span class="st">"df = 30"</span>, <span class="st">"normal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x), <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">ylab=</span><span class="st">'y'</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">las=</span><span class="dv">1</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot t student's</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">curve</span>(<span class="fu">dt</span>(x, degf[i]), <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>colors[i], <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">inset =</span> .<span class="dv">05</span>, <span class="at">title =</span> <span class="st">"Distributions"</span>, </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>       labels, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">col =</span> colors, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>La distribución t se utiliza cuando:</p>
+<ul>
+<li><p>Queremos estimar la media de una población normalmente distribuida a partir de una muestra pequeña.</p></li>
+<li><p>Tamaño de la muestra es inferior a 30 elementos, es decir, n &lt; 30.</p></li>
+</ul>
+<p>No se conoce la desviación típica o estándar de una población y tiene que ser estimada a partir de las observaciones de la muestra.</p>
+<p><img src="images/dist_means.png" class="img-fluid" data-fig-align="center" width="500" alt="Distribución de medias con tamaño de muestra 25"> <span class="math inline">± 1 S</span></p>
+<p>67.3% No igual a Dist. Norm., pero Parecida</p>
+<section id="funciones-para-estimar-el-error" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="funciones-para-estimar-el-error"><span class="header-section-number">4.3.1</span> Funciones para estimar el error</h3>
+<p>El error estándar: ::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">var</span>(x)<span class="sc">/</span><span class="fu">length</span>(x))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<p>Rango probable de valores para un Estadígrafo</p>
+<p>Intervalo de confianza = estadígrafo ± margen de error</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>IntervConf <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">alpha =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  t.value <span class="ot">&lt;-</span> <span class="fu">qt</span>((<span class="dv">1</span><span class="sc">-</span>alpha), <span class="fu">length</span>(x)<span class="sc">-</span><span class="dv">1</span>) <span class="co"># qt -&gt; quantile function for t distrituion</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  standard.error <span class="ot">&lt;-</span> <span class="fu">se</span>(x)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> t.value<span class="sc">*</span>standard.error</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>((<span class="dv">1</span><span class="sc">-</span>alpha), <span class="st">"Confidence Interval = "</span>), <span class="fu">mean</span>(x) <span class="sc">-</span> ci, <span class="st">"to "</span>, <span class="fu">mean</span>(x) <span class="sc">+</span> ci,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) <span class="co"># concatenate and print</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Intervalo de confianza para estimar un parámetro de población, ej. la media:</p>
+<p><span class="math display">X ± t_{n-1} \frac{S}{\sqrt{n}}</span></p>
+<p>Aplicación de la prueba</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generamos datos de prueba</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">150</span>, <span class="dv">25</span>, <span class="dv">3</span>) <span class="co"># Recuerdan el orden de rnorm</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="t_limite_central_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25.0514</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># intervalo deconfianza al 95%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">IntervConf</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.95 Confidence Interval =  24.63201 to  25.47079 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># intervalo deconfianza al 99%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">IntervConf</span>(x, <span class="at">alpha =</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.99 Confidence Interval =  24.45553 to  25.64727 </code></pre>
+</div>
+</div>
+<p>Nivel de confianza (alpha): Probabilidad que el intervalo de confianza contenga al parámetro de población</p>
+<ul>
+<li>Ej., 95% de nivel de confianza</li>
+<li><span class="math inline">\alpha</span> = 0.05; 1/20 veces de estar equivocado (Error tipo I)</li>
+</ul>
 
 
 </section>
@@ -407,7 +690,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./d_prob.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distribuciones de Probabilidades</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dist. de Probabilidad</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -417,6 +700,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Denis Berroeta</div>   
+  </div>
+</footer>
 
 
 
