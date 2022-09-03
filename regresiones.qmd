@@ -1,0 +1,480 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Regresiones {#regresiones}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(kableExtra))
+suppressPackageStartupMessages(require(sf))
+suppressPackageStartupMessages(library(jtools))
+
+```
+
+## Correlaciones
+
+La correlación entre dos variables se refiere a cualquier tipo de relación y/o dependencia entre las variables dadas.
+
+Tipos de regresiones de acuerdo a los diferentes tipos de variables, como se ilustra en la siguiente figura:
+
+![Regresiones para variables continuas y discretas](images/tipos_reg_vars.png){width="400"}
+
+![](images/variables_reg.png){width="100"}
+
+
+La existencia de una correlación entre dos variables no implica la causalidad entre ellas.
+
+![Correlación no implica causalidad](images/no_corr.png) 
+
+La correlación entre dos variables se refiere a cualquier tipo de relación y/o dependencia entre las variables dadas.
+
+La existencia de una correlación entre dos variables no implica la causalidad entre ellas.
+
+Existen varios tipos de coeficientes de correlación.
+
+-   Pearson
+-   Spearman
+-   Kendall
+
+### Coeficiente de Correlación de Pearson
+
+En estadística, el coeficiente de correlación de Pearson es una medida de dependencia lineal entre dos variables aleatorias cuantitativas. A diferencia de la covarianza, la correlación de Pearson es independiente de la escala de medida de las variables. De manera menos formal, podemos definir el coeficiente de correlación de Pearson como un índice que puede utilizarse para medir el grado de relación de dos variables siempre y cuando ambas sean cuantitativas y continuas. ^[[https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Pearson](https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Pearson)]
+
+**Uso general**: Correlaciones Lineales
+
+Valor que varía entre -1 y 1, que mide la relación lineal entre las variables numéricas X e Y.
+
+$$p(X,Y)=cor(X, Y)=\frac{cov(X, Y)}{\sigma_X\sigma_Y}$$
+
+*Asume:*
+
+-   Cada observación tiene un par \[(X1,Y1), (X2,Y2), ...\]
+-   Cada variable es continua
+-   Cada variable está normalmente distribuida
+-   No hay outliars
+-   Asume linealidad y homocedasticidad (varianza se distribuye uniformemente en el modelo, o entre variables)
+
+En R:
+
+```{r eval=FALSE}
+cor(x, y)
+# cor(x, y, method='pearson')
+```
+
+
+![Correlaciones de Pearson](images/corraciones_pearson.png)
+
+Los resultados se representan como una matriz de correlación, inclusive se puede representar gráficamente con la función `corrplot()` de la librería del mismo nombre.
+
+![Matriz de correlaciones con la función corplot()](images/corplot.png){width=400}
+
+
+### Coeficiente de Correlación de Speraman
+
+En estadística, el coeficiente de correlación de Spearman, ρ (ro) es una medida de la correlación (la asociación o interdependencia) entre dos variables aleatorias (tanto continuas como discretas). Para calcular ρ, los datos son ordenados y reemplazados por su respectivo orden. ^[[https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Spearman](https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Spearman)]
+
+*Uso General*: Correalaciones no Lineales
+
+Test no paramétrico, que varía entre -1 y 1, y que mide la relación monotónica entre las variables numéricas y/u ordinales X e Y.
+
+Relación monotónica o monótona: las variables tienden a cambiar al mismo tiempo, pero no necesariamente a un ritmo constante.
+
+El test mide si cuando un valor incrementa, el otro valor también crece o disminuye, independiente de si este es lineal o no. Para ello, se analiza el _ranking_ de cada valor, en vez de su valor.
+
+$$p_S(X,Y)=\frac{cov(rg_X, rg_Y)}{\sigma_{rg_X} \sigma_{rg_Y}}$$
+_Asume_:
+
+ - Observaciones son independientes
+ - Variables en escala ordinal, intervalos, o razón
+ - Asume una relación monotónica 
+
+
+![Resultados de las Correlaciones Spearman respecto a Pearson](images/spearman_cor.png)
+
+Si Spearman > Pearson, relación es monotónica, pero no lineal
+
+En R:
+```{r eval=FALSE}
+cor(x, y, method='spearman')
+```
+
+
+### Coeficiente de Correlación de Kendall
+
+En estadística, el coeficiente de correlación de rango de Kendall, comúnmente conocido como coeficiente $\tau$ de Kendall (con la letra griega $\tau$, tau), es una estadística utilizada para medir la asociación ordinal entre dos cantidades medidas. Una prueba $\tau$ es una prueba de hipótesis no paramétrica para la dependencia estadística basada en el coeficiente $\tau$.^[[https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_rango_de_Kendall](https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_rango_de_Kendall)]
+
+El coeficiente $\tau$ de Kendall se define como:
+
+$$\tau(X,Y)=\frac{pares\ concordantes-pares\ discordantes}{{n \choose 2}}$$
+
+Donde ${n \choose 2}=\frac{n(n-1)}{2}$  es el coeficiente binomial para la cantidad de formas de elegir dos elementos de $n$ elementos.
+
+
+
+
+Uso general: Robusto con pocas observaciones, es más conservador, su interpretación es cercano a una probabilidad
+
+Test no paramétrico, que varía entre -1 y 1, y que mide la relación entre las variables numéricas y/o ordinales X e Y.
+
+
+
+_Asume_:Spearman
+
+
+Spearman vs Kendall:
+
+- Similares, pero Kendall es más robusto con pocas observaciones. 
+- Se dice que el valor de Kendall es usualmente más bajo que Spearman, pero cercano a una interpretación de probabilidad.
+
+
+En R:
+```{r eval=FALSE}
+cor(x, y, method='kendall')
+```
+
+
+### ¿Qué coeficiente de correlación usar?
+
+Las correlaciones no paramétricas son menos potentes porque utilizan menos información en sus cálculos. Pearson utiliza información sobre la media y la desviación de la media, mientras que las correlaciones no paramétricas sólo utilizan la información ordinal y las puntuaciones de los pares.
+
+En correlaciones no paramétricas es posible que X e Y sean continuos u ordinales, y no se requieren distribuciones normales. En Pearson, se supone que las distribuciones de X e Y deben ser una distribución normal y también continua.
+
+Decisión:
+
+- ¿Qué tipo de datos tengo? 
+- ¿Asumo linealidad?
+- ¿Asumo normalidad?
+
+
+## Regresiones
+
+### Regresiones Lineales
+
+Modelo estadístico que relaciona funcionalmente dos variables de forma lineal (una recta o, en su versión generalizada, un plano o un hiperplano). El caso más simple contiene una variable respuesta (Y; i.e. lo que se quiere explicar o predecir), y una variable explicativa o predictor (X; i.e., variables que se usan para explicar o predecir Y). A veces estas variables también son llamadas dependiente e independiente.
+
+$$y=b_0+b_1*x_1$$
+
+Que exista una relación funcional significativa entre ambas variables no implica una causalidad, pero la puede sugerir.
+
+![Descripción de conceptos de la formula de regresión lineal](images/reg_simple.png){width="250"}
+
+Creación de una función predictiva específica para el problema planteado, con los datos usados
+
+![Ejemplo de Regresión Lineal Simple estima el Salario respecto a la experiencia](images/RLS_ej.png){width="500"}
+
+Modelo estadístico que relaciona funcionalmente dos variables de forma lineal (una recta o, en su versión generalizada, un plano o un hiperplano). El caso más simple contiene una variable respuesta (Y; i.e. lo que se quiere explicar o predecir), y una variable explicativa o predictor (X; i.e., variables que se usan para explicar o predecir Y). A veces estas variables también son llamadas dependiente e independiente.
+
+Que exista una relación funcional significativa entre ambas variables no implica una causalidad, pero la puede sugerir.
+
+### Regresión lineal múltiple
+
+$$y = b0 + b1*x1 + b2*x2 + b3*x3 + … + bn*xn
+$$
+
+Los coeficientes representan el cambio medio en la variable de respuesta para una unidad de cambio en la variable de predicción, manteniendo constantes los demás predictores del modelo. Ej:
+
+$$Contaminación aire = 0 + 0.8*#Habitantes + 0.4*#Autos$$
+
+El coeficiente indica que por cada habitante que se agregue al sistema hay un aumento de 0.8 (unidad) de contaminación; si se aumenta un auto hay un aumento de 0.5 (unidad) de contaminación, etc.
+
+Se puede entender también como la importancia de las variables en el modelo
+
+![Representación de regresión lineal multiple inicial](images/plot_rlm_1.png){width="500"} ![Representación de regresión lineal multiple ajustado](images/plot_rlm_fit.png){width="500"} \### Métricas de Ajustes de los modelos
+
+Las métricas de regresiones buscan ver cuán parecido, cuanto error, o cuanto sesgo tienen los valores observados versus los predichos por el modelo. Las métricas más comunes son:
+
+-   Error cuadrático medio (mean square error; MSE)
+-   Raíz del error cuadrático medio (root mean square error; RMSE)
+-   Raíz del error cuadrático medio normalizada (normalized root mean square error; nRMSE)
+-   Coeficiente de determinación (coefficient of determination; R2)
+-   Sesgo (bias)
+
+Error cuadrático medio (MSE): Mide el error o distancia media entre los valores predichos y los observados. O entre los puntos y la recta ajustada del modelo (líneas rojas en el ejemplo de abajo). Valores más bajos son deseables.
+
+```{r eval = FALSE}
+MSE <- mean((Obs-Pred)^2)
+```
+
+agregar formulas
+
+Raíz de MSE (RMSE): Es la raíz cuadrada de MSE. La ventaja de RMSE sobre MSE, es que presenta valores de error en la unidad de medida de la variable observada. Por esta razón es una de las métricas más utilizadas.
+
+```{r eval = FALSE}
+RMSE <- sqrt(MSE)
+```
+
+agregar formulas
+
+Raíz de MSE normalizada (nRMSE): Es el RMSE pero normalizado por las observaciones de la variable respuesta. Esta normalización se puede hacer utilizando la media o el rango de las observaciones. La ventaja es que el error es presentado en porcentaje (0-1 o 0-100), con lo cual es mejor para comparar modelos que utilizan distintas variables o set de datos.
+
+```{r eval = FALSE}
+NRMSE <- RMSE/max(Obs)-min(Obs)
+
+```
+
+agregar formulas
+
+![Métricas del error](images/met_error.png)
+
+### Coeficiente de determinación ($R^2$)
+
+El coeficiente de determinación (o el cuadrado de la correlación de Pearson) es una de las métricas más utilizadas. Si bien esta es muy útil, pueden haber ocasiones donde valores altos de R² se obtienen cuando la dispersión o error de las predicciones es alta. Los valores van entre 0 y 1. Es una medida de ajuste relativa (porcentual), por lo que puede ser usada para comparar modelos entre sí.
+
+Agregar formula
+
+-   T = número de observaciones,
+-   Yt = variables observadas,
+-   Ŷt = variables predichas por el modelo,
+-   Y = es la media de las variables observadas.
+
+### Sesgo
+
+El sesgo indica si hay una distribución sistemática de los errores del modelo. Mientras más cercano a cero, menos sesgo (errores aleatorios), mientras más grande, ya sea positivo o negativo, indica que hay errores no aleatorios.
+
+-   Valores negativos: el modelo tiende a subestimar valores de Y
+-   Valores positivos: el modelo tiende a sobrestimar valores de Y
+
+Hay muchas formas de estimar el sesgo, no es una fórmula específica
+
+![Análisis visual de los Sesgos](images/sesgos.png)
+
+### Residuos
+
+Los residuos son la diferencia entre los valores observados y los predichos (obs - pred). Los residuos se utilizan mucho en post-hoc tests (o tests para analizar los resultados de los modelos). Los residuos, por un lado, dan estimaciones de posibles sesgos del modelo.
+
+Es muy importante que los residuos se distribuyan de manera aleatoria en el modelo.
+
+-   Un modelo con errores altos (ej., RMSE) y sesgos y residuos bajos puede ser considerado bueno bajo algunas circunstancias, ya que sus errores son independientes, y se distribuyen de forma aleatoria.
+
+-   Un modelo con ajuste alto (R2) y error bajo (RMSE) pero con sesgos muy altos debe ser descartado ya que comete errores sistemáticos.
+
+![Visualización de los residuos](images/plot_residuos.png){width="300"}
+
+![Tipos de los residuos](images/tipos_residuos.png)
+
+**Output Modelo de Regresión**
+
+![Output de modelos de regesión](images/output_model.png)
+
+### Distribución F de Fisher
+
+Comparar si hay diferencias significativas entre dos varianzas. En caso de las regresiones proporciona esencialmente una medida de la cantidad de variación que explica el modelo frente a la cantidad de variación no explicada (por grados de libertad restantes).
+
+-   H0: El modelo NO explica la varianza de los datos Y
+-   H1: El modelo SI explica la varianza de los datos Y
+
+Valores de F altos significa que su modelo explica mucho más de la variación por parámetro que el error por grado de libertad restante. No es sumamente importante este valor por ahora!
+
+P-valor: probabilidad de que el la H0 sea verdad. P-valores significativos, ej., bajo alpha = 0.05, lleva a interpretar la probabilidad de que el modelo de regresión no explique una porción significativa de la varianza de Y es baja.
+
+Se pueden comparar dos modelos lineales para ver cual es mejor utilizando un análisis de varianza (ANOVA) y el criterio Akaike.
+
+ANOVA: Análisis de varianza para ver si hay si hay diferencia entre la varianza explicada de los dos modelos (F de Fisher).
+
+```{r eval=FALSE}
+# Ej., 
+lm1 <- lm(y~x1)
+lm2 <- lm(y~x1+x2+x3)
+anova(lm1, lm2)
+```
+
+Concepto de **Parsimonia** implica:
+
+-   Mientras más simple, mejor.
+-   Linear es mejor que no-lineal
+-   Paramétrico es mejor que no-paramétrico
+
+Existen otras formas de comparar tros modelos lineales
+
+## Akaike's information criteria (AIC):
+
+AIC busca un balance entre la capacidad predictiva de un modelo (la varianza explicada) y la cantidad de parámetros que este debe considerar para lograr un mejor ajuste.
+
+Es decir, premia a los modelos a medida que aumentan la varianza explicada, pero simultáneamente los penaliza a medida que aumentan el número de parámetros.
+
+El criterio de Akaike es de parsimonia, el mejor ajuste con el menor número de parámetros posibles.
+
+Los valores más bajos de AIC son preferibles. El valor en sí mismo no tiene mucha importancia, ya que depende del caso de estudio en particular, los datos particulares, etc.
+
+```{r eval=FALSE}
+
+AIC(lm1, lm2)
+```
+
+## Casos Aplicado
+
+### Lectura de Datos
+
+```{r}
+data <- read.table('data/Pantanillos.txt', header = T)
+
+```
+
+```{r echo=FALSE}
+data_h <- head(data)
+kable_styling(
+              kable(data_h, digits = 3, row.names = FALSE, align = "c",
+              caption = NULL, format = "html"),
+        bootstrap_options = c("striped", "hover", "condensed"),
+        position = "center", full_width = FALSE) 
+
+```
+
+#### Revisión espacial de los datos
+
+```{r}
+data_sf <-  data %>%  sf::st_as_sf(coords = c("LONG", "LAT"), crs = 4326)
+mapview::mapview(data_sf, zcol="BIOMAS")
+```
+
+**Definición de Variables Dependiente e Independiente**
+
+```{r}
+X <- data[ ,6:19]
+Y <- data$BIOMAS
+
+```
+
+### Correlaciones
+
+Vamos a seleccionar una variable X por mientras para ver una regresion simple podemos usar una simple correlacion para ver que predictor se relaciona mas con la biomasa.
+
+```{r}
+cor(X, Y, method = "pearson")
+# cor(X)
+```
+
+**Visualización de las correlaciones**
+
+```{r}
+library(corrplot)
+corr <- cor(data[,5:19])
+corrplot(corr, type='upper', method = "square")
+
+```
+
+```{r echo=FALSE, eval=FALSE}
+# corrplot(corr) 
+# corrplot(corr, method = 'square')
+# corrplot(corr, method = 'number')
+#'circle', 'square', 'ellipse', 'number', 'pie', 'shade' and 'color'
+```
+
+### Regresión Lineal Simple
+
+**Cálculo de la Regresión Lineal**
+
+```{r}
+lm1 <- lm(BIOMAS ~ H, data = data)
+# lm1 <- lm(Y ~ X$H)lm1 <- lm(Y ~ X$H)
+```
+
+**Explorar los resultados del Modelo**
+
+```{r}
+summary(lm1)
+```
+
+Referecias para explicar los modelos en R: [@noauthor_explaining_nodate]
+
+```{r}
+plot_summs(lm1)
+effect_plot(lm1, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+```
+
+**Atributos del Modelo**
+
+::: panel-tabset
+## fitted(lm1)
+
+Valores ajustados, equivale a lm1\$fitted.values
+
+```{r}
+fitted(lm1)
+```
+
+## resid(lm1)
+
+residuos, equivale a lm1\$residuals
+
+```{r}
+resid(lm1)      
+```
+
+## coef(lm1)
+
+coeficientes, equivale a lm1\$coefficients
+
+```{r}
+coef(lm1)       
+```
+
+## confint(lm1)
+
+intervalos de confianza para dichos coeficientes
+
+```{r}
+confint(lm1)    
+```
+
+## vcov(lm1)
+
+tabla de varianza-covarianza
+
+```{r}
+vcov(lm1)       
+```
+
+## rstandard(lm1)
+
+residuos estandarizados (dist. z)
+
+```{r}
+rstandard(lm1)  
+```
+
+## anova(lm1)
+
+significancia de la influencia de las variables
+
+```{r}
+anova(lm1)    
+```
+:::
+
+## Modelo de Regresion Multiple
+
+**Cálculo de la Regresión Lineal Multiple**
+
+```{r}
+lm2 <- lm(BIOMAS ~ H + TM2 + TM5, data = data)
+summary(lm2)
+
+```
+
+```{r}
+plot_summs(lm2, robust = TRUE, plot.distributions = TRUE, inner_ci_level = .9)
+```
+
+**Comparación de Modelos con Anova**
+
+```{r}
+anova(lm1, lm2)
+```
+
+El `p-value` del estadistico F es alto (Pr(\>F) = 0.6109; mayor a 0.05), es decir, hay una probabilidad muy baja de que lm2 agregue algo a la varianza explicada, por lo que se podria decir que las variables TM2 y TM5 no agregan mas informacion Por lo tanto, el modelo lm1 seria el mejor en este caso por el principio de la *parsimonia* si dos modelos son iguales estadisticamente, el mas sensillo es mejor.
+
+**Comparación de Modelos con Akaike**
+
+Otro criterio para seleccionar modelo es el AIC o Akaike Information Criterion. El AIC busca un balance entre la capacidad predictiva de un modelo (la varianza explicada) y la cantidad de parametros que este debe considerar para lograr un mejor ajuste. Es decir, premia a los modelos a medida que aumentan la varianza explicada, pero simultaneamente los penaliza a medida que aumentan el numero de parametros. El criterio de Akaike es de parsimonia, el mejor ajuste con el menor numero de parametros posibles. Los valores mas bajos de AIC son preferibles.
+
+```{r}
+AIC(lm1, lm2)
+```
+
+AIC concuerda que lm1 es mejor en este caso

@@ -119,6 +119,22 @@
             "title": "The sensitivity of the one-sample and two-sample student t statistics",
             "type": "article-journal",
             "volume": "6"
+        },
+        {
+            "URL": "https://www.learnbymarketing.com/tutorials/explaining-the-lm-summary-in-r/",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2022,
+                        9,
+                        2
+                    ]
+                ]
+            },
+            "id": "noauthor_explaining_nodate",
+            "language": "en-US",
+            "title": "Explaining the lm() Summary in R – Learn by Marketing",
+            "type": "webpage"
         }
     ],
     "project_biblios": [

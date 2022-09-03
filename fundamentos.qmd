@@ -80,7 +80,18 @@ Dos tipos principales de estadística:
 
 ## Medidas de Tendencias Central {#m-tendencia-central}
 
-![Medidas de tendencia central](images/Visualisation_mode_median_mean.png){fig-align="center" width="200"}
+::: {layout-ncol=2}
+```{mermaid}
+flowchart LR
+  A{Medidas de Tendencia Central}
+  A --> C[Moda]:::class_c1
+  A --> D[Mediana]:::class_c1
+  A --> E[Media]:::class_c1
+style A fill:#5D6D7E,color:#fff
+classDef class_c1 fill:#1ABC9C,color:#fff
+```
+![](images/Visualisation_mode_median_mean.png){fig-align="center" width="200"}
+:::
 
 ![Distribuciones Normales y Sesgadas](images/distribucion.png)
 
