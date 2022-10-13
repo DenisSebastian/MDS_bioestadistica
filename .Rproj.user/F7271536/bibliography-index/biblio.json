@@ -135,6 +135,28 @@
             "language": "en-US",
             "title": "Explaining the lm() Summary in R – Learn by Marketing",
             "type": "webpage"
+        },
+        {
+            "URL": "https://topepo.github.io/caret/train-models-by-tag.html",
+            "abstract": "Documentation for the caret package.",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2022,
+                        9,
+                        9
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Kuhn",
+                    "given": "Max"
+                }
+            ],
+            "id": "kuhn_7_nodate",
+            "title": "7 train Models By Tag | The caret Package",
+            "type": "book"
         }
     ],
     "project_biblios": [

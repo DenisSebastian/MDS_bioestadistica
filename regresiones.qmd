@@ -15,144 +15,8 @@ suppressPackageStartupMessages(library(jtools))
 
 ```
 
-## Correlaciones
 
-La correlación entre dos variables se refiere a cualquier tipo de relación y/o dependencia entre las variables dadas.
-
-Tipos de regresiones de acuerdo a los diferentes tipos de variables, como se ilustra en la siguiente figura:
-
-![Regresiones para variables continuas y discretas](images/tipos_reg_vars.png){width="400"}
-
-![](images/variables_reg.png){width="100"}
-
-
-La existencia de una correlación entre dos variables no implica la causalidad entre ellas.
-
-![Correlación no implica causalidad](images/no_corr.png) 
-
-La correlación entre dos variables se refiere a cualquier tipo de relación y/o dependencia entre las variables dadas.
-
-La existencia de una correlación entre dos variables no implica la causalidad entre ellas.
-
-Existen varios tipos de coeficientes de correlación.
-
--   Pearson
--   Spearman
--   Kendall
-
-### Coeficiente de Correlación de Pearson
-
-En estadística, el coeficiente de correlación de Pearson es una medida de dependencia lineal entre dos variables aleatorias cuantitativas. A diferencia de la covarianza, la correlación de Pearson es independiente de la escala de medida de las variables. De manera menos formal, podemos definir el coeficiente de correlación de Pearson como un índice que puede utilizarse para medir el grado de relación de dos variables siempre y cuando ambas sean cuantitativas y continuas. ^[[https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Pearson](https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Pearson)]
-
-**Uso general**: Correlaciones Lineales
-
-Valor que varía entre -1 y 1, que mide la relación lineal entre las variables numéricas X e Y.
-
-$$p(X,Y)=cor(X, Y)=\frac{cov(X, Y)}{\sigma_X\sigma_Y}$$
-
-*Asume:*
-
--   Cada observación tiene un par \[(X1,Y1), (X2,Y2), ...\]
--   Cada variable es continua
--   Cada variable está normalmente distribuida
--   No hay outliars
--   Asume linealidad y homocedasticidad (varianza se distribuye uniformemente en el modelo, o entre variables)
-
-En R:
-
-```{r eval=FALSE}
-cor(x, y)
-# cor(x, y, method='pearson')
-```
-
-
-![Correlaciones de Pearson](images/corraciones_pearson.png)
-
-Los resultados se representan como una matriz de correlación, inclusive se puede representar gráficamente con la función `corrplot()` de la librería del mismo nombre.
-
-![Matriz de correlaciones con la función corplot()](images/corplot.png){width=400}
-
-
-### Coeficiente de Correlación de Speraman
-
-En estadística, el coeficiente de correlación de Spearman, ρ (ro) es una medida de la correlación (la asociación o interdependencia) entre dos variables aleatorias (tanto continuas como discretas). Para calcular ρ, los datos son ordenados y reemplazados por su respectivo orden. ^[[https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Spearman](https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_Spearman)]
-
-*Uso General*: Correalaciones no Lineales
-
-Test no paramétrico, que varía entre -1 y 1, y que mide la relación monotónica entre las variables numéricas y/u ordinales X e Y.
-
-Relación monotónica o monótona: las variables tienden a cambiar al mismo tiempo, pero no necesariamente a un ritmo constante.
-
-El test mide si cuando un valor incrementa, el otro valor también crece o disminuye, independiente de si este es lineal o no. Para ello, se analiza el _ranking_ de cada valor, en vez de su valor.
-
-$$p_S(X,Y)=\frac{cov(rg_X, rg_Y)}{\sigma_{rg_X} \sigma_{rg_Y}}$$
-_Asume_:
-
- - Observaciones son independientes
- - Variables en escala ordinal, intervalos, o razón
- - Asume una relación monotónica 
-
-
-![Resultados de las Correlaciones Spearman respecto a Pearson](images/spearman_cor.png)
-
-Si Spearman > Pearson, relación es monotónica, pero no lineal
-
-En R:
-```{r eval=FALSE}
-cor(x, y, method='spearman')
-```
-
-
-### Coeficiente de Correlación de Kendall
-
-En estadística, el coeficiente de correlación de rango de Kendall, comúnmente conocido como coeficiente $\tau$ de Kendall (con la letra griega $\tau$, tau), es una estadística utilizada para medir la asociación ordinal entre dos cantidades medidas. Una prueba $\tau$ es una prueba de hipótesis no paramétrica para la dependencia estadística basada en el coeficiente $\tau$.^[[https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_rango_de_Kendall](https://es.wikipedia.org/wiki/Coeficiente_de_correlación_de_rango_de_Kendall)]
-
-El coeficiente $\tau$ de Kendall se define como:
-
-$$\tau(X,Y)=\frac{pares\ concordantes-pares\ discordantes}{{n \choose 2}}$$
-
-Donde ${n \choose 2}=\frac{n(n-1)}{2}$  es el coeficiente binomial para la cantidad de formas de elegir dos elementos de $n$ elementos.
-
-
-
-
-Uso general: Robusto con pocas observaciones, es más conservador, su interpretación es cercano a una probabilidad
-
-Test no paramétrico, que varía entre -1 y 1, y que mide la relación entre las variables numéricas y/o ordinales X e Y.
-
-
-
-_Asume_:Spearman
-
-
-Spearman vs Kendall:
-
-- Similares, pero Kendall es más robusto con pocas observaciones. 
-- Se dice que el valor de Kendall es usualmente más bajo que Spearman, pero cercano a una interpretación de probabilidad.
-
-
-En R:
-```{r eval=FALSE}
-cor(x, y, method='kendall')
-```
-
-
-### ¿Qué coeficiente de correlación usar?
-
-Las correlaciones no paramétricas son menos potentes porque utilizan menos información en sus cálculos. Pearson utiliza información sobre la media y la desviación de la media, mientras que las correlaciones no paramétricas sólo utilizan la información ordinal y las puntuaciones de los pares.
-
-En correlaciones no paramétricas es posible que X e Y sean continuos u ordinales, y no se requieren distribuciones normales. En Pearson, se supone que las distribuciones de X e Y deben ser una distribución normal y también continua.
-
-Decisión:
-
-- ¿Qué tipo de datos tengo? 
-- ¿Asumo linealidad?
-- ¿Asumo normalidad?
-
-
-## Regresiones
-
-### Regresiones Lineales
+## Regresiones Lineales
 
 Modelo estadístico que relaciona funcionalmente dos variables de forma lineal (una recta o, en su versión generalizada, un plano o un hiperplano). El caso más simple contiene una variable respuesta (Y; i.e. lo que se quiere explicar o predecir), y una variable explicativa o predictor (X; i.e., variables que se usan para explicar o predecir Y). A veces estas variables también son llamadas dependiente e independiente.
 
@@ -170,7 +34,7 @@ Modelo estadístico que relaciona funcionalmente dos variables de forma lineal (
 
 Que exista una relación funcional significativa entre ambas variables no implica una causalidad, pero la puede sugerir.
 
-### Regresión lineal múltiple
+## Regresión lineal múltiple
 
 $$y = b0 + b1*x1 + b2*x2 + b3*x3 + … + bn*xn
 $$
@@ -220,7 +84,7 @@ agregar formulas
 
 ![Métricas del error](images/met_error.png)
 
-### Coeficiente de determinación ($R^2$)
+## Coeficiente de determinación ($R^2$)
 
 El coeficiente de determinación (o el cuadrado de la correlación de Pearson) es una de las métricas más utilizadas. Si bien esta es muy útil, pueden haber ocasiones donde valores altos de R² se obtienen cuando la dispersión o error de las predicciones es alta. Los valores van entre 0 y 1. Es una medida de ajuste relativa (porcentual), por lo que puede ser usada para comparar modelos entre sí.
 
@@ -231,7 +95,7 @@ Agregar formula
 -   Ŷt = variables predichas por el modelo,
 -   Y = es la media de las variables observadas.
 
-### Sesgo
+## Sesgo
 
 El sesgo indica si hay una distribución sistemática de los errores del modelo. Mientras más cercano a cero, menos sesgo (errores aleatorios), mientras más grande, ya sea positivo o negativo, indica que hay errores no aleatorios.
 
@@ -242,7 +106,7 @@ Hay muchas formas de estimar el sesgo, no es una fórmula específica
 
 ![Análisis visual de los Sesgos](images/sesgos.png)
 
-### Residuos
+## Residuos
 
 Los residuos son la diferencia entre los valores observados y los predichos (obs - pred). Los residuos se utilizan mucho en post-hoc tests (o tests para analizar los resultados de los modelos). Los residuos, por un lado, dan estimaciones de posibles sesgos del modelo.
 
@@ -260,7 +124,7 @@ Es muy importante que los residuos se distribuyan de manera aleatoria en el mode
 
 ![Output de modelos de regesión](images/output_model.png)
 
-### Distribución F de Fisher
+## Distribución F de Fisher
 
 Comparar si hay diferencias significativas entre dos varianzas. En caso de las regresiones proporciona esencialmente una medida de la cantidad de variación que explica el modelo frente a la cantidad de variación no explicada (por grados de libertad restantes).
 

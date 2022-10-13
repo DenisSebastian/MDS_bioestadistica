@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Distribuciones de Probabilidades {#d-prob}
+# Distr. de Probabilidades {#d-prob}
 
 ## Glosario
 

@@ -1,0 +1,361 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Anova {#sec-anova}
+
+
+## Sección Práctica Anova
+
+
+### Tratamiento a los Datos
+
+```{r}
+library(DescTools)
+
+data <- read.table('https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/yields.txt',
+                    header=T, stringsAsFactors = TRUE)
+```
+
+```{r}
+# estructura de los datos
+str(data)
+summary(data)
+```
+
+
+
+```{r}
+
+# se pueden juntar las 3 clases en una sola columna y agregar las clases en otra con la
+# funcion stack
+
+data2 <- stack(data)
+colnames(data2) <- c("yield","soil") # cambiamos el nombre de las columnas
+str(data2)
+```
+
+ * La clase soil es de tipo factorial esto es fundamental
+ 
+### Test de Bartlett 
+
+Analizar si las varianza por subgrupo es homogeneas con test de Bartlett, este test no necesita hacerse sobre los residuos
+
+* H0 = son homogeneas
+* H1 = no son homogeneas
+ 
+```{r}
+### Test de Bartlett 
+
+bartlett.test(yield ~ soil, data = data2)
+```
+
+### one-way ANOVA
+
+Realizar test anova usando la funcion `aov`.
+Esta es la funcion estandar para este tipo de analisis
+
+```{r}
+anov1 <- aov(yield ~ soil, data = data2)
+summary(anov1)
+summary.lm(anov1)
+```
+
+### Normalidad de los Residuos
+
+
+```{r}
+par(mfrow = c(2, 2))
+plot(anov1)
+
+```
+
+```{r echo=FALSE}
+dev.off()
+```
+
+
+* HO = es normal
+* H1 = no es normal
+
+
+
+```{r}
+shapiro.test(anov1$residuals) # si!
+```
+
+
+### Post-Hoc
+
+Necesitamos saber donde estan las diferencias entre clases
+
+```{r}
+tuk <- TukeyHSD(anov1, conf.level = 0.95)
+tuk
+
+plot(tuk, col = "red", las = 1, cex.axis = 0.5, 
+     cex.lab = 0.5, cex = 0.5)
+
+```
+
+
+La diferencia entre loam y sand (limo y arena) es la unica significativa
+
+### Visualización
+
+**Boxplot***
+
+```{r}
+boxplot(yield ~ soil, data = data2, col = 'lightblue', notch = T)
+```
+
+
+**Barplot con barras de error**
+
+Revisar cuantas observaciones hay por clase.
+Ya sabemos que son 10, pero se puede revisar con table
+
+```{r}
+table(data2$soil)
+```
+
+Error estandar de una $media = \sqrt(\frac{S2}{N}$
+
+```{r}
+summary(anov1)
+
+```
+
+
+```{r}
+# repetimos este valor por el numero de subclases
+se <- rep( sqrt(11.69/10),3)
+
+# Estimar las medias de los tres subgrupos
+
+# La funcion tapply va a sacar la mean de yield usando como factor soil
+ybar <- tapply(data2$yield, data2$soil, mean)
+
+# Nombres de los subgrupos
+labels <- levels(data2$soil)
+```
+
+No hay una funcion para crear barras de error en R basico.
+Hay por su puesto en varios paquetes avanzados de plots,
+pero en este caso usamos esta funcion casera
+
+```{r}
+error.bars <- function(yv,z,nn)
+{xv <- barplot(yv,ylim=c(0,(max(yv)+max(z))),
+               col="gray",names=nn,ylab=deparse(substitute(yv)))
+for (i in 1:length(xv)) {
+  arrows(xv[i],yv[i]+z[i],xv[i],yv[i]-z[i],angle=90,code=3,length=0.15)
+}}
+```
+
+```{r}
+error.bars(ybar, se, labels)
+```
+
+
+## Ejemplo 2
+
+
+one-way anova con tratamiento con control y post-hoc test de Dun
+
+Ejemplo, examinar si dos nuevas tecnicas de ensenanza tienen potencialmente
+un beneficio en la nota final de un examen.
+Se dividen los estudiantes en 30 individuos en los siguientes grupos:
+
+Control Group: 10 students
+New Study technique 1: 10 students
+New Study Technique 2: 10 students
+
+```{r}
+data <- data.frame(technique = rep(c("control", "new1", "new2"), each = 10),
+                   score = c(76, 77, 77, 81, 82, 82, 83, 84, 85, 89,
+                             81, 82, 83, 83, 83, 84, 87, 90, 92, 93,
+                             77, 78, 79, 88, 89, 90, 91, 95, 95, 98))
+
+
+head(data)
+str(data)
+```
+
+
+
+
+Asegurarse que de las clases o tratamientos esten en formato factorial!
+
+```{r}
+
+data$technique <- as.factor(data$technique)
+str(data)
+
+```
+
+```{r}
+boxplot(score ~ technique,
+        data = data,
+        main = "Exam Scores by Studying Technique",
+        xlab = "Studying Technique",
+        ylab = "Exam Scores",
+        col = "steelblue",
+        border = "black")
+
+```
+
+
+### one-way ANOVA
+
+```{r}
+model <- aov(score ~ technique, data = data)
+summary(model)
+
+```
+
+
+
+###  Revision de residuos
+
+```{r}
+par(mfrow = c(2, 2))
+plot(model)
+
+shapiro.test(model$residuals)
+```
+
+
+```{r echo=FALSE}
+dev.off()
+```
+
+### Test de Dunnett 
+
+compara solo las clases contra el tratamiento control
+
+```{r}
+plot(DunnettTest(x = data$score, g = data$technique))
+
+```
+
+**ASEGURARSE** siempre que el control tenga el nombre 'control' exactamente en la tabla
+
+
+### PostHocs
+
+la libreria DescTools tiene muchos test Post-hoc para hacer
+
+#### Test de Tukey
+
+Dos formas de visualizar el test de tukey
+```{r}
+# Usando DescTools
+PostHocTest(model, method = "hsd")
+
+# usando R
+TukeyHSD(model)
+```
+
+
+```{r}
+plot(PostHocTest(model, method = "hsd"))
+plot(TukeyHSD(model))
+```
+
+
+
+## Experimento Factorial (two-way Anova)
+
+
+### Lectura Data
+
+```{r}
+weights <- read.table('https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/growth.txt',
+                      header=T, stringsAsFactors = TRUE)
+
+str(weights)
+```
+
+
+### Barplot 
+
+inspeccion de datos con barplot. Primero, crear una tabla con promedios por clase usando `tapply` esta vez en tapply usamos una lista  con los dos factores para que los tome a los dos en cuenta
+
+```{r}
+ymean <- tapply(weights$gain, list(weights$diet, weights$supplement), mean)
+
+```
+
+
+El parametro beside=TRUE indica que las subcalses (dieta) van como subgrupo del suplemento
+
+```{r}
+
+barplot(ymean, beside = TRUE, ylim = c(0, 30), col = c("orange", "yellow", "cornsilk"))
+labs <- c("Barley", "Oats", "Wheat")
+legend('top', labs, fill= c("orange", "yellow", "cornsilk"))
+```
+
+
+### ANOVA
+
+```{r}
+model <- aov(gain ~ diet*supplement, data = weights)
+summary(model)
+```
+
+
+Ver interacciones completas
+
+```{r}
+summary.lm(model)
+
+```
+
+Modelo muy complejo, por lo que podemos dejar solo los componentes e interacciones significativas e interesantes.
+
+### Test de varianzas homogeneas
+
+```{r}
+bartlett.test(gain ~ diet, data = weights)
+bartlett.test(gain ~ supplement, data = weights)
+```
+
+
+```{r}
+model2 <- aov(gain ~ diet + supplement, data = weights)
+summary(model2) # ya no hay interacciones!
+summary.lm(model2)
+```
+
+
+
+### Comparación de modelos
+
+* `model`: Factorial
+* `model2`: Aditivo
+
+```{r}
+# diferencias significativas entre los dos modelos?
+anova(model, model2) # No
+```
+
+
+```{r}
+AIC(model, model2)
+```
+
+```{r}
+# plot(PostHocTest(model, method = "hsd"))
+TukeyHSD(model)
+# plot(TukeyHSD(model))
+```
+
+
+
+
+
+

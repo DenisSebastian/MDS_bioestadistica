@@ -1,0 +1,481 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Validación de Modelos {#sec-val-models}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(kableExtra))
+suppressPackageStartupMessages(require(sf))
+suppressPackageStartupMessages(library(jtools))
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(caret))
+suppressPackageStartupMessages(library(mgcv))
+suppressPackageStartupMessages(library(corrplot))
+
+```
+
+
+
+## Práctico
+
+### Explorar datos
+
+Lectura de Datos
+
+```{r}
+data <- read.table('data/Pantanillos.txt', header = T, sep = '')
+
+```
+
+```{r echo=FALSE}
+
+kable_styling(
+              kable(data %>% head(), digits = 3, row.names = FALSE, align = "c",
+              caption = NULL, format = "html"),
+        bootstrap_options = c("striped", "hover", "condensed"),
+        position = "center", full_width = T) 
+
+```
+
+Filtrar los datos
+
+```{r}
+data2 <- data[,-c(1:4)]
+```
+
+```{r echo=FALSE}
+
+kable_styling(
+              kable(data2 %>% head(), digits = 3, row.names = FALSE, align = "c",
+              caption = NULL, format = "html"),
+        bootstrap_options = c("striped", "hover", "condensed"),
+        position = "center", full_width = T) 
+
+```
+
+
+Histograma de variable respuesta
+
+```{r}
+# histograma de variable respuesta
+hist(data$BIOMAS)
+```
+
+
+
+## Definición de Funciones
+
+
+Función para scatterplot
+```{r}
+# funcion para scatterplot
+plot_prediction <- function(obs, pred, main=''){
+  x <- cbind(obs, pred)
+  plot(x, xlab = 'Biomasa observada [kg m-2]', ylab = 'Biomasa predicha [kg m-2]', pch=16, las=1,
+       xlim = c(min(x), max(x)), ylim = c(min(x), max(x)), main=main, col=rgb(0,0,0,0.2), cex=1.5)
+  abline(0,1, lty=2)
+  lm <- lm(pred ~ obs-1)
+  abline(lm)
+  legend('topleft', legend=c('Linea 1:1', 'Linea ajustada'), lty=c(1,2), bty = 'n')
+  # agregar metricas de ajuste de modelo
+  r2 <- round( (cor(pred, obs)^2), 2) # solo dos decimales con funcion round
+  NRMSE <- round((sqrt(mean((obs - pred)^2))/(max(obs) - min(obs))) * 100, 2) # RMSE normalizado
+  bias = round( (1-coef(lm))*-1, 2)
+  mtext(bquote(paste(r^2 == .(r2), ",", " %RMSE" == .(NRMSE), "%", ",", " bias" ==
+                       .(bias))), side = 3, line = 0.5, adj = 0, font = 2)
+  
+}
+
+```
+
+Visualización de Residuos
+
+```{r}
+plot_residuos <- function(res, pred, main='Modelo'){
+  par(mfrow=c(1,2))
+  plot(pred, res, xlab = 'Biomasa predicha [kg m-2]', ylab = 'Residuos [kg m-2]', pch=16, las=1,
+       main=main, col=rgb(0,0,0,0.2), cex=1.5)
+  abline(h=0, lty=2)
+  qqnorm(res)
+  qqline(res, lty=2)
+}
+
+```
+
+
+
+## Analisis
+
+### Análisis de Significancia de Corrección
+
+```{r}
+corr <- cor(data2)
+testRes = cor.mtest(data2, conf.level = 0.95) # matriz con valores de p
+par(mfrow=c(1,1))
+corrplot(corr, p.mat = testRes$p, type = 'lower', diag = FALSE) # X a las no sign. con p > 0.05
+
+cor(data2) # mejor variable segun cor es one_mean
+#corr
+
+```
+
+
+
+### Validación Cruzada
+
+```{r}
+# separar en set de validacion y entrenamiento: Validacion cruzada simple!
+set.seed(1234)
+idx <- createDataPartition(data2$BIOMAS, p = 0.6, list = F)
+length(idx)
+idx %>% head()
+
+# 91*0.6 --> 54.6
+
+# particionar los datos usando los datos generados
+entrenar <- data2[idx,  ] # 60% de los datos 
+validar  <- data2[-idx, ] # 40% de los datos
+
+```
+
+
+## Regresiones
+
+### Regresiones Simples
+```{r}
+lm1 <- lm(BIOMAS ~ H, data = entrenar)
+summary(lm1)
+
+```
+
+Referecias para explicar los modelos en R: [@noauthor_explaining_nodate]
+
+```{r}
+effect_plot(lm1, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+```
+
+```{r}
+
+lm2 <- glm(BIOMAS ~ H, data = entrenar, family = Gamma(link = "log"))
+summary(lm2)
+effect_plot(lm2, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+
+```
+
+
+### Regresión Multiple
+
+```{r}
+## Regression multiple con todas las variables -----------------------------
+lm3 <- lm(BIOMAS ~., data = entrenar)
+summary(lm3)
+effect_plot(lm3, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+
+```
+
+
+```{r}
+lm4 <- glm(BIOMAS ~., data = entrenar, family = Gamma(link = log))
+summary(lm4)
+effect_plot(lm4, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+
+```
+
+
+### Regresión multiple con seleccion de variables stepwise
+
+
+Utilizando `train()` utilizanndo el método "lmStepAIC", que va a buscar las conbinaciones de modelos lineales, simples, luego con dos, tres, etc., bajo el criterio `AIC` . [@kuhn_7_nodate]
+
+
+```{r eval=FALSE}
+lm5 <- train(BIOMAS ~., data = entrenar, method = "lmStepAIC")
+lm5$finalModel
+```
+
+
+El objeto caret `lm5` guarda perfectamente cual es el mejor modelo, y se puede usar directamente para predecir, etc. Pero no se lleva bein caret con las funciones anova, AIC, así que vamos a usar las mejores variables y a hacer otro modelo
+
+
+```{r}
+lm5 <- lm(BIOMAS ~ TM3 + BRIGHT + NDVIC + H, data = entrenar)
+summary(lm5)
+effect_plot(lm5, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+```
+
+
+Family: `Gamma(link = log)`
+
+```{r eval=FALSE}
+lm6 <- train(BIOMAS ~., data = entrenar, method = "glmStepAIC", family = Gamma(link = log))
+lm6$finalModel
+```
+
+
+```{r}
+
+
+lm6 <- glm(BIOMAS ~ TM3 + BRIGHT + H, data = entrenar, family = Gamma(link = "log"))
+
+effect_plot(lm6, pred = H, interval = TRUE, plot.points = TRUE, 
+            jitter = 0.05)
+
+```
+
+## Información de modelos
+
+```{r}
+summary(lm1)
+summary(lm2)
+summary(lm3)
+summary(lm4)
+summary(lm5)
+summary(lm6)
+```
+
+
+Plot de diagnostico
+
+```{r}
+par(mfrow=c(2,2))
+plot(lm1)
+plot(lm2)
+plot(lm3)
+plot(lm4)
+plot(lm5)
+plot(lm6)
+```
+
+## Validación Independientes
+
+### Predicción
+
+```{r}
+pred1 <- predict(lm1, validar, type = 'response')
+pred2 <- predict(lm2, validar, type = 'response')
+pred3 <- predict(lm3, validar, type = 'response')
+pred4 <- predict(lm4, validar, type = 'response')
+pred5 <- predict(lm5, validar, type = 'response')
+pred6 <- predict(lm6, validar, type = 'response')
+```
+
+
+### $R^2$
+
+```{r}
+postResample(validar$BIOMAS, pred1)
+postResample(validar$BIOMAS, pred2)
+postResample(validar$BIOMAS, pred3)
+postResample(validar$BIOMAS, pred4)
+postResample(validar$BIOMAS, pred5)
+postResample(validar$BIOMAS, pred6)
+```
+
+### Plot de valores predichos vs observados
+
+```{r}
+par(mfrow=c(1,2))
+plot_prediction(validar$BIOMAS, pred1, main='lm simple') # nuestra funcion
+plot_prediction(validar$BIOMAS, pred2, main='GLM simple')
+
+plot_prediction(validar$BIOMAS, pred3, main='lm todo')
+plot_prediction(validar$BIOMAS, pred4, main='GLM todo')
+
+plot_prediction(validar$BIOMAS, pred5, main='lm seleccion')
+plot_prediction(validar$BIOMAS, pred6, main='GLM deleccion')
+```
+
+### Residuos
+
+```{r}
+res1 <- validar$BIOMAS - pred1
+res2 <- validar$BIOMAS - pred2
+res3 <- validar$BIOMAS - pred3
+res4 <- validar$BIOMAS - pred4
+res5 <- validar$BIOMAS - pred5
+res6 <- validar$BIOMAS - pred6
+
+```
+
+
+### Plot de residuos
+
+Los observados vs los predichos
+
+```{r}
+plot_residuos(res1, pred1) # nuestra funcion
+plot_residuos(res2, pred2)
+
+plot_residuos(res3, pred3)
+plot_residuos(res4, pred4)
+
+plot_residuos(res5, pred5)
+plot_residuos(res6, pred6)
+```
+
+### Histrogramas
+
+```{r}
+par(mfrow=c(1,2))
+hist(res1, main = 'lm simple')
+hist(res2, main = 'GLM simple')
+hist(res3, main = 'lm todo')
+hist(res4, main = 'GLM todo')
+hist(res5, main = 'lm seleccion')
+hist(res6, main = 'GLM seleccion')
+```
+
+### Shapiro Test
+
+> H0 -> dist. normal
+> H1 -> dist. no normal
+
+```{r}
+shapiro.test(res1)
+shapiro.test(res2) 
+shapiro.test(res3) 
+shapiro.test(res4) # no normal
+shapiro.test(res5) 
+shapiro.test(res6) # no normal
+
+```
+
+
+### Significancia de las diferencias 
+
+```{r}
+anova(lm1,lm2,lm3,lm4,lm5, lm6) # diferencias entre gaussianos
+```
+
+Sería al menos 1 es diferentes o significato, no necesariamente es el 5
+
+```{r}
+AIC(lm1, lm2, lm3, lm4, lm5, lm6)
+```
+
+Se puede estar en desacuerdo con esto, todo depende de su objetivo, el modelo 6 (`lm6`) es parsimonioso, pero no el que da mejores resultados.
+
+RSS:
+Df:
+
+
+## Mejor modelo con re-muestreo
+
+usamos caret para definir un tipo de metodo de re-muestreo para entrenar modelos mas robustos.
+
+`savePredictions = TRUE` = nos va a guardar los daos internamente en el modelo
+validacion K-fold, con K=5, y 5 repeticiones aleatoreas
+
+```{r}
+control <- trainControl(method = "repeatedcv", 
+                        number = 5, # K
+                        repeats = 5, 
+                        savePredictions = TRUE)
+```
+
+
+Usar mejor modelos agregamos el parametro trControl que nos permite pasar la informacion del tipo de vadilacion cruzada a usar todos los datos, no solo los de entrenar, ya que las particiones se hacen internamente. 
+
+### Entrenar Modelos con cv
+
+Modelos 7
+
+```{r}
+## efecto cantidad de variables en validaciones mas robustas! 
+lm7 <- train(BIOMAS ~., 
+             method = "glm", 
+             data = data2, 
+             family = Gamma(link = log),
+             trControl = control)
+summary(lm7)
+```
+
+
+Modelo 6
+
+```{r}
+lm8 <- train(BIOMAS ~ TM3 + BRIGHT + H, # los determinados por el train de lm6
+             method = "glm", 
+             data = data2, 
+             family = Gamma(link = log),
+             trControl = control)
+summary(lm8)
+```
+
+
+### Datos de ajuste internos de cada iteración 
+ 
+ 
+```{r}
+lm7$resample
+```
+
+### Visualización 
+
+Visualización de $R^2$
+```{r}
+par(mfrow=c(1,2))
+boxplot(lm7$resample[,2], main ='R2 todo', ylim = c(0,1))
+abline(h = median(lm7$resample[,2]), lty = 2, col = "red")
+boxplot(lm8$resample[,2], main ='R2 (TM3 + BRIGHT + H)', ylim = c(0,1))
+abline(h = median(lm8$resample[,2]), lty = 2, col = "red")
+```
+
+Visualización de $RMSE$
+```{r}
+par(mfrow=c(1,2))
+boxplot(lm7$resample[,1], main ='RMSE todo',  ylim = c(20,120))
+abline(h = median(lm7$resample[,1]), lty = 2, col = "red")
+boxplot(lm8$resample[,1], main ='RMSE (TM3 + BRIGHT + H)', ylim = c(20,120))
+abline(h = median(lm8$resample[,1]), lty = 2, col = "red")
+```
+
+En este caso tenemos una sitribución de datos 
+
+### Observados vs predichos 
+
+
+```{r}
+
+# lm7$pred
+
+par(mfrow=c(1,2))
+
+obs7 <- lm7$pred[,2]
+pred7 <- lm7$pred[,1]
+
+plot(obs7, pred7, pch = 16, col = rgb(0,0.5,0,0.3)) # red, green, blue, alpha
+abline(0, 1, lty = 2, col = "red") # intercepto, pendiente
+
+lm <- lm(pred7 ~ obs7 - 1)
+abline(lm)
+legend('topleft', legend=c('Linea 1:1', 'Linea ajustada'), lty = c(2,1), 
+       col = c("red", "black"), bty = 'n')
+
+obs8 <- lm8$pred[,2]
+pred8 <- lm8$pred[,1]
+
+plot(obs8, pred8, pch = 17, col = rgb(0,0,0.5,0.3))
+abline(0, 1, lty = 2, col = "red")
+
+lm <- lm(pred8 ~ obs8 - 1)
+abline(lm)
+legend('topleft', legend=c('Linea 1:1', 'Linea ajustada'), lty = c(2,1), 
+       col = c("red", "black"), bty = 'n')
+
+
+```
+
+
+EN el Eje x son fijas las predicciones, mientras que en las prediccionesn pueden variar.
+
+
