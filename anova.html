@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Curso: Bioestadística 2022 - 9&nbsp; Anova</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./reg_no_lineal.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Curso: Bioestadística 2022</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamendos Básicos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./t_limite_central.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Teorema del Límite Central</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./correlaciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Correlaciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./val_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reg_no_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sección-práctica-anova" id="toc-sección-práctica-anova" class="nav-link active" data-scroll-target="#sección-práctica-anova"> <span class="header-section-number">9.1</span> Sección Práctica Anova</a>
+  <ul class="collapse">
+  <li><a href="#tratamiento-a-los-datos" id="toc-tratamiento-a-los-datos" class="nav-link" data-scroll-target="#tratamiento-a-los-datos"> <span class="header-section-number">9.1.1</span> Tratamiento a los Datos</a></li>
+  <li><a href="#test-de-bartlett" id="toc-test-de-bartlett" class="nav-link" data-scroll-target="#test-de-bartlett"> <span class="header-section-number">9.1.2</span> Test de Bartlett</a></li>
+  <li><a href="#one-way-anova" id="toc-one-way-anova" class="nav-link" data-scroll-target="#one-way-anova"> <span class="header-section-number">9.1.3</span> one-way ANOVA</a></li>
+  <li><a href="#normalidad-de-los-residuos" id="toc-normalidad-de-los-residuos" class="nav-link" data-scroll-target="#normalidad-de-los-residuos"> <span class="header-section-number">9.1.4</span> Normalidad de los Residuos</a></li>
+  <li><a href="#post-hoc" id="toc-post-hoc" class="nav-link" data-scroll-target="#post-hoc"> <span class="header-section-number">9.1.5</span> Post-Hoc</a></li>
+  <li><a href="#visualización" id="toc-visualización" class="nav-link" data-scroll-target="#visualización"> <span class="header-section-number">9.1.6</span> Visualización</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-2" id="toc-ejemplo-2" class="nav-link" data-scroll-target="#ejemplo-2"> <span class="header-section-number">9.2</span> Ejemplo 2</a>
+  <ul class="collapse">
+  <li><a href="#one-way-anova-1" id="toc-one-way-anova-1" class="nav-link" data-scroll-target="#one-way-anova-1"> <span class="header-section-number">9.2.1</span> one-way ANOVA</a></li>
+  <li><a href="#revision-de-residuos" id="toc-revision-de-residuos" class="nav-link" data-scroll-target="#revision-de-residuos"> <span class="header-section-number">9.2.2</span> Revision de residuos</a></li>
+  <li><a href="#test-de-dunnett" id="toc-test-de-dunnett" class="nav-link" data-scroll-target="#test-de-dunnett"> <span class="header-section-number">9.2.3</span> Test de Dunnett</a></li>
+  <li><a href="#posthocs" id="toc-posthocs" class="nav-link" data-scroll-target="#posthocs"> <span class="header-section-number">9.2.4</span> PostHocs</a></li>
+  </ul></li>
+  <li><a href="#experimento-factorial-two-way-anova" id="toc-experimento-factorial-two-way-anova" class="nav-link" data-scroll-target="#experimento-factorial-two-way-anova"> <span class="header-section-number">9.3</span> Experimento Factorial (two-way Anova)</a>
+  <ul class="collapse">
+  <li><a href="#lectura-data" id="toc-lectura-data" class="nav-link" data-scroll-target="#lectura-data"> <span class="header-section-number">9.3.1</span> Lectura Data</a></li>
+  <li><a href="#barplot" id="toc-barplot" class="nav-link" data-scroll-target="#barplot"> <span class="header-section-number">9.3.2</span> Barplot</a></li>
+  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"> <span class="header-section-number">9.3.3</span> ANOVA</a></li>
+  <li><a href="#test-de-varianzas-homogeneas" id="toc-test-de-varianzas-homogeneas" class="nav-link" data-scroll-target="#test-de-varianzas-homogeneas"> <span class="header-section-number">9.3.4</span> Test de varianzas homogeneas</a></li>
+  <li><a href="#comparación-de-modelos" id="toc-comparación-de-modelos" class="nav-link" data-scroll-target="#comparación-de-modelos"> <span class="header-section-number">9.3.5</span> Comparación de modelos</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-anova" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="sección-práctica-anova" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="sección-práctica-anova"><span class="header-section-number">9.1</span> Sección Práctica Anova</h2>
+<section id="tratamiento-a-los-datos" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="tratamiento-a-los-datos"><span class="header-section-number">9.1.1</span> Tratamiento a los Datos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/yields.txt'</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span>T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estructura de los datos</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   10 obs. of  3 variables:
+ $ sand: int  6 10 8 6 14 17 9 11 7 11
+ $ clay: int  17 15 3 11 14 12 12 8 10 13
+ $ loam: int  13 16 9 12 15 16 17 13 18 14</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      sand            clay            loam     
+ Min.   : 6.00   Min.   : 3.00   Min.   : 9.0  
+ 1st Qu.: 7.25   1st Qu.:10.25   1st Qu.:13.0  
+ Median : 9.50   Median :12.00   Median :14.5  
+ Mean   : 9.90   Mean   :11.50   Mean   :14.3  
+ 3rd Qu.:11.00   3rd Qu.:13.75   3rd Qu.:16.0  
+ Max.   :17.00   Max.   :17.00   Max.   :18.0  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># se pueden juntar las 3 clases en una sola columna y agregar las clases en otra con la</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># funcion stack</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">stack</span>(data)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"yield"</span>,<span class="st">"soil"</span>) <span class="co"># cambiamos el nombre de las columnas</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   30 obs. of  2 variables:
+ $ yield: int  6 10 8 6 14 17 9 11 7 11 ...
+ $ soil : Factor w/ 3 levels "sand","clay",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+</div>
+<ul>
+<li>La clase soil es de tipo factorial esto es fundamental</li>
+</ul>
+</section>
+<section id="test-de-bartlett" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="test-de-bartlett"><span class="header-section-number">9.1.2</span> Test de Bartlett</h3>
+<p>Analizar si las varianza por subgrupo es homogeneas con test de Bartlett, este test no necesita hacerse sobre los residuos</p>
+<ul>
+<li>H0 = son homogeneas</li>
+<li>H1 = no son homogeneas</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Test de Bartlett </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> data2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Bartlett test of homogeneity of variances
+
+data:  yield by soil
+Bartlett's K-squared = 1.2764, df = 2, p-value = 0.5283</code></pre>
+</div>
+</div>
+</section>
+<section id="one-way-anova" class="level3" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="one-way-anova"><span class="header-section-number">9.1.3</span> one-way ANOVA</h3>
+<p>Realizar test anova usando la funcion <code>aov</code>. Esta es la funcion estandar para este tipo de analisis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>anov1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> data2)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anov1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+soil         2   99.2   49.60   4.245  0.025 *
+Residuals   27  315.5   11.69                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(anov1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = yield ~ soil, data = data2)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+  -8.5   -1.8    0.3    1.7    7.1 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    9.900      1.081   9.158 9.04e-10 ***
+soilclay       1.600      1.529   1.047  0.30456    
+soilloam       4.400      1.529   2.878  0.00773 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.418 on 27 degrees of freedom
+Multiple R-squared:  0.2392,    Adjusted R-squared:  0.1829 
+F-statistic: 4.245 on 2 and 27 DF,  p-value: 0.02495</code></pre>
+</div>
+</div>
+</section>
+<section id="normalidad-de-los-residuos" class="level3" data-number="9.1.4">
+<h3 data-number="9.1.4" class="anchored" data-anchor-id="normalidad-de-los-residuos"><span class="header-section-number">9.1.4</span> Normalidad de los Residuos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anov1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
+</div>
+</div>
+<ul>
+<li>HO = es normal</li>
+<li>H1 = no es normal</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(anov1<span class="sc">$</span>residuals) <span class="co"># si!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  anov1$residuals
+W = 0.99131, p-value = 0.9961</code></pre>
+</div>
+</div>
+</section>
+<section id="post-hoc" class="level3" data-number="9.1.5">
+<h3 data-number="9.1.5" class="anchored" data-anchor-id="post-hoc"><span class="header-section-number">9.1.5</span> Post-Hoc</h3>
+<p>Necesitamos saber donde estan las diferencias entre clases</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tuk <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(anov1, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tuk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = yield ~ soil, data = data2)
+
+$soil
+          diff        lwr      upr     p adj
+clay-sand  1.6 -2.1903777 5.390378 0.5546301
+loam-sand  4.4  0.6096223 8.190378 0.0204414
+loam-clay  2.8 -0.9903777 6.590378 0.1785489</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tuk, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">cex.axis =</span> <span class="fl">0.5</span>, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.lab =</span> <span class="fl">0.5</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>La diferencia entre loam y sand (limo y arena) es la unica significativa</p>
+</section>
+<section id="visualización" class="level3" data-number="9.1.6">
+<h3 data-number="9.1.6" class="anchored" data-anchor-id="visualización"><span class="header-section-number">9.1.6</span> Visualización</h3>
+<p><strong>Boxplot</strong>*</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> data2, <span class="at">col =</span> <span class="st">'lightblue'</span>, <span class="at">notch =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in (function (z, notch = FALSE, width = NULL, varwidth = FALSE, : some
+notches went outside hinges ('box'): maybe set notch=FALSE</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Barplot con barras de error</strong></p>
+<p>Revisar cuantas observaciones hay por clase. Ya sabemos que son 10, pero se puede revisar con table</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data2<span class="sc">$</span>soil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+sand clay loam 
+  10   10   10 </code></pre>
+</div>
+</div>
+<p>Error estandar de una <span class="math inline">media = \sqrt(\frac{S2}{N}</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anov1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+soil         2   99.2   49.60   4.245  0.025 *
+Residuals   27  315.5   11.69                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># repetimos este valor por el numero de subclases</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">rep</span>( <span class="fu">sqrt</span>(<span class="fl">11.69</span><span class="sc">/</span><span class="dv">10</span>),<span class="dv">3</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimar las medias de los tres subgrupos</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># La funcion tapply va a sacar la mean de yield usando como factor soil</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fu">tapply</span>(data2<span class="sc">$</span>yield, data2<span class="sc">$</span>soil, mean)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombres de los subgrupos</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">levels</span>(data2<span class="sc">$</span>soil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>No hay una funcion para crear barras de error en R basico. Hay por su puesto en varios paquetes avanzados de plots, pero en este caso usamos esta funcion casera</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>error.bars <span class="ot">&lt;-</span> <span class="cf">function</span>(yv,z,nn)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>{xv <span class="ot">&lt;-</span> <span class="fu">barplot</span>(yv,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,(<span class="fu">max</span>(yv)<span class="sc">+</span><span class="fu">max</span>(z))),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col=</span><span class="st">"gray"</span>,<span class="at">names=</span>nn,<span class="at">ylab=</span><span class="fu">deparse</span>(<span class="fu">substitute</span>(yv)))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(xv)) {</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrows</span>(xv[i],yv[i]<span class="sc">+</span>z[i],xv[i],yv[i]<span class="sc">-</span>z[i],<span class="at">angle=</span><span class="dv">90</span>,<span class="at">code=</span><span class="dv">3</span>,<span class="at">length=</span><span class="fl">0.15</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>}}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">error.bars</span>(ybar, se, labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="ejemplo-2" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="ejemplo-2"><span class="header-section-number">9.2</span> Ejemplo 2</h2>
+<p>one-way anova con tratamiento con control y post-hoc test de Dun</p>
+<p>Ejemplo, examinar si dos nuevas tecnicas de ensenanza tienen potencialmente un beneficio en la nota final de un examen. Se dividen los estudiantes en 30 individuos en los siguientes grupos:</p>
+<p>Control Group: 10 students New Study technique 1: 10 students New Study Technique 2: 10 students</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">technique =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"new1"</span>, <span class="st">"new2"</span>), <span class="at">each =</span> <span class="dv">10</span>),</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">76</span>, <span class="dv">77</span>, <span class="dv">77</span>, <span class="dv">81</span>, <span class="dv">82</span>, <span class="dv">82</span>, <span class="dv">83</span>, <span class="dv">84</span>, <span class="dv">85</span>, <span class="dv">89</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">81</span>, <span class="dv">82</span>, <span class="dv">83</span>, <span class="dv">83</span>, <span class="dv">83</span>, <span class="dv">84</span>, <span class="dv">87</span>, <span class="dv">90</span>, <span class="dv">92</span>, <span class="dv">93</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">77</span>, <span class="dv">78</span>, <span class="dv">79</span>, <span class="dv">88</span>, <span class="dv">89</span>, <span class="dv">90</span>, <span class="dv">91</span>, <span class="dv">95</span>, <span class="dv">95</span>, <span class="dv">98</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  technique score
+1   control    76
+2   control    77
+3   control    77
+4   control    81
+5   control    82
+6   control    82</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   30 obs. of  2 variables:
+ $ technique: chr  "control" "control" "control" "control" ...
+ $ score    : num  76 77 77 81 82 82 83 84 85 89 ...</code></pre>
+</div>
+</div>
+<p>Asegurarse que de las clases o tratamientos esten en formato factorial!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>technique <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>technique)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   30 obs. of  2 variables:
+ $ technique: Factor w/ 3 levels "control","new1",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ score    : num  76 77 77 81 82 82 83 84 85 89 ...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(score <span class="sc">~</span> technique,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> data,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Exam Scores by Studying Technique"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Studying Technique"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Exam Scores"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="one-way-anova-1" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="one-way-anova-1"><span class="header-section-number">9.2.1</span> one-way ANOVA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(score <span class="sc">~</span> technique, <span class="at">data =</span> data)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+technique    2  211.5  105.73   3.415 0.0476 *
+Residuals   27  836.0   30.96                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="revision-de-residuos" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="revision-de-residuos"><span class="header-section-number">9.2.2</span> Revision de residuos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  model$residuals
+W = 0.97617, p-value = 0.7172</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
+</div>
+</div>
+</section>
+<section id="test-de-dunnett" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="test-de-dunnett"><span class="header-section-number">9.2.3</span> Test de Dunnett</h3>
+<p>compara solo las clases contra el tratamiento control</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">DunnettTest</span>(<span class="at">x =</span> data<span class="sc">$</span>score, <span class="at">g =</span> data<span class="sc">$</span>technique))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>ASEGURARSE</strong> siempre que el control tenga el nombre ‘control’ exactamente en la tabla</p>
+</section>
+<section id="posthocs" class="level3" data-number="9.2.4">
+<h3 data-number="9.2.4" class="anchored" data-anchor-id="posthocs"><span class="header-section-number">9.2.4</span> PostHocs</h3>
+<p>la libreria DescTools tiene muchos test Post-hoc para hacer</p>
+<section id="test-de-tukey" class="level4" data-number="9.2.4.1">
+<h4 data-number="9.2.4.1" class="anchored" data-anchor-id="test-de-tukey"><span class="header-section-number">9.2.4.1</span> Test de Tukey</h4>
+<p>Dos formas de visualizar el test de tukey</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando DescTools</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PostHocTest</span>(model, <span class="at">method =</span> <span class="st">"hsd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Posthoc multiple comparisons of means : Tukey HSD 
+    95% family-wise confidence level
+
+$technique
+             diff     lwr.ci    upr.ci   pval    
+new1-control  4.2 -1.9700112 10.370011 0.2281    
+new2-control  6.4  0.2299888 12.570011 0.0409 *  
+new2-new1     2.2 -3.9700112  8.370011 0.6548    
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># usando R</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = score ~ technique, data = data)
+
+$technique
+             diff        lwr       upr     p adj
+new1-control  4.2 -1.9700112 10.370011 0.2281369
+new2-control  6.4  0.2299888 12.570011 0.0409017
+new2-new1     2.2 -3.9700112  8.370011 0.6547756</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">PostHocTest</span>(model, <span class="at">method =</span> <span class="st">"hsd"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="experimento-factorial-two-way-anova" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="experimento-factorial-two-way-anova"><span class="header-section-number">9.3</span> Experimento Factorial (two-way Anova)</h2>
+<section id="lectura-data" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="lectura-data"><span class="header-section-number">9.3.1</span> Lectura Data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/growth.txt'</span>,</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">header=</span>T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   48 obs. of  3 variables:
+ $ supplement: Factor w/ 4 levels "agrimore","control",..: 3 3 3 3 2 2 2 2 4 4 ...
+ $ diet      : Factor w/ 3 levels "barley","oats",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ gain      : num  17.4 16.8 18.1 15.8 17.7 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="barplot" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="barplot"><span class="header-section-number">9.3.2</span> Barplot</h3>
+<p>inspeccion de datos con barplot. Primero, crear una tabla con promedios por clase usando <code>tapply</code> esta vez en tapply usamos una lista con los dos factores para que los tome a los dos en cuenta</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ymean <span class="ot">&lt;-</span> <span class="fu">tapply</span>(weights<span class="sc">$</span>gain, <span class="fu">list</span>(weights<span class="sc">$</span>diet, weights<span class="sc">$</span>supplement), mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El parametro beside=TRUE indica que las subcalses (dieta) van como subgrupo del suplemento</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(ymean, <span class="at">beside =</span> <span class="cn">TRUE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"cornsilk"</span>))</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>labs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Barley"</span>, <span class="st">"Oats"</span>, <span class="st">"Wheat"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'top'</span>, labs, <span class="at">fill=</span> <span class="fu">c</span>(<span class="st">"orange"</span>, <span class="st">"yellow"</span>, <span class="st">"cornsilk"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="anova_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="anova" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="anova"><span class="header-section-number">9.3.3</span> ANOVA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(gain <span class="sc">~</span> diet<span class="sc">*</span>supplement, <span class="at">data =</span> weights)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+diet             2 287.17  143.59   83.52 3.00e-14 ***
+supplement       3  91.88   30.63   17.82 2.95e-07 ***
+diet:supplement  6   3.41    0.57    0.33    0.917    
+Residuals       36  61.89    1.72                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Ver interacciones completas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = gain ~ diet * supplement, data = weights)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.48756 -1.00368 -0.07452  1.03496  2.68069 
+
+Coefficients:
+                              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                    26.3485     0.6556  40.191  &lt; 2e-16 ***
+dietoats                       -3.0501     0.9271  -3.290 0.002248 ** 
+dietwheat                      -6.7094     0.9271  -7.237 1.61e-08 ***
+supplementcontrol              -3.0518     0.9271  -3.292 0.002237 ** 
+supplementsupergain            -3.8824     0.9271  -4.187 0.000174 ***
+supplementsupersupp            -0.7732     0.9271  -0.834 0.409816    
+dietoats:supplementcontrol      0.2471     1.3112   0.188 0.851571    
+dietwheat:supplementcontrol     0.8183     1.3112   0.624 0.536512    
+dietoats:supplementsupergain    0.2470     1.3112   0.188 0.851652    
+dietwheat:supplementsupergain   1.2557     1.3112   0.958 0.344601    
+dietoats:supplementsupersupp   -0.6650     1.3112  -0.507 0.615135    
+dietwheat:supplementsupersupp   0.8024     1.3112   0.612 0.544381    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.311 on 36 degrees of freedom
+Multiple R-squared:  0.8607,    Adjusted R-squared:  0.8182 
+F-statistic: 20.22 on 11 and 36 DF,  p-value: 3.295e-12</code></pre>
+</div>
+</div>
+<p>Modelo muy complejo, por lo que podemos dejar solo los componentes e interacciones significativas e interesantes.</p>
+</section>
+<section id="test-de-varianzas-homogeneas" class="level3" data-number="9.3.4">
+<h3 data-number="9.3.4" class="anchored" data-anchor-id="test-de-varianzas-homogeneas"><span class="header-section-number">9.3.4</span> Test de varianzas homogeneas</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(gain <span class="sc">~</span> diet, <span class="at">data =</span> weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Bartlett test of homogeneity of variances
+
+data:  gain by diet
+Bartlett's K-squared = 2.2513, df = 2, p-value = 0.3244</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(gain <span class="sc">~</span> supplement, <span class="at">data =</span> weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Bartlett test of homogeneity of variances
+
+data:  gain by supplement
+Bartlett's K-squared = 0.57513, df = 3, p-value = 0.9021</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(gain <span class="sc">~</span> diet <span class="sc">+</span> supplement, <span class="at">data =</span> weights)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2) <span class="co"># ya no hay interacciones!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+diet         2 287.17  143.59   92.36 4.20e-16 ***
+supplement   3  91.88   30.63   19.70 3.98e-08 ***
+Residuals   42  65.30    1.55                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = gain ~ diet + supplement, data = weights)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.30792 -0.85929 -0.07713  0.92052  2.90615 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          26.1230     0.4408  59.258  &lt; 2e-16 ***
+dietoats             -3.0928     0.4408  -7.016 1.38e-08 ***
+dietwheat            -5.9903     0.4408 -13.589  &lt; 2e-16 ***
+supplementcontrol    -2.6967     0.5090  -5.298 4.03e-06 ***
+supplementsupergain  -3.3815     0.5090  -6.643 4.72e-08 ***
+supplementsupersupp  -0.7274     0.5090  -1.429     0.16    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.247 on 42 degrees of freedom
+Multiple R-squared:  0.8531,    Adjusted R-squared:  0.8356 
+F-statistic: 48.76 on 5 and 42 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="comparación-de-modelos" class="level3" data-number="9.3.5">
+<h3 data-number="9.3.5" class="anchored" data-anchor-id="comparación-de-modelos"><span class="header-section-number">9.3.5</span> Comparación de modelos</h3>
+<ul>
+<li><code>model</code>: Factorial</li>
+<li><code>model2</code>: Aditivo</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># diferencias significativas entre los dos modelos?</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model, model2) <span class="co"># No</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: gain ~ diet * supplement
+Model 2: gain ~ diet + supplement
+  Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+1     36 61.890                           
+2     42 65.296 -6   -3.4058 0.3302 0.9166</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model, model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       df      AIC
+model  13 174.4179
+model2  7 164.9892</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(PostHocTest(model, method = "hsd"))</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = gain ~ diet * supplement, data = weights)
+
+$diet
+                  diff       lwr       upr p adj
+oats-barley  -3.092817 -4.225918 -1.959715 3e-07
+wheat-barley -5.990298 -7.123399 -4.857196 0e+00
+wheat-oats   -2.897481 -4.030582 -1.764379 1e-06
+
+$supplement
+                          diff       lwr        upr     p adj
+control-agrimore    -2.6967005 -4.138342 -1.2550592 0.0000764
+supergain-agrimore  -3.3814586 -4.823100 -1.9398173 0.0000015
+supersupp-agrimore  -0.7273521 -2.168993  0.7142892 0.5326710
+supergain-control   -0.6847581 -2.126399  0.7568832 0.5817637
+supersupp-control    1.9693484  0.527707  3.4109897 0.0040534
+supersupp-supergain  2.6541065  1.212465  4.0957478 0.0000972
+
+$`diet:supplement`
+                                          diff         lwr        upr     p adj
+oats:agrimore-barley:agrimore     -3.050093860  -6.2861072  0.1859194 0.0800774
+wheat:agrimore-barley:agrimore    -6.709404652  -9.9454179 -3.4733914 0.0000010
+barley:control-barley:agrimore    -3.051827710  -6.2878410  0.1841856 0.0797364
+oats:control-barley:agrimore      -5.854812782  -9.0908261 -2.6187995 0.0000156
+wheat:control-barley:agrimore     -8.942959440 -12.1789727 -5.7069461 0.0000000
+barley:supergain-barley:agrimore  -3.882353990  -7.1183673 -0.6463407 0.0081992
+oats:supergain-barley:agrimore    -6.685474160  -9.9214875 -3.4494609 0.0000011
+wheat:supergain-barley:agrimore   -9.336046198 -12.5720595 -6.1000329 0.0000000
+barley:supersupp-barley:agrimore  -0.773175055  -4.0091883  2.4628382 0.9993538
+oats:supersupp-barley:agrimore    -4.488243097  -7.7242564 -1.2522298 0.0012832
+wheat:supersupp-barley:agrimore   -6.680136725  -9.9161500 -3.4441234 0.0000011
+wheat:agrimore-oats:agrimore      -3.659310793  -6.8953241 -0.4232975 0.0156910
+barley:control-oats:agrimore      -0.001733850  -3.2377471  3.2342794 1.0000000
+oats:control-oats:agrimore        -2.804718923  -6.0407322  0.4312944 0.1426161
+wheat:control-oats:agrimore       -5.892865580  -9.1288789 -2.6568523 0.0000138
+barley:supergain-oats:agrimore    -0.832260130  -4.0682734  2.4037532 0.9987355
+oats:supergain-oats:agrimore      -3.635380300  -6.8713936 -0.3993670 0.0167992
+wheat:supergain-oats:agrimore     -6.285952338  -9.5219656 -3.0499390 0.0000038
+barley:supersupp-oats:agrimore     2.276918805  -0.9590945  5.5129321 0.3975577
+oats:supersupp-oats:agrimore      -1.438149237  -4.6741625  1.7978641 0.9151137
+wheat:supersupp-oats:agrimore     -3.630042865  -6.8660562 -0.3940296 0.0170562
+barley:control-wheat:agrimore      3.657576943   0.4215636  6.8935902 0.0157690
+oats:control-wheat:agrimore        0.854591870  -2.3814214  4.0906052 0.9983978
+wheat:control-wheat:agrimore      -2.233554788  -5.4695681  1.0024585 0.4258079
+barley:supergain-wheat:agrimore    2.827050663  -0.4089626  6.0630640 0.1356315
+oats:supergain-wheat:agrimore      0.023930493  -3.2120828  3.2599438 1.0000000
+wheat:supergain-wheat:agrimore    -2.626641545  -5.8626548  0.6093717 0.2089804
+barley:supersupp-wheat:agrimore    5.936229597   2.7002163  9.1722429 0.0000120
+oats:supersupp-wheat:agrimore      2.221161555  -1.0148517  5.4571748 0.4340350
+wheat:supersupp-wheat:agrimore     0.029267927  -3.2067454  3.2652812 1.0000000
+oats:control-barley:control       -2.802985073  -6.0389984  0.4330282 0.1431702
+wheat:control-barley:control      -5.891131730  -9.1271450 -2.6551184 0.0000139
+barley:supergain-barley:control   -0.830526280  -4.0665396  2.4054870 0.9987590
+oats:supergain-barley:control     -3.633646450  -6.8696597 -0.3976332 0.0168823
+wheat:supergain-barley:control    -6.284218488  -9.5202318 -3.0482052 0.0000039
+barley:supersupp-barley:control    2.278652655  -0.9573606  5.5146659 0.3964466
+oats:supersupp-barley:control     -1.436415387  -4.6724287  1.7995979 0.9157324
+wheat:supersupp-barley:control    -3.628309015  -6.8643223 -0.3922957 0.0171405
+wheat:control-oats:control        -3.088146658  -6.3241600  0.1478666 0.0728783
+barley:supergain-oats:control      1.972458793  -1.2635545  5.2084721 0.6078579
+oats:supergain-oats:control       -0.830661377  -4.0666747  2.4053519 0.9987572
+wheat:supergain-oats:control      -3.481233415  -6.7172467 -0.2452201 0.0258844
+barley:supersupp-oats:control      5.081637727   1.8456244  8.3176510 0.0001928
+oats:supersupp-oats:control        1.366569685  -1.8694436  4.6025830 0.9382729
+wheat:supersupp-oats:control      -0.825323943  -4.0613372  2.4106894 0.9988273
+barley:supergain-wheat:control     5.060605450   1.8245922  8.2966187 0.0002063
+oats:supergain-wheat:control       2.257485280  -0.9785280  5.4934986 0.4101108
+wheat:supergain-wheat:control     -0.393086758  -3.6291001  2.8429265 0.9999993
+barley:supersupp-wheat:control     8.169784385   4.9337711 11.4057977 0.0000000
+oats:supersupp-wheat:control       4.454716343   1.2187030  7.6907296 0.0014257
+wheat:supersupp-wheat:control      2.262822715  -0.9731906  5.4988360 0.4066453
+oats:supergain-barley:supergain   -2.803120170  -6.0391335  0.4328931 0.1431270
+wheat:supergain-barley:supergain  -5.453692208  -8.6897055 -2.2176789 0.0000577
+barley:supersupp-barley:supergain  3.109178935  -0.1268344  6.3451922 0.0691463
+oats:supersupp-barley:supergain   -0.605889108  -3.8419024  2.6301242 0.9999375
+wheat:supersupp-barley:supergain  -2.797782735  -6.0337960  0.4382306 0.1448433
+wheat:supergain-oats:supergain    -2.650572038  -5.8865853  0.5854413 0.1989133
+barley:supersupp-oats:supergain    5.912299105   2.6762858  9.1483124 0.0000130
+oats:supersupp-oats:supergain      2.197231062  -1.0387822  5.4332444 0.4500973
+wheat:supersupp-oats:supergain     0.005337435  -3.2306759  3.2413507 1.0000000
+barley:supersupp-wheat:supergain   8.562871143   5.3268578 11.7988844 0.0000000
+oats:supersupp-wheat:supergain     4.847803100   1.6117898  8.0838164 0.0004093
+wheat:supersupp-wheat:supergain    2.655909473  -0.5801038  5.8919228 0.1967179
+oats:supersupp-barley:supersupp   -3.715068042  -6.9510813 -0.4790547 0.0133696
+wheat:supersupp-barley:supersupp  -5.906961670  -9.1429750 -2.6709484 0.0000132
+wheat:supersupp-oats:supersupp    -2.191893628  -5.4279069  1.0441197 0.4537097</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(TukeyHSD(model))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./reg_no_lineal.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Denis Berroeta</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

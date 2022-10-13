@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Curso: Bioestadística 2022 - 7&nbsp; Validación de Modelos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./reg_no_lineal.html" rel="next">
+<link href="./regresiones.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Curso: Bioestadística 2022</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamendos Básicos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./t_limite_central.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Teorema del Límite Central</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./correlaciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Correlaciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./val_models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reg_no_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#práctico" id="toc-práctico" class="nav-link active" data-scroll-target="#práctico"> <span class="header-section-number">7.1</span> Práctico</a>
+  <ul class="collapse">
+  <li><a href="#explorar-datos" id="toc-explorar-datos" class="nav-link" data-scroll-target="#explorar-datos"> <span class="header-section-number">7.1.1</span> Explorar datos</a></li>
+  </ul></li>
+  <li><a href="#definición-de-funciones" id="toc-definición-de-funciones" class="nav-link" data-scroll-target="#definición-de-funciones"> <span class="header-section-number">7.2</span> Definición de Funciones</a></li>
+  <li><a href="#analisis" id="toc-analisis" class="nav-link" data-scroll-target="#analisis"> <span class="header-section-number">7.3</span> Analisis</a>
+  <ul class="collapse">
+  <li><a href="#análisis-de-significancia-de-corrección" id="toc-análisis-de-significancia-de-corrección" class="nav-link" data-scroll-target="#análisis-de-significancia-de-corrección"> <span class="header-section-number">7.3.1</span> Análisis de Significancia de Corrección</a></li>
+  <li><a href="#validación-cruzada" id="toc-validación-cruzada" class="nav-link" data-scroll-target="#validación-cruzada"> <span class="header-section-number">7.3.2</span> Validación Cruzada</a></li>
+  </ul></li>
+  <li><a href="#regresiones" id="toc-regresiones" class="nav-link" data-scroll-target="#regresiones"> <span class="header-section-number">7.4</span> Regresiones</a>
+  <ul class="collapse">
+  <li><a href="#regresiones-simples" id="toc-regresiones-simples" class="nav-link" data-scroll-target="#regresiones-simples"> <span class="header-section-number">7.4.1</span> Regresiones Simples</a></li>
+  <li><a href="#regresión-multiple" id="toc-regresión-multiple" class="nav-link" data-scroll-target="#regresión-multiple"> <span class="header-section-number">7.4.2</span> Regresión Multiple</a></li>
+  <li><a href="#regresión-multiple-con-seleccion-de-variables-stepwise" id="toc-regresión-multiple-con-seleccion-de-variables-stepwise" class="nav-link" data-scroll-target="#regresión-multiple-con-seleccion-de-variables-stepwise"> <span class="header-section-number">7.4.3</span> Regresión multiple con seleccion de variables stepwise</a></li>
+  </ul></li>
+  <li><a href="#información-de-modelos" id="toc-información-de-modelos" class="nav-link" data-scroll-target="#información-de-modelos"> <span class="header-section-number">7.5</span> Información de modelos</a></li>
+  <li><a href="#validación-independientes" id="toc-validación-independientes" class="nav-link" data-scroll-target="#validación-independientes"> <span class="header-section-number">7.6</span> Validación Independientes</a>
+  <ul class="collapse">
+  <li><a href="#predicción" id="toc-predicción" class="nav-link" data-scroll-target="#predicción"> <span class="header-section-number">7.6.1</span> Predicción</a></li>
+  <li><a href="#r2" id="toc-r2" class="nav-link" data-scroll-target="#r2"> <span class="header-section-number">7.6.2</span> <span class="math inline">R^2</span></a></li>
+  <li><a href="#plot-de-valores-predichos-vs-observados" id="toc-plot-de-valores-predichos-vs-observados" class="nav-link" data-scroll-target="#plot-de-valores-predichos-vs-observados"> <span class="header-section-number">7.6.3</span> Plot de valores predichos vs observados</a></li>
+  <li><a href="#residuos" id="toc-residuos" class="nav-link" data-scroll-target="#residuos"> <span class="header-section-number">7.6.4</span> Residuos</a></li>
+  <li><a href="#plot-de-residuos" id="toc-plot-de-residuos" class="nav-link" data-scroll-target="#plot-de-residuos"> <span class="header-section-number">7.6.5</span> Plot de residuos</a></li>
+  <li><a href="#histrogramas" id="toc-histrogramas" class="nav-link" data-scroll-target="#histrogramas"> <span class="header-section-number">7.6.6</span> Histrogramas</a></li>
+  <li><a href="#shapiro-test" id="toc-shapiro-test" class="nav-link" data-scroll-target="#shapiro-test"> <span class="header-section-number">7.6.7</span> Shapiro Test</a></li>
+  <li><a href="#significancia-de-las-diferencias" id="toc-significancia-de-las-diferencias" class="nav-link" data-scroll-target="#significancia-de-las-diferencias"> <span class="header-section-number">7.6.8</span> Significancia de las diferencias</a></li>
+  </ul></li>
+  <li><a href="#mejor-modelo-con-re-muestreo" id="toc-mejor-modelo-con-re-muestreo" class="nav-link" data-scroll-target="#mejor-modelo-con-re-muestreo"> <span class="header-section-number">7.7</span> Mejor modelo con re-muestreo</a>
+  <ul class="collapse">
+  <li><a href="#entrenar-modelos-con-cv" id="toc-entrenar-modelos-con-cv" class="nav-link" data-scroll-target="#entrenar-modelos-con-cv"> <span class="header-section-number">7.7.1</span> Entrenar Modelos con cv</a></li>
+  <li><a href="#datos-de-ajuste-internos-de-cada-iteración" id="toc-datos-de-ajuste-internos-de-cada-iteración" class="nav-link" data-scroll-target="#datos-de-ajuste-internos-de-cada-iteración"> <span class="header-section-number">7.7.2</span> Datos de ajuste internos de cada iteración</a></li>
+  <li><a href="#visualización" id="toc-visualización" class="nav-link" data-scroll-target="#visualización"> <span class="header-section-number">7.7.3</span> Visualización</a></li>
+  <li><a href="#observados-vs-predichos" id="toc-observados-vs-predichos" class="nav-link" data-scroll-target="#observados-vs-predichos"> <span class="header-section-number">7.7.4</span> Observados vs predichos</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-val-models" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="práctico" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="práctico"><span class="header-section-number">7.1</span> Práctico</h2>
+<section id="explorar-datos" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="explorar-datos"><span class="header-section-number">7.1.1</span> Explorar datos</h3>
+<p>Lectura de Datos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'data/Pantanillos.txt'</span>, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;"> XUTM </th>
+   <th style="text-align:center;"> YUTM </th>
+   <th style="text-align:center;"> LAT </th>
+   <th style="text-align:center;"> LONG </th>
+   <th style="text-align:center;"> BIOMAS </th>
+   <th style="text-align:center;"> TM1 </th>
+   <th style="text-align:center;"> TM2 </th>
+   <th style="text-align:center;"> TM3 </th>
+   <th style="text-align:center;"> TM4 </th>
+   <th style="text-align:center;"> TM5 </th>
+   <th style="text-align:center;"> TM7 </th>
+   <th style="text-align:center;"> BRIGHT </th>
+   <th style="text-align:center;"> GREEN </th>
+   <th style="text-align:center;"> MOIST </th>
+   <th style="text-align:center;"> NDVI </th>
+   <th style="text-align:center;"> NDVIC </th>
+   <th style="text-align:center;"> PEND </th>
+   <th style="text-align:center;"> ALT </th>
+   <th style="text-align:center;"> H </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> 744797.3 </td>
+   <td style="text-align:center;"> 6071183 </td>
+   <td style="text-align:center;"> -35.473 </td>
+   <td style="text-align:center;"> -72.302 </td>
+   <td style="text-align:center;"> 164.649 </td>
+   <td style="text-align:center;"> 43 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 23 </td>
+   <td style="text-align:center;"> 57 </td>
+   <td style="text-align:center;"> 26 </td>
+   <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 83.854 </td>
+   <td style="text-align:center;"> -0.004 </td>
+   <td style="text-align:center;"> -4.548 </td>
+   <td style="text-align:center;"> 0.425 </td>
+   <td style="text-align:center;"> 0.321 </td>
+   <td style="text-align:center;"> 6.546 </td>
+   <td style="text-align:center;"> 472.423 </td>
+   <td style="text-align:center;"> 17.106 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 745007.3 </td>
+   <td style="text-align:center;"> 6071183 </td>
+   <td style="text-align:center;"> -35.473 </td>
+   <td style="text-align:center;"> -72.300 </td>
+   <td style="text-align:center;"> 88.663 </td>
+   <td style="text-align:center;"> 48 </td>
+   <td style="text-align:center;"> 36 </td>
+   <td style="text-align:center;"> 37 </td>
+   <td style="text-align:center;"> 66 </td>
+   <td style="text-align:center;"> 53 </td>
+   <td style="text-align:center;"> 32 </td>
+   <td style="text-align:center;"> 109.035 </td>
+   <td style="text-align:center;"> -9.390 </td>
+   <td style="text-align:center;"> -29.607 </td>
+   <td style="text-align:center;"> 0.282 </td>
+   <td style="text-align:center;"> 0.141 </td>
+   <td style="text-align:center;"> 17.793 </td>
+   <td style="text-align:center;"> 491.138 </td>
+   <td style="text-align:center;"> 2.838 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 744587.3 </td>
+   <td style="text-align:center;"> 6071243 </td>
+   <td style="text-align:center;"> -35.472 </td>
+   <td style="text-align:center;"> -72.304 </td>
+   <td style="text-align:center;"> 127.707 </td>
+   <td style="text-align:center;"> 42 </td>
+   <td style="text-align:center;"> 31 </td>
+   <td style="text-align:center;"> 22 </td>
+   <td style="text-align:center;"> 54 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 17 </td>
+   <td style="text-align:center;"> 82.817 </td>
+   <td style="text-align:center;"> -2.611 </td>
+   <td style="text-align:center;"> -8.038 </td>
+   <td style="text-align:center;"> 0.421 </td>
+   <td style="text-align:center;"> 0.306 </td>
+   <td style="text-align:center;"> 10.933 </td>
+   <td style="text-align:center;"> 466.259 </td>
+   <td style="text-align:center;"> 9.288 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 744797.3 </td>
+   <td style="text-align:center;"> 6071363 </td>
+   <td style="text-align:center;"> -35.471 </td>
+   <td style="text-align:center;"> -72.302 </td>
+   <td style="text-align:center;"> 203.209 </td>
+   <td style="text-align:center;"> 43 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 23 </td>
+   <td style="text-align:center;"> 62 </td>
+   <td style="text-align:center;"> 28 </td>
+   <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 87.794 </td>
+   <td style="text-align:center;"> 3.431 </td>
+   <td style="text-align:center;"> -5.745 </td>
+   <td style="text-align:center;"> 0.459 </td>
+   <td style="text-align:center;"> 0.338 </td>
+   <td style="text-align:center;"> 15.306 </td>
+   <td style="text-align:center;"> 497.456 </td>
+   <td style="text-align:center;"> 13.273 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 745007.3 </td>
+   <td style="text-align:center;"> 6071363 </td>
+   <td style="text-align:center;"> -35.471 </td>
+   <td style="text-align:center;"> -72.300 </td>
+   <td style="text-align:center;"> 101.979 </td>
+   <td style="text-align:center;"> 43 </td>
+   <td style="text-align:center;"> 33 </td>
+   <td style="text-align:center;"> 24 </td>
+   <td style="text-align:center;"> 84 </td>
+   <td style="text-align:center;"> 40 </td>
+   <td style="text-align:center;"> 20 </td>
+   <td style="text-align:center;"> 108.640 </td>
+   <td style="text-align:center;"> 15.278 </td>
+   <td style="text-align:center;"> -15.202 </td>
+   <td style="text-align:center;"> 0.556 </td>
+   <td style="text-align:center;"> 0.347 </td>
+   <td style="text-align:center;"> 28.135 </td>
+   <td style="text-align:center;"> 471.417 </td>
+   <td style="text-align:center;"> 12.141 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 744587.3 </td>
+   <td style="text-align:center;"> 6071423 </td>
+   <td style="text-align:center;"> -35.471 </td>
+   <td style="text-align:center;"> -72.304 </td>
+   <td style="text-align:center;"> 185.372 </td>
+   <td style="text-align:center;"> 44 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 22 </td>
+   <td style="text-align:center;"> 53 </td>
+   <td style="text-align:center;"> 27 </td>
+   <td style="text-align:center;"> 16 </td>
+   <td style="text-align:center;"> 81.422 </td>
+   <td style="text-align:center;"> -2.956 </td>
+   <td style="text-align:center;"> -5.942 </td>
+   <td style="text-align:center;"> 0.413 </td>
+   <td style="text-align:center;"> 0.308 </td>
+   <td style="text-align:center;"> 18.362 </td>
+   <td style="text-align:center;"> 484.353 </td>
+   <td style="text-align:center;"> 9.874 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Filtrar los datos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;"> BIOMAS </th>
+   <th style="text-align:center;"> TM1 </th>
+   <th style="text-align:center;"> TM2 </th>
+   <th style="text-align:center;"> TM3 </th>
+   <th style="text-align:center;"> TM4 </th>
+   <th style="text-align:center;"> TM5 </th>
+   <th style="text-align:center;"> TM7 </th>
+   <th style="text-align:center;"> BRIGHT </th>
+   <th style="text-align:center;"> GREEN </th>
+   <th style="text-align:center;"> MOIST </th>
+   <th style="text-align:center;"> NDVI </th>
+   <th style="text-align:center;"> NDVIC </th>
+   <th style="text-align:center;"> PEND </th>
+   <th style="text-align:center;"> ALT </th>
+   <th style="text-align:center;"> H </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> 164.649 </td>
+   <td style="text-align:center;"> 43 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 23 </td>
+   <td style="text-align:center;"> 57 </td>
+   <td style="text-align:center;"> 26 </td>
+   <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 83.854 </td>
+   <td style="text-align:center;"> -0.004 </td>
+   <td style="text-align:center;"> -4.548 </td>
+   <td style="text-align:center;"> 0.425 </td>
+   <td style="text-align:center;"> 0.321 </td>
+   <td style="text-align:center;"> 6.546 </td>
+   <td style="text-align:center;"> 472.423 </td>
+   <td style="text-align:center;"> 17.106 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 88.663 </td>
+   <td style="text-align:center;"> 48 </td>
+   <td style="text-align:center;"> 36 </td>
+   <td style="text-align:center;"> 37 </td>
+   <td style="text-align:center;"> 66 </td>
+   <td style="text-align:center;"> 53 </td>
+   <td style="text-align:center;"> 32 </td>
+   <td style="text-align:center;"> 109.035 </td>
+   <td style="text-align:center;"> -9.390 </td>
+   <td style="text-align:center;"> -29.607 </td>
+   <td style="text-align:center;"> 0.282 </td>
+   <td style="text-align:center;"> 0.141 </td>
+   <td style="text-align:center;"> 17.793 </td>
+   <td style="text-align:center;"> 491.138 </td>
+   <td style="text-align:center;"> 2.838 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 127.707 </td>
+   <td style="text-align:center;"> 42 </td>
+   <td style="text-align:center;"> 31 </td>
+   <td style="text-align:center;"> 22 </td>
+   <td style="text-align:center;"> 54 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 17 </td>
+   <td style="text-align:center;"> 82.817 </td>
+   <td style="text-align:center;"> -2.611 </td>
+   <td style="text-align:center;"> -8.038 </td>
+   <td style="text-align:center;"> 0.421 </td>
+   <td style="text-align:center;"> 0.306 </td>
+   <td style="text-align:center;"> 10.933 </td>
+   <td style="text-align:center;"> 466.259 </td>
+   <td style="text-align:center;"> 9.288 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 203.209 </td>
+   <td style="text-align:center;"> 43 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 23 </td>
+   <td style="text-align:center;"> 62 </td>
+   <td style="text-align:center;"> 28 </td>
+   <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 87.794 </td>
+   <td style="text-align:center;"> 3.431 </td>
+   <td style="text-align:center;"> -5.745 </td>
+   <td style="text-align:center;"> 0.459 </td>
+   <td style="text-align:center;"> 0.338 </td>
+   <td style="text-align:center;"> 15.306 </td>
+   <td style="text-align:center;"> 497.456 </td>
+   <td style="text-align:center;"> 13.273 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 101.979 </td>
+   <td style="text-align:center;"> 43 </td>
+   <td style="text-align:center;"> 33 </td>
+   <td style="text-align:center;"> 24 </td>
+   <td style="text-align:center;"> 84 </td>
+   <td style="text-align:center;"> 40 </td>
+   <td style="text-align:center;"> 20 </td>
+   <td style="text-align:center;"> 108.640 </td>
+   <td style="text-align:center;"> 15.278 </td>
+   <td style="text-align:center;"> -15.202 </td>
+   <td style="text-align:center;"> 0.556 </td>
+   <td style="text-align:center;"> 0.347 </td>
+   <td style="text-align:center;"> 28.135 </td>
+   <td style="text-align:center;"> 471.417 </td>
+   <td style="text-align:center;"> 12.141 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> 185.372 </td>
+   <td style="text-align:center;"> 44 </td>
+   <td style="text-align:center;"> 29 </td>
+   <td style="text-align:center;"> 22 </td>
+   <td style="text-align:center;"> 53 </td>
+   <td style="text-align:center;"> 27 </td>
+   <td style="text-align:center;"> 16 </td>
+   <td style="text-align:center;"> 81.422 </td>
+   <td style="text-align:center;"> -2.956 </td>
+   <td style="text-align:center;"> -5.942 </td>
+   <td style="text-align:center;"> 0.413 </td>
+   <td style="text-align:center;"> 0.308 </td>
+   <td style="text-align:center;"> 18.362 </td>
+   <td style="text-align:center;"> 484.353 </td>
+   <td style="text-align:center;"> 9.874 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Histograma de variable respuesta</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># histograma de variable respuesta</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data<span class="sc">$</span>BIOMAS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="definición-de-funciones" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="definición-de-funciones"><span class="header-section-number">7.2</span> Definición de Funciones</h2>
+<p>Función para scatterplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># funcion para scatterplot</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plot_prediction <span class="ot">&lt;-</span> <span class="cf">function</span>(obs, pred, <span class="at">main=</span><span class="st">''</span>){</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">cbind</span>(obs, pred)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(x, <span class="at">xlab =</span> <span class="st">'Biomasa observada [kg m-2]'</span>, <span class="at">ylab =</span> <span class="st">'Biomasa predicha [kg m-2]'</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">las=</span><span class="dv">1</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x)), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x)), <span class="at">main=</span>main, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(pred <span class="sc">~</span> obs<span class="dv">-1</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(lm)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">legend</span>(<span class="st">'topleft'</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Linea 1:1'</span>, <span class="st">'Linea ajustada'</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">bty =</span> <span class="st">'n'</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># agregar metricas de ajuste de modelo</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  r2 <span class="ot">&lt;-</span> <span class="fu">round</span>( (<span class="fu">cor</span>(pred, obs)<span class="sc">^</span><span class="dv">2</span>), <span class="dv">2</span>) <span class="co"># solo dos decimales con funcion round</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  NRMSE <span class="ot">&lt;-</span> <span class="fu">round</span>((<span class="fu">sqrt</span>(<span class="fu">mean</span>((obs <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))<span class="sc">/</span>(<span class="fu">max</span>(obs) <span class="sc">-</span> <span class="fu">min</span>(obs))) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>) <span class="co"># RMSE normalizado</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  bias <span class="ot">=</span> <span class="fu">round</span>( (<span class="dv">1</span><span class="sc">-</span><span class="fu">coef</span>(lm))<span class="sc">*-</span><span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">bquote</span>(<span class="fu">paste</span>(r<span class="sc">^</span><span class="dv">2</span> <span class="sc">==</span> .(r2), <span class="st">","</span>, <span class="st">" %RMSE"</span> <span class="sc">==</span> .(NRMSE), <span class="st">"%"</span>, <span class="st">","</span>, <span class="st">" bias"</span> <span class="sc">==</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                       .(bias))), <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">0.5</span>, <span class="at">adj =</span> <span class="dv">0</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualización de Residuos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plot_residuos <span class="ot">&lt;-</span> <span class="cf">function</span>(res, pred, <span class="at">main=</span><span class="st">'Modelo'</span>){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(pred, res, <span class="at">xlab =</span> <span class="st">'Biomasa predicha [kg m-2]'</span>, <span class="at">ylab =</span> <span class="st">'Residuos [kg m-2]'</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">las=</span><span class="dv">1</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">main=</span>main, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.2</span>), <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqnorm</span>(res)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqline</span>(res, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="analisis" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="analisis"><span class="header-section-number">7.3</span> Analisis</h2>
+<section id="análisis-de-significancia-de-corrección" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="análisis-de-significancia-de-corrección"><span class="header-section-number">7.3.1</span> Análisis de Significancia de Corrección</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(data2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>testRes <span class="ot">=</span> <span class="fu">cor.mtest</span>(data2, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="co"># matriz con valores de p</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(corr, <span class="at">p.mat =</span> testRes<span class="sc">$</span>p, <span class="at">type =</span> <span class="st">'lower'</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>) <span class="co"># X a las no sign. con p &gt; 0.05</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data2) <span class="co"># mejor variable segun cor es one_mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            BIOMAS         TM1        TM2         TM3         TM4        TM5
+BIOMAS  1.00000000 -0.31361610 -0.3657966 -0.27179254 -0.46393079 -0.3594047
+TM1    -0.31361610  1.00000000  0.9620088  0.95921101  0.09765849  0.9063002
+TM2    -0.36579661  0.96200881  1.0000000  0.96123400  0.22164639  0.9364134
+TM3    -0.27179254  0.95921101  0.9612340  1.00000000  0.04443123  0.9426152
+TM4    -0.46393079  0.09765849  0.2216464  0.04443123  1.00000000  0.1900475
+TM5    -0.35940473  0.90630018  0.9364134  0.94261521  0.19004752  1.0000000
+TM7    -0.29321630  0.92326124  0.9328171  0.96913153  0.04712320  0.9762178
+BRIGHT -0.46834630  0.87680231  0.9366557  0.87721991  0.50462364  0.9265610
+GREEN   0.06247448 -0.84581862 -0.7924929 -0.89542924  0.39613113 -0.7977948
+MOIST   0.32239600 -0.89367594 -0.9159402 -0.94344351 -0.10547874 -0.9939164
+NDVI    0.11752383 -0.87593057 -0.8298394 -0.93068575  0.31098157 -0.8262571
+NDVIC   0.27767911 -0.91453558 -0.8983385 -0.95949090  0.08793446 -0.9193543
+PEND    0.10787286 -0.29088550 -0.2667467 -0.30306962  0.05054119 -0.1913806
+ALT     0.06590560 -0.34638456 -0.2674291 -0.30541545  0.01988928 -0.2707978
+H       0.60544860 -0.47942172 -0.4819355 -0.43697984 -0.31427651 -0.4823196
+              TM7     BRIGHT       GREEN      MOIST       NDVI       NDVIC
+BIOMAS -0.2932163 -0.4683463  0.06247448  0.3223960  0.1175238  0.27767911
+TM1     0.9232612  0.8768023 -0.84581862 -0.8936759 -0.8759306 -0.91453558
+TM2     0.9328171  0.9366557 -0.79249292 -0.9159402 -0.8298394 -0.89833845
+TM3     0.9691315  0.8772199 -0.89542924 -0.9434435 -0.9306857 -0.95949090
+TM4     0.0471232  0.5046236  0.39613113 -0.1054787  0.3109816  0.08793446
+TM5     0.9762178  0.9265610 -0.79779485 -0.9939164 -0.8262571 -0.91935429
+TM7     1.0000000  0.8752779 -0.88290983 -0.9885743 -0.8979835 -0.94375520
+BRIGHT  0.8752779  1.0000000 -0.59146405 -0.8891844 -0.6518289 -0.79086476
+GREEN  -0.8829098 -0.5914641  1.00000000  0.8369327  0.9869514  0.92129745
+MOIST  -0.9885743 -0.8891844  0.83693272  1.0000000  0.8556265  0.92978569
+NDVI   -0.8979835 -0.6518289  0.98695136  0.8556265  1.0000000  0.95917534
+NDVIC  -0.9437552 -0.7908648  0.92129745  0.9297857  0.9591753  1.00000000
+PEND   -0.2282007 -0.2052176  0.27841863  0.1905210  0.3166394  0.28910470
+ALT    -0.2832766 -0.2524166  0.28856127  0.2690036  0.3035372  0.30633676
+H      -0.4304685 -0.5347813  0.27232831  0.4517838  0.3362205  0.46368280
+              PEND         ALT           H
+BIOMAS  0.10787286  0.06590560  0.60544860
+TM1    -0.29088550 -0.34638456 -0.47942172
+TM2    -0.26674670 -0.26742907 -0.48193548
+TM3    -0.30306962 -0.30541545 -0.43697984
+TM4     0.05054119  0.01988928 -0.31427651
+TM5    -0.19138064 -0.27079776 -0.48231958
+TM7    -0.22820067 -0.28327655 -0.43046847
+BRIGHT -0.20521762 -0.25241661 -0.53478130
+GREEN   0.27841863  0.28856127  0.27232831
+MOIST   0.19052104  0.26900363  0.45178385
+NDVI    0.31663942  0.30353719  0.33622053
+NDVIC   0.28910470  0.30633676  0.46368280
+PEND    1.00000000  0.19853031  0.38709465
+ALT     0.19853031  1.00000000  0.07529796
+H       0.38709465  0.07529796  1.00000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#corr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="validación-cruzada" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="validación-cruzada"><span class="header-section-number">7.3.2</span> Validación Cruzada</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># separar en set de validacion y entrenamiento: Validacion cruzada simple!</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(data2<span class="sc">$</span>BIOMAS, <span class="at">p =</span> <span class="fl">0.6</span>, <span class="at">list =</span> F)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>idx <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Resample1
+[1,]         1
+[2,]         5
+[3,]         8
+[4,]         9
+[5,]        11
+[6,]        12</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 91*0.6 --&gt; 54.6</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># particionar los datos usando los datos generados</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>entrenar <span class="ot">&lt;-</span> data2[idx,  ] <span class="co"># 60% de los datos </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>validar  <span class="ot">&lt;-</span> data2[<span class="sc">-</span>idx, ] <span class="co"># 40% de los datos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="regresiones" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="regresiones"><span class="header-section-number">7.4</span> Regresiones</h2>
+<section id="regresiones-simples" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="regresiones-simples"><span class="header-section-number">7.4.1</span> Regresiones Simples</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(BIOMAS <span class="sc">~</span> H, <span class="at">data =</span> entrenar)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = BIOMAS ~ H, data = entrenar)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-161.91  -31.59  -12.85   18.43  206.26 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   32.623     11.265   2.896  0.00545 ** 
+H              6.921      1.430   4.840 1.12e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 56.64 on 54 degrees of freedom
+Multiple R-squared:  0.3026,    Adjusted R-squared:  0.2897 
+F-statistic: 23.43 on 1 and 54 DF,  p-value: 1.125e-05</code></pre>
+</div>
+</div>
+<p>Referecias para explicar los modelos en R: <span class="citation" data-cites="noauthor_explaining_nodate">(<a href="references.html#ref-noauthor_explaining_nodate" role="doc-biblioref"><span>“Explaining the Lm() <span>Summary</span> in <span>R</span> – <span>Learn</span> by <span>Marketing</span>”</span> n.d.</a>)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effect_plot</span>(lm1, <span class="at">pred =</span> H, <span class="at">interval =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">jitter =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(BIOMAS <span class="sc">~</span> H, <span class="at">data =</span> entrenar, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = BIOMAS ~ H, family = Gamma(link = "log"), data = entrenar)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.8159  -0.8806  -0.1909   0.3185   2.1156  
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.58884    0.17418  20.605  &lt; 2e-16 ***
+H            0.09849    0.02211   4.456 4.25e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.7669877)
+
+    Null deviance: 58.130  on 55  degrees of freedom
+Residual deviance: 43.909  on 54  degrees of freedom
+AIC: 580.9
+
+Number of Fisher Scoring iterations: 7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effect_plot</span>(lm2, <span class="at">pred =</span> H, <span class="at">interval =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">jitter =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="regresión-multiple" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="regresión-multiple"><span class="header-section-number">7.4.2</span> Regresión Multiple</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Regression multiple con todas las variables -----------------------------</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>lm3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(BIOMAS <span class="sc">~</span>., <span class="at">data =</span> entrenar)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = BIOMAS ~ ., data = entrenar)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-100.67  -31.30   -8.14   21.58  182.80 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  4.993e+02  5.815e+02   0.859    0.395
+TM1          9.320e+00  2.906e+01   0.321    0.750
+TM2          1.533e+01  2.822e+01   0.543    0.590
+TM3          1.866e+01  3.699e+01   0.504    0.617
+TM4         -4.582e+00  3.919e+01  -0.117    0.908
+TM5         -1.410e+00  3.274e+01  -0.043    0.966
+TM7         -3.049e+00  2.650e+01  -0.115    0.909
+BRIGHT      -1.498e+01  5.023e+01  -0.298    0.767
+GREEN        2.388e+01  4.312e+01   0.554    0.583
+MOIST       -1.232e+01  4.067e+01  -0.303    0.764
+NDVI        -1.204e+03  1.728e+03  -0.697    0.490
+NDVIC        1.213e+03  8.425e+02   1.440    0.157
+PEND        -2.048e-01  1.008e+00  -0.203    0.840
+ALT          1.759e-02  1.066e-01   0.165    0.870
+H            3.802e+00  2.285e+00   1.664    0.104
+
+Residual standard error: 57.21 on 41 degrees of freedom
+Multiple R-squared:  0.4599,    Adjusted R-squared:  0.2755 
+F-statistic: 2.494 on 14 and 41 DF,  p-value: 0.01162</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effect_plot</span>(lm3, <span class="at">pred =</span> H, <span class="at">interval =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">jitter =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(BIOMAS <span class="sc">~</span>., <span class="at">data =</span> entrenar, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = BIOMAS ~ ., family = Gamma(link = log), data = entrenar)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.4922  -0.7954  -0.1666   0.4182   1.5964  
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  11.099546   9.159715   1.212   0.2325  
+TM1           0.437576   0.457743   0.956   0.3447  
+TM2           0.384137   0.444555   0.864   0.3926  
+TM3           0.448039   0.582720   0.769   0.4464  
+TM4          -0.035895   0.617363  -0.058   0.9539  
+TM5           0.027237   0.515759   0.053   0.9581  
+TM7          -0.018001   0.417409  -0.043   0.9658  
+BRIGHT       -0.503779   0.791271  -0.637   0.5279  
+GREEN         0.627758   0.679168   0.924   0.3607  
+MOIST        -0.271592   0.640674  -0.424   0.6738  
+NDVI        -20.985287  27.223143  -0.771   0.4452  
+NDVIC        15.108460  13.270804   1.138   0.2615  
+PEND          0.001204   0.015875   0.076   0.9399  
+ALT          -0.001040   0.001679  -0.619   0.5391  
+H             0.080295   0.035993   2.231   0.0312 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.8120839)
+
+    Null deviance: 58.13  on 55  degrees of freedom
+Residual deviance: 36.52  on 41  degrees of freedom
+AIC: 595.41
+
+Number of Fisher Scoring iterations: 14</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effect_plot</span>(lm4, <span class="at">pred =</span> H, <span class="at">interval =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">jitter =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="regresión-multiple-con-seleccion-de-variables-stepwise" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="regresión-multiple-con-seleccion-de-variables-stepwise"><span class="header-section-number">7.4.3</span> Regresión multiple con seleccion de variables stepwise</h3>
+<p>Utilizando <code>train()</code> utilizanndo el método “lmStepAIC”, que va a buscar las conbinaciones de modelos lineales, simples, luego con dos, tres, etc., bajo el criterio <code>AIC</code> . <span class="citation" data-cites="kuhn_7_nodate">(<a href="references.html#ref-kuhn_7_nodate" role="doc-biblioref">Kuhn n.d.</a>)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="ot">&lt;-</span> <span class="fu">train</span>(BIOMAS <span class="sc">~</span>., <span class="at">data =</span> entrenar, <span class="at">method =</span> <span class="st">"lmStepAIC"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>lm5<span class="sc">$</span>finalModel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El objeto caret <code>lm5</code> guarda perfectamente cual es el mejor modelo, y se puede usar directamente para predecir, etc. Pero no se lleva bein caret con las funciones anova, AIC, así que vamos a usar las mejores variables y a hacer otro modelo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(BIOMAS <span class="sc">~</span> TM3 <span class="sc">+</span> BRIGHT <span class="sc">+</span> NDVIC <span class="sc">+</span> H, <span class="at">data =</span> entrenar)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = BIOMAS ~ TM3 + BRIGHT + NDVIC + H, data = entrenar)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-99.37 -30.51 -13.02  21.00 181.98 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)  105.909    147.888   0.716  0.47717   
+TM3           10.183      4.256   2.393  0.02045 * 
+BRIGHT        -4.611      1.340  -3.441  0.00116 **
+NDVIC        487.008    305.084   1.596  0.11660   
+H              3.954      1.717   2.303  0.02538 * 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 52.46 on 51 degrees of freedom
+Multiple R-squared:  0.435, Adjusted R-squared:  0.3907 
+F-statistic: 9.818 on 4 and 51 DF,  p-value: 5.74e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effect_plot</span>(lm5, <span class="at">pred =</span> H, <span class="at">interval =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">jitter =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Family: <code>Gamma(link = log)</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lm6 <span class="ot">&lt;-</span> <span class="fu">train</span>(BIOMAS <span class="sc">~</span>., <span class="at">data =</span> entrenar, <span class="at">method =</span> <span class="st">"glmStepAIC"</span>, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>lm6<span class="sc">$</span>finalModel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lm6 <span class="ot">&lt;-</span> <span class="fu">glm</span>(BIOMAS <span class="sc">~</span> TM3 <span class="sc">+</span> BRIGHT <span class="sc">+</span> H, <span class="at">data =</span> entrenar, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">effect_plot</span>(lm6, <span class="at">pred =</span> H, <span class="at">interval =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">jitter =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="información-de-modelos" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="información-de-modelos"><span class="header-section-number">7.5</span> Información de modelos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = BIOMAS ~ H, data = entrenar)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-161.91  -31.59  -12.85   18.43  206.26 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   32.623     11.265   2.896  0.00545 ** 
+H              6.921      1.430   4.840 1.12e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 56.64 on 54 degrees of freedom
+Multiple R-squared:  0.3026,    Adjusted R-squared:  0.2897 
+F-statistic: 23.43 on 1 and 54 DF,  p-value: 1.125e-05</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = BIOMAS ~ H, family = Gamma(link = "log"), data = entrenar)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.8159  -0.8806  -0.1909   0.3185   2.1156  
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.58884    0.17418  20.605  &lt; 2e-16 ***
+H            0.09849    0.02211   4.456 4.25e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.7669877)
+
+    Null deviance: 58.130  on 55  degrees of freedom
+Residual deviance: 43.909  on 54  degrees of freedom
+AIC: 580.9
+
+Number of Fisher Scoring iterations: 7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = BIOMAS ~ ., data = entrenar)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-100.67  -31.30   -8.14   21.58  182.80 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  4.993e+02  5.815e+02   0.859    0.395
+TM1          9.320e+00  2.906e+01   0.321    0.750
+TM2          1.533e+01  2.822e+01   0.543    0.590
+TM3          1.866e+01  3.699e+01   0.504    0.617
+TM4         -4.582e+00  3.919e+01  -0.117    0.908
+TM5         -1.410e+00  3.274e+01  -0.043    0.966
+TM7         -3.049e+00  2.650e+01  -0.115    0.909
+BRIGHT      -1.498e+01  5.023e+01  -0.298    0.767
+GREEN        2.388e+01  4.312e+01   0.554    0.583
+MOIST       -1.232e+01  4.067e+01  -0.303    0.764
+NDVI        -1.204e+03  1.728e+03  -0.697    0.490
+NDVIC        1.213e+03  8.425e+02   1.440    0.157
+PEND        -2.048e-01  1.008e+00  -0.203    0.840
+ALT          1.759e-02  1.066e-01   0.165    0.870
+H            3.802e+00  2.285e+00   1.664    0.104
+
+Residual standard error: 57.21 on 41 degrees of freedom
+Multiple R-squared:  0.4599,    Adjusted R-squared:  0.2755 
+F-statistic: 2.494 on 14 and 41 DF,  p-value: 0.01162</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = BIOMAS ~ ., family = Gamma(link = log), data = entrenar)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.4922  -0.7954  -0.1666   0.4182   1.5964  
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  11.099546   9.159715   1.212   0.2325  
+TM1           0.437576   0.457743   0.956   0.3447  
+TM2           0.384137   0.444555   0.864   0.3926  
+TM3           0.448039   0.582720   0.769   0.4464  
+TM4          -0.035895   0.617363  -0.058   0.9539  
+TM5           0.027237   0.515759   0.053   0.9581  
+TM7          -0.018001   0.417409  -0.043   0.9658  
+BRIGHT       -0.503779   0.791271  -0.637   0.5279  
+GREEN         0.627758   0.679168   0.924   0.3607  
+MOIST        -0.271592   0.640674  -0.424   0.6738  
+NDVI        -20.985287  27.223143  -0.771   0.4452  
+NDVIC        15.108460  13.270804   1.138   0.2615  
+PEND          0.001204   0.015875   0.076   0.9399  
+ALT          -0.001040   0.001679  -0.619   0.5391  
+H             0.080295   0.035993   2.231   0.0312 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.8120839)
+
+    Null deviance: 58.13  on 55  degrees of freedom
+Residual deviance: 36.52  on 41  degrees of freedom
+AIC: 595.41
+
+Number of Fisher Scoring iterations: 14</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = BIOMAS ~ TM3 + BRIGHT + NDVIC + H, data = entrenar)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-99.37 -30.51 -13.02  21.00 181.98 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)  105.909    147.888   0.716  0.47717   
+TM3           10.183      4.256   2.393  0.02045 * 
+BRIGHT        -4.611      1.340  -3.441  0.00116 **
+NDVIC        487.008    305.084   1.596  0.11660   
+H              3.954      1.717   2.303  0.02538 * 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 52.46 on 51 degrees of freedom
+Multiple R-squared:  0.435, Adjusted R-squared:  0.3907 
+F-statistic: 9.818 on 4 and 51 DF,  p-value: 5.74e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = BIOMAS ~ TM3 + BRIGHT + H, family = Gamma(link = "log"), 
+    data = entrenar)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7612  -0.7162  -0.1862   0.3547   1.6836  
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  6.79928    1.37938   4.929 8.82e-06 ***
+TM3          0.05952    0.02484   2.396  0.02021 *  
+BRIGHT      -0.04705    0.01781  -2.641  0.01088 *  
+H            0.07821    0.02458   3.182  0.00247 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.6614027)
+
+    Null deviance: 58.130  on 55  degrees of freedom
+Residual deviance: 39.293  on 52  degrees of freedom
+AIC: 577.95
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+</div>
+<p>Plot de diagnostico</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-20-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-20-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-20-6.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="validación-independientes" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="validación-independientes"><span class="header-section-number">7.6</span> Validación Independientes</h2>
+<section id="predicción" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="predicción"><span class="header-section-number">7.6.1</span> Predicción</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm1, validar, <span class="at">type =</span> <span class="st">'response'</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm2, validar, <span class="at">type =</span> <span class="st">'response'</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>pred3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm3, validar, <span class="at">type =</span> <span class="st">'response'</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>pred4 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm4, validar, <span class="at">type =</span> <span class="st">'response'</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>pred5 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm5, validar, <span class="at">type =</span> <span class="st">'response'</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>pred6 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm6, validar, <span class="at">type =</span> <span class="st">'response'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="r2" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="r2"><span class="header-section-number">7.6.2</span> <span class="math inline">R^2</span></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">postResample</span>(validar<span class="sc">$</span>BIOMAS, pred1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      RMSE   Rsquared        MAE 
+44.4093971  0.4945806 36.5128797 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">postResample</span>(validar<span class="sc">$</span>BIOMAS, pred2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      RMSE   Rsquared        MAE 
+47.5393225  0.4190765 37.4912978 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">postResample</span>(validar<span class="sc">$</span>BIOMAS, pred3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      RMSE   Rsquared        MAE 
+41.9033685  0.5493197 33.2810130 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">postResample</span>(validar<span class="sc">$</span>BIOMAS, pred4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     RMSE  Rsquared       MAE 
+51.073834  0.503803 36.899949 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">postResample</span>(validar<span class="sc">$</span>BIOMAS, pred5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      RMSE   Rsquared        MAE 
+42.2525620  0.5466302 35.0206725 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">postResample</span>(validar<span class="sc">$</span>BIOMAS, pred6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      RMSE   Rsquared        MAE 
+44.5042861  0.5289186 32.5334253 </code></pre>
+</div>
+</div>
+</section>
+<section id="plot-de-valores-predichos-vs-observados" class="level3" data-number="7.6.3">
+<h3 data-number="7.6.3" class="anchored" data-anchor-id="plot-de-valores-predichos-vs-observados"><span class="header-section-number">7.6.3</span> Plot de valores predichos vs observados</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_prediction</span>(validar<span class="sc">$</span>BIOMAS, pred1, <span class="at">main=</span><span class="st">'lm simple'</span>) <span class="co"># nuestra funcion</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_prediction</span>(validar<span class="sc">$</span>BIOMAS, pred2, <span class="at">main=</span><span class="st">'GLM simple'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_prediction</span>(validar<span class="sc">$</span>BIOMAS, pred3, <span class="at">main=</span><span class="st">'lm todo'</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_prediction</span>(validar<span class="sc">$</span>BIOMAS, pred4, <span class="at">main=</span><span class="st">'GLM todo'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_prediction</span>(validar<span class="sc">$</span>BIOMAS, pred5, <span class="at">main=</span><span class="st">'lm seleccion'</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_prediction</span>(validar<span class="sc">$</span>BIOMAS, pred6, <span class="at">main=</span><span class="st">'GLM deleccion'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-23-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="residuos" class="level3" data-number="7.6.4">
+<h3 data-number="7.6.4" class="anchored" data-anchor-id="residuos"><span class="header-section-number">7.6.4</span> Residuos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> validar<span class="sc">$</span>BIOMAS <span class="sc">-</span> pred1</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> validar<span class="sc">$</span>BIOMAS <span class="sc">-</span> pred2</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>res3 <span class="ot">&lt;-</span> validar<span class="sc">$</span>BIOMAS <span class="sc">-</span> pred3</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>res4 <span class="ot">&lt;-</span> validar<span class="sc">$</span>BIOMAS <span class="sc">-</span> pred4</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>res5 <span class="ot">&lt;-</span> validar<span class="sc">$</span>BIOMAS <span class="sc">-</span> pred5</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>res6 <span class="ot">&lt;-</span> validar<span class="sc">$</span>BIOMAS <span class="sc">-</span> pred6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-de-residuos" class="level3" data-number="7.6.5">
+<h3 data-number="7.6.5" class="anchored" data-anchor-id="plot-de-residuos"><span class="header-section-number">7.6.5</span> Plot de residuos</h3>
+<p>Los observados vs los predichos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_residuos</span>(res1, pred1) <span class="co"># nuestra funcion</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_residuos</span>(res2, pred2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_residuos</span>(res3, pred3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_residuos</span>(res4, pred4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-25-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_residuos</span>(res5, pred5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-25-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_residuos</span>(res6, pred6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-25-6.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="histrogramas" class="level3" data-number="7.6.6">
+<h3 data-number="7.6.6" class="anchored" data-anchor-id="histrogramas"><span class="header-section-number">7.6.6</span> Histrogramas</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(res1, <span class="at">main =</span> <span class="st">'lm simple'</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(res2, <span class="at">main =</span> <span class="st">'GLM simple'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(res3, <span class="at">main =</span> <span class="st">'lm todo'</span>)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(res4, <span class="at">main =</span> <span class="st">'GLM todo'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(res5, <span class="at">main =</span> <span class="st">'lm seleccion'</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(res6, <span class="at">main =</span> <span class="st">'GLM seleccion'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-26-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="shapiro-test" class="level3" data-number="7.6.7">
+<h3 data-number="7.6.7" class="anchored" data-anchor-id="shapiro-test"><span class="header-section-number">7.6.7</span> Shapiro Test</h3>
+<blockquote class="blockquote">
+<p>H0 -&gt; dist. normal H1 -&gt; dist. no normal</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(res1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  res1
+W = 0.96422, p-value = 0.3049</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(res2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  res2
+W = 0.94851, p-value = 0.102</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(res3) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  res3
+W = 0.97745, p-value = 0.6747</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(res4) <span class="co"># no normal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  res4
+W = 0.90988, p-value = 0.007368</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(res5) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  res5
+W = 0.97574, p-value = 0.6182</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(res6) <span class="co"># no normal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  res6
+W = 0.92007, p-value = 0.01432</code></pre>
+</div>
+</div>
+</section>
+<section id="significancia-de-las-diferencias" class="level3" data-number="7.6.8">
+<h3 data-number="7.6.8" class="anchored" data-anchor-id="significancia-de-las-diferencias"><span class="header-section-number">7.6.8</span> Significancia de las diferencias</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm1,lm2,lm3,lm4,lm5, lm6) <span class="co"># diferencias entre gaussianos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: BIOMAS ~ H
+Model 2: BIOMAS ~ H
+Model 3: BIOMAS ~ TM1 + TM2 + TM3 + TM4 + TM5 + TM7 + BRIGHT + GREEN + 
+    MOIST + NDVI + NDVIC + PEND + ALT + H
+Model 4: BIOMAS ~ TM1 + TM2 + TM3 + TM4 + TM5 + TM7 + BRIGHT + GREEN + 
+    MOIST + NDVI + NDVIC + PEND + ALT + H
+Model 5: BIOMAS ~ TM3 + BRIGHT + NDVIC + H
+Model 6: BIOMAS ~ TM3 + BRIGHT + H
+  Res.Df    RSS  Df Sum of Sq      F    Pr(&gt;F)    
+1     54 173261                                   
+2     54     44   0    173217                     
+3     41 134181  13   -134137                     
+4     41     37   0    134144                     
+5     51 140355 -10   -140319 4.2876 0.0004042 ***
+6     52     39  -1    140316                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Sería al menos 1 es diferentes o significato, no necesariamente es el 5</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(lm1, lm2, lm3, lm4, lm5, lm6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    df      AIC
+lm1  3 615.0045
+lm2  3 580.9045
+lm3 16 626.6902
+lm4 16 595.4066
+lm5  6 609.2097
+lm6  5 577.9501</code></pre>
+</div>
+</div>
+<p>Se puede estar en desacuerdo con esto, todo depende de su objetivo, el modelo 6 (<code>lm6</code>) es parsimonioso, pero no el que da mejores resultados.</p>
+<p>RSS: Df:</p>
+</section>
+</section>
+<section id="mejor-modelo-con-re-muestreo" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="mejor-modelo-con-re-muestreo"><span class="header-section-number">7.7</span> Mejor modelo con re-muestreo</h2>
+<p>usamos caret para definir un tipo de metodo de re-muestreo para entrenar modelos mas robustos.</p>
+<p><code>savePredictions = TRUE</code> = nos va a guardar los daos internamente en el modelo validacion K-fold, con K=5, y 5 repeticiones aleatoreas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"repeatedcv"</span>, </span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">number =</span> <span class="dv">5</span>, <span class="co"># K</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">repeats =</span> <span class="dv">5</span>, </span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">savePredictions =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Usar mejor modelos agregamos el parametro trControl que nos permite pasar la informacion del tipo de vadilacion cruzada a usar todos los datos, no solo los de entrenar, ya que las particiones se hacen internamente.</p>
+<section id="entrenar-modelos-con-cv" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="entrenar-modelos-con-cv"><span class="header-section-number">7.7.1</span> Entrenar Modelos con cv</h3>
+<p>Modelos 7</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="do">## efecto cantidad de variables en validaciones mas robustas! </span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>lm7 <span class="ot">&lt;-</span> <span class="fu">train</span>(BIOMAS <span class="sc">~</span>., </span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">method =</span> <span class="st">"glm"</span>, </span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> data2, </span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log),</span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">trControl =</span> control)</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+NULL
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.5663  -0.8534  -0.1446   0.3204   1.6855  
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  7.765e+00  5.666e+00   1.370 0.174567    
+TM1          4.150e-01  3.397e-01   1.222 0.225644    
+TM2          2.603e-01  3.413e-01   0.763 0.448091    
+TM3          4.301e-01  4.224e-01   1.018 0.311786    
+TM4         -3.962e-01  4.897e-01  -0.809 0.420965    
+TM5          1.045e-01  3.933e-01   0.266 0.791257    
+TM7          9.071e-02  3.147e-01   0.288 0.773926    
+BRIGHT      -2.014e-01  6.218e-01  -0.324 0.746916    
+GREEN        8.252e-01  5.001e-01   1.650 0.103039    
+MOIST       -7.137e-02  4.807e-01  -0.148 0.882373    
+NDVI        -1.987e+01  1.913e+01  -1.039 0.302292    
+NDVIC        1.530e+01  1.014e+01   1.508 0.135579    
+PEND        -7.538e-03  1.199e-02  -0.629 0.531550    
+ALT         -2.434e-04  1.169e-03  -0.208 0.835610    
+H            8.856e-02  2.510e-02   3.528 0.000714 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.7076406)
+
+    Null deviance: 95.048  on 90  degrees of freedom
+Residual deviance: 55.750  on 76  degrees of freedom
+AIC: 937.46
+
+Number of Fisher Scoring iterations: 11</code></pre>
+</div>
+</div>
+<p>Modelo 6</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>lm8 <span class="ot">&lt;-</span> <span class="fu">train</span>(BIOMAS <span class="sc">~</span> TM3 <span class="sc">+</span> BRIGHT <span class="sc">+</span> H, <span class="co"># los determinados por el train de lm6</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">method =</span> <span class="st">"glm"</span>, </span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> data2, </span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log),</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">trControl =</span> control)</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+NULL
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7172  -0.8079  -0.1219   0.3163   1.8271  
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  6.56495    1.02006   6.436 6.46e-09 ***
+TM3          0.05896    0.01869   3.154 0.002210 ** 
+BRIGHT      -0.04554    0.01333  -3.417 0.000965 ***
+H            0.08557    0.01904   4.495 2.14e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.6453826)
+
+    Null deviance: 95.048  on 90  degrees of freedom
+Residual deviance: 61.377  on 87  degrees of freedom
+AIC: 925.12
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+</div>
+</section>
+<section id="datos-de-ajuste-internos-de-cada-iteración" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="datos-de-ajuste-internos-de-cada-iteración"><span class="header-section-number">7.7.2</span> Datos de ajuste internos de cada iteración</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>lm7<span class="sc">$</span>resample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        RMSE   Rsquared      MAE   Resample
+1   42.08596 0.55062712 34.34071 Fold1.Rep1
+2  164.24473 0.11760861 93.04358 Fold2.Rep1
+3   62.70291 0.36601711 44.95314 Fold3.Rep1
+4   53.79932 0.25253642 39.66982 Fold4.Rep1
+5   82.24359 0.20767591 60.84382 Fold5.Rep1
+6   64.45791 0.22995763 39.02619 Fold1.Rep2
+7  170.00849 0.07854019 82.37425 Fold2.Rep2
+8   43.10085 0.42965684 35.63650 Fold3.Rep2
+9   39.07610 0.57550108 33.40203 Fold4.Rep2
+10  89.18437 0.13761200 72.19029 Fold5.Rep2
+11  64.32318 0.54899375 42.86009 Fold1.Rep3
+12  73.58456 0.40000220 54.21211 Fold2.Rep3
+13  46.76064 0.54345393 38.59701 Fold3.Rep3
+14  31.23562 0.64675677 26.76364 Fold4.Rep3
+15 158.51760 0.17864936 89.69632 Fold5.Rep3
+16 152.52734 0.15959130 77.79163 Fold1.Rep4
+17  41.18393 0.48586434 29.45265 Fold2.Rep4
+18  61.27450 0.45782888 38.05745 Fold3.Rep4
+19  66.67338 0.31925216 49.10811 Fold4.Rep4
+20  52.02723 0.48809468 40.18278 Fold5.Rep4
+21  48.76703 0.52934030 37.69387 Fold1.Rep5
+22  64.96093 0.26812830 45.72222 Fold2.Rep5
+23  61.23993 0.39640010 42.70253 Fold3.Rep5
+24 110.39498 0.07262132 63.72854 Fold4.Rep5
+25  55.79810 0.49990714 41.85867 Fold5.Rep5</code></pre>
+</div>
+</div>
+</section>
+<section id="visualización" class="level3" data-number="7.7.3">
+<h3 data-number="7.7.3" class="anchored" data-anchor-id="visualización"><span class="header-section-number">7.7.3</span> Visualización</h3>
+<p>Visualización de <span class="math inline">R^2</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(lm7<span class="sc">$</span>resample[,<span class="dv">2</span>], <span class="at">main =</span><span class="st">'R2 todo'</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">median</span>(lm7<span class="sc">$</span>resample[,<span class="dv">2</span>]), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(lm8<span class="sc">$</span>resample[,<span class="dv">2</span>], <span class="at">main =</span><span class="st">'R2 (TM3 + BRIGHT + H)'</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">median</span>(lm8<span class="sc">$</span>resample[,<span class="dv">2</span>]), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Visualización de <span class="math inline">RMSE</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(lm7<span class="sc">$</span>resample[,<span class="dv">1</span>], <span class="at">main =</span><span class="st">'RMSE todo'</span>,  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">120</span>))</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">median</span>(lm7<span class="sc">$</span>resample[,<span class="dv">1</span>]), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(lm8<span class="sc">$</span>resample[,<span class="dv">1</span>], <span class="at">main =</span><span class="st">'RMSE (TM3 + BRIGHT + H)'</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">120</span>))</span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">median</span>(lm8<span class="sc">$</span>resample[,<span class="dv">1</span>]), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En este caso tenemos una sitribución de datos</p>
+</section>
+<section id="observados-vs-predichos" class="level3" data-number="7.7.4">
+<h3 data-number="7.7.4" class="anchored" data-anchor-id="observados-vs-predichos"><span class="header-section-number">7.7.4</span> Observados vs predichos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lm7$pred</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>obs7 <span class="ot">&lt;-</span> lm7<span class="sc">$</span>pred[,<span class="dv">2</span>]</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>pred7 <span class="ot">&lt;-</span> lm7<span class="sc">$</span>pred[,<span class="dv">1</span>]</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(obs7, pred7, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>,<span class="fl">0.5</span>,<span class="dv">0</span>,<span class="fl">0.3</span>)) <span class="co"># red, green, blue, alpha</span></span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="co"># intercepto, pendiente</span></span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(pred7 <span class="sc">~</span> obs7 <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm)</span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'topleft'</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Linea 1:1'</span>, <span class="st">'Linea ajustada'</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), </span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"black"</span>), <span class="at">bty =</span> <span class="st">'n'</span>)</span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>obs8 <span class="ot">&lt;-</span> lm8<span class="sc">$</span>pred[,<span class="dv">2</span>]</span>
+<span id="cb102-17"><a href="#cb102-17" aria-hidden="true" tabindex="-1"></a>pred8 <span class="ot">&lt;-</span> lm8<span class="sc">$</span>pred[,<span class="dv">1</span>]</span>
+<span id="cb102-18"><a href="#cb102-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-19"><a href="#cb102-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(obs8, pred8, <span class="at">pch =</span> <span class="dv">17</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>,<span class="fl">0.3</span>))</span>
+<span id="cb102-20"><a href="#cb102-20" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb102-21"><a href="#cb102-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-22"><a href="#cb102-22" aria-hidden="true" tabindex="-1"></a>lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(pred8 <span class="sc">~</span> obs8 <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb102-23"><a href="#cb102-23" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm)</span>
+<span id="cb102-24"><a href="#cb102-24" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'topleft'</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Linea 1:1'</span>, <span class="st">'Linea ajustada'</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), </span>
+<span id="cb102-25"><a href="#cb102-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"black"</span>), <span class="at">bty =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="val_models_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>EN el Eje x son fijas las predicciones, mientras que en las prediccionesn pueden variar.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-noauthor_explaining_nodate" class="csl-entry" role="doc-biblioentry">
+<span>“Explaining the Lm() <span>Summary</span> in <span>R</span> – <span>Learn</span> by <span>Marketing</span>.”</span> n.d. Accessed September 2, 2022. <a href="https://www.learnbymarketing.com/tutorials/explaining-the-lm-summary-in-r/">https://www.learnbymarketing.com/tutorials/explaining-the-lm-summary-in-r/</a>.
+</div>
+<div id="ref-kuhn_7_nodate" class="csl-entry" role="doc-biblioentry">
+Kuhn, Max. n.d. <em>7 Train <span>Models By Tag</span> | <span>The</span> Caret <span>Package</span></em>. Accessed September 9, 2022. <a href="https://topepo.github.io/caret/train-models-by-tag.html">https://topepo.github.io/caret/train-models-by-tag.html</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./regresiones.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./reg_no_lineal.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Denis Berroeta</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

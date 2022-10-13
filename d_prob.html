@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Curso: Bioestadística 2022 - 3&nbsp; Dist. de Probabilidad</title>
+<title>Curso: Bioestadística 2022 - 3&nbsp; Distr. de Probabilidades</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -164,7 +164,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dist. de Probabilidad</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -199,12 +199,37 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./d_prob.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dist. de Probabilidad</span></a>
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./t_limite_central.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Teorema del Límite Central</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./correlaciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Correlaciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./val_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reg_no_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -227,14 +252,14 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#gráficar-en-la-distribución-normal" id="toc-gráficar-en-la-distribución-normal" class="nav-link" data-scroll-target="#gráficar-en-la-distribución-normal"> <span class="header-section-number">3.3.1</span> Gráficar en la Distribución Normal</a></li>
   </ul></li>
-  <li><a href="#estadísgrafos" id="toc-estadísgrafos" class="nav-link" data-scroll-target="#estadísgrafos"> <span class="header-section-number">3.4</span> Estadísgrafos</a></li>
-  <li><a href="#tarea" id="toc-tarea" class="nav-link" data-scroll-target="#tarea"> <span class="header-section-number">3.5</span> Tarea</a>
+  <li><a href="#estadígrafos" id="toc-estadígrafos" class="nav-link" data-scroll-target="#estadígrafos"> <span class="header-section-number">3.4</span> Estadígrafos</a></li>
+  <li><a href="#tarea" id="toc-tarea" class="nav-link" data-scroll-target="#tarea"> <span class="header-section-number">3.5</span> Tarea</a></li>
+  <li><a href="#usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases" id="toc-usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases" class="nav-link" data-scroll-target="#usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases"> <span class="header-section-number">4</span> Usando la distribucion de largos de alas de mariposa que usamos en clases:</a>
   <ul class="collapse">
-  <li><a href="#usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases" id="toc-usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases" class="nav-link" data-scroll-target="#usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases"> <span class="header-section-number">3.5.1</span> Usando la distribucion de largos de alas de mariposa que usamos en clases:</a></li>
-  <li><a href="#asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad" id="toc-asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad" class="nav-link" data-scroll-target="#asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad"> <span class="header-section-number">3.5.2</span> 1. Asumiendo que la muestra es normal, haga un grafico de su distribucion de probabilidad</a></li>
-  <li><a href="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2" id="toc-obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2" class="nav-link" data-scroll-target="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2"> <span class="header-section-number">3.5.3</span> 2. Obtenga la probabilidad de que un valor sea menor a 4.2</a></li>
-  <li><a href="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8" id="toc-obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8" class="nav-link" data-scroll-target="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8"> <span class="header-section-number">3.5.4</span> 3. Obtenga la probabilidad de que un valor sea menor a 4.1 y mayor a 3.8</a></li>
-  <li><a href="#obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5" id="toc-obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5" class="nav-link" data-scroll-target="#obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5"> <span class="header-section-number">3.5.5</span> 4. Obtenga la probabilidad de que un valor sea mayor a 3.5</a></li>
+  <li><a href="#asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad" id="toc-asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad" class="nav-link" data-scroll-target="#asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad"> <span class="header-section-number">4.0.1</span> 1. Asumiendo que la muestra es normal, haga un grafico de su distribucion de probabilidad</a></li>
+  <li><a href="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2" id="toc-obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2" class="nav-link" data-scroll-target="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2"> <span class="header-section-number">4.0.2</span> 2. Obtenga la probabilidad de que un valor sea menor a 4.2</a></li>
+  <li><a href="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8" id="toc-obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8" class="nav-link" data-scroll-target="#obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8"> <span class="header-section-number">4.0.3</span> 3. Obtenga la probabilidad de que un valor sea menor a 4.1 y mayor a 3.8</a></li>
+  <li><a href="#obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5" id="toc-obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5" class="nav-link" data-scroll-target="#obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5"> <span class="header-section-number">4.0.4</span> 4. Obtenga la probabilidad de que un valor sea mayor a 3.5</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -244,7 +269,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="d-prob" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dist. de Probabilidad</span></span></h1>
+<h1 class="title"><span id="d-prob" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></span></h1>
 </div>
 
 
@@ -366,7 +391,7 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </div>
 </div>
 </div>
-<p>diferentes media <span class="math inline">\mu</span> y misma desviación estandar <span class="math inline">\sigma</span></p>
+<p>diferentes media y misma desviación estandar</p>
 <div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">diferentes <span class="math inline">\mu</span> y misma <span class="math inline">\sigma</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Diferente <span class="math inline">\sigma</span> ymismo <span class="math inline">\mu</span></a></li></ul>
 <div class="tab-content">
@@ -397,7 +422,7 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </div>
 </div>
 </div>
-<p>Distribución Acumulada</p>
+<p>Distribuciópn Acumulada</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="dv">1</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>prob <span class="co"># percentage</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -410,11 +435,10 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(xmin, xmax, <span class="at">length=</span><span class="dv">200</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">dnorm</span>(x)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x), <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">ylab =</span> <span class="st">'y'</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">las =</span> <span class="dv">1</span>, </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">main =</span> <span class="st">'Distribucion'</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(xmin, x, xmax), <span class="fu">c</span>(<span class="dv">0</span>, y, <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"gray"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fu">round</span>(prob, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"Red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x), <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">ylab =</span> <span class="st">'y'</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">'Distribucion'</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(xmin, x, xmax), <span class="fu">c</span>(<span class="dv">0</span>, y, <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"gray"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fu">round</span>(prob, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"Red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="d_prob_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -470,8 +494,8 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </div>
 </section>
 </section>
-<section id="estadísgrafos" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="estadísgrafos"><span class="header-section-number">3.4</span> Estadísgrafos</h2>
+<section id="estadígrafos" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="estadígrafos"><span class="header-section-number">3.4</span> Estadígrafos</h2>
 <p><strong>Quantile–quantile plot (Q-Q plot)</strong>: Gráfico traza las muestras clasificadas de nuestra distribución contra un número similar de cuantiles clasificados tomados de una distribución normal. Si la muestra está distribuida normalmente, la línea será recta. Las desviaciones de la normalidad aparecen como varios tipos de no linealidad (por ejemplo, formas de S o formas de plátano). Las funciones que necesita son qqnorm y qqline (gráfico de cuantiles contra una distribución normal):</p>
 <div class="columns">
 <div class="column" style="width:40%;">
@@ -483,8 +507,9 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </section>
 <section id="tarea" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="tarea"><span class="header-section-number">3.5</span> Tarea</h2>
-<section id="usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases"><span class="header-section-number">3.5.1</span> Usando la distribucion de largos de alas de mariposa que usamos en clases:</h3>
+</section>
+<section id="usando-la-distribucion-de-largos-de-alas-de-mariposa-que-usamos-en-clases" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Usando la distribucion de largos de alas de mariposa que usamos en clases:</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.3</span>,<span class="fl">3.5</span>,<span class="fl">3.6</span>,<span class="fl">3.6</span>,<span class="fl">3.7</span>,<span class="fl">3.8</span>,</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="fl">3.8</span>,<span class="fl">3.8</span>,<span class="fl">3.9</span>,<span class="fl">3.9</span>,<span class="fl">3.9</span>,<span class="fl">4.0</span>,</span>
@@ -496,9 +521,8 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 <p><img src="d_prob_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section>
-<section id="asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad" class="level3" data-number="3.5.2">
-<h3 data-number="3.5.2" class="anchored" data-anchor-id="asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad"><span class="header-section-number">3.5.2</span> 1. Asumiendo que la muestra es normal, haga un grafico de su distribucion de probabilidad</h3>
+<section id="asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="asumiendo-que-la-muestra-es-normal-haga-un-grafico-de-su-distribucion-de-probabilidad"><span class="header-section-number">4.0.1</span> 1. Asumiendo que la muestra es normal, haga un grafico de su distribucion de probabilidad</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> W</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -516,8 +540,8 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </div>
 </div>
 </section>
-<section id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2" class="level3" data-number="3.5.3">
-<h3 data-number="3.5.3" class="anchored" data-anchor-id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2"><span class="header-section-number">3.5.3</span> 2. Obtenga la probabilidad de que un valor sea menor a 4.2</h3>
+<section id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2" class="level3" data-number="4.0.2">
+<h3 data-number="4.0.2" class="anchored" data-anchor-id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.2"><span class="header-section-number">4.0.2</span> 2. Obtenga la probabilidad de que un valor sea menor a 4.2</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x,  <span class="at">mean =</span> <span class="fu">mean</span>(W), <span class="at">sd =</span> <span class="fu">sd</span>(W))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="at">x =</span> <span class="fl">4.2</span>, <span class="at">mean =</span> <span class="fu">mean</span>(W), <span class="at">sd =</span> <span class="fu">sd</span>(W))</span>
@@ -544,8 +568,8 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </div>
 </div>
 </section>
-<section id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8" class="level3" data-number="3.5.4">
-<h3 data-number="3.5.4" class="anchored" data-anchor-id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8"><span class="header-section-number">3.5.4</span> 3. Obtenga la probabilidad de que un valor sea menor a 4.1 y mayor a 3.8</h3>
+<section id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8" class="level3" data-number="4.0.3">
+<h3 data-number="4.0.3" class="anchored" data-anchor-id="obtenga-la-probabilidad-de-que-un-valor-sea-menor-a-4.1-y-mayor-a-3.8"><span class="header-section-number">4.0.3</span> 3. Obtenga la probabilidad de que un valor sea menor a 4.1 y mayor a 3.8</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x,  <span class="at">mean =</span> <span class="fu">mean</span>(W), <span class="at">sd =</span> <span class="fu">sd</span>(W))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="at">x =</span> <span class="fl">4.2</span>, <span class="at">mean =</span> <span class="fu">mean</span>(W), <span class="at">sd =</span> <span class="fu">sd</span>(W))</span>
@@ -572,11 +596,8 @@ F(x)\equiv P(X\leq x) = \sum_{x_i\leq x}p(x_i)
 </div>
 </div>
 </section>
-<section id="obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5" class="level3" data-number="3.5.5">
-<h3 data-number="3.5.5" class="anchored" data-anchor-id="obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5"><span class="header-section-number">3.5.5</span> 4. Obtenga la probabilidad de que un valor sea mayor a 3.5</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En Proceso</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5" class="level3" data-number="4.0.4">
+<h3 data-number="4.0.4" class="anchored" data-anchor-id="obtenga-la-probabilidad-de-que-un-valor-sea-mayor-a-3.5"><span class="header-section-number">4.0.4</span> 4. Obtenga la probabilidad de que un valor sea mayor a 3.5</h3>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
