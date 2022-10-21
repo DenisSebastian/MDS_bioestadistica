@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Curso: Bioestadística 2022 - 11&nbsp; Ancova</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./anova.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Curso: Bioestadística 2022</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamendos Básicos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./t_limite_central.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Teorema del Límite Central</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./correlaciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Correlaciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./val_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reg_no_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diseno_exp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ancova.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#one-way-ancova" id="toc-one-way-ancova" class="nav-link active" data-scroll-target="#one-way-ancova"> <span class="header-section-number">11.1</span> One-way ANCOVA</a>
+  <ul class="collapse">
+  <li><a href="#two-way-ancova" id="toc-two-way-ancova" class="nav-link" data-scroll-target="#two-way-ancova"> <span class="header-section-number">11.1.1</span> Two-way ANCOVA</a></li>
+  </ul></li>
+  <li><a href="#sección-práctica-ancova" id="toc-sección-práctica-ancova" class="nav-link" data-scroll-target="#sección-práctica-ancova"> <span class="header-section-number">11.2</span> Sección Práctica Ancova</a></li>
+  <li><a href="#anova-con-parcelas-dividadas" id="toc-anova-con-parcelas-dividadas" class="nav-link" data-scroll-target="#anova-con-parcelas-dividadas"> <span class="header-section-number">11.3</span> ANOVA con parcelas dividadas</a>
+  <ul class="collapse">
+  <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos"> <span class="header-section-number">11.3.1</span> Carga de datos</a></li>
+  <li><a href="#modelo-anova" id="toc-modelo-anova" class="nav-link" data-scroll-target="#modelo-anova"> <span class="header-section-number">11.3.2</span> Modelo ANOVA</a></li>
+  <li><a href="#modelo-anova-con-declaracion-de-error" id="toc-modelo-anova-con-declaracion-de-error" class="nav-link" data-scroll-target="#modelo-anova-con-declaracion-de-error"> <span class="header-section-number">11.3.3</span> Modelo ANOVA con declaracion de Error</a></li>
+  <li><a href="#graficos-de-interacción" id="toc-graficos-de-interacción" class="nav-link" data-scroll-target="#graficos-de-interacción"> <span class="header-section-number">11.3.4</span> Graficos de interacción</a></li>
+  <li><a href="#interacción-entre-variables" id="toc-interacción-entre-variables" class="nav-link" data-scroll-target="#interacción-entre-variables"> <span class="header-section-number">11.3.5</span> Interacción entre variables</a></li>
+  </ul></li>
+  <li><a href="#anova-con-muestreo-anidado-bloque" id="toc-anova-con-muestreo-anidado-bloque" class="nav-link" data-scroll-target="#anova-con-muestreo-anidado-bloque"> <span class="header-section-number">11.4</span> ANOVA con muestreo anidado (bloque)</a>
+  <ul class="collapse">
+  <li><a href="#lectura-de-datos" id="toc-lectura-de-datos" class="nav-link" data-scroll-target="#lectura-de-datos"> <span class="header-section-number">11.4.1</span> Lectura de Datos</a></li>
+  <li><a href="#one-way-anova" id="toc-one-way-anova" class="nav-link" data-scroll-target="#one-way-anova"> <span class="header-section-number">11.4.2</span> one-way ANOVA</a></li>
+  <li><a href="#two-way-anova" id="toc-two-way-anova" class="nav-link" data-scroll-target="#two-way-anova"> <span class="header-section-number">11.4.3</span> two-way ANOVA</a></li>
+  </ul></li>
+  <li><a href="#one-way-ancova-1" id="toc-one-way-ancova-1" class="nav-link" data-scroll-target="#one-way-ancova-1"> <span class="header-section-number">11.5</span> one-way ANCOVA</a>
+  <ul class="collapse">
+  <li><a href="#cargar-datos" id="toc-cargar-datos" class="nav-link" data-scroll-target="#cargar-datos"> <span class="header-section-number">11.5.1</span> Cargar Datos</a></li>
+  <li><a href="#ploteo-relacion-entre-variables" id="toc-ploteo-relacion-entre-variables" class="nav-link" data-scroll-target="#ploteo-relacion-entre-variables"> <span class="header-section-number">11.5.2</span> Ploteo relacion entre variables</a></li>
+  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"> <span class="header-section-number">11.5.3</span> ANOVA</a></li>
+  <li><a href="#regresion" id="toc-regresion" class="nav-link" data-scroll-target="#regresion"> <span class="header-section-number">11.5.4</span> Regresion</a></li>
+  <li><a href="#ancoca" id="toc-ancoca" class="nav-link" data-scroll-target="#ancoca"> <span class="header-section-number">11.5.5</span> ANCOCA</a></li>
+  <li><a href="#resumen-de-los-modelos" id="toc-resumen-de-los-modelos" class="nav-link" data-scroll-target="#resumen-de-los-modelos"> <span class="header-section-number">11.5.6</span> Resumen de los Modelos</a></li>
+  <li><a href="#simplificacion-del-modelo" id="toc-simplificacion-del-modelo" class="nav-link" data-scroll-target="#simplificacion-del-modelo"> <span class="header-section-number">11.5.7</span> Simplificacion del modelo</a></li>
+  </ul></li>
+  <li><a href="#ancova-con-dos-factores-y-una-variable-continua" id="toc-ancova-con-dos-factores-y-una-variable-continua" class="nav-link" data-scroll-target="#ancova-con-dos-factores-y-una-variable-continua"> <span class="header-section-number">11.6</span> ANCOVA con dos factores y una variable continua</a>
+  <ul class="collapse">
+  <li><a href="#cargar-los-datos" id="toc-cargar-los-datos" class="nav-link" data-scroll-target="#cargar-los-datos"> <span class="header-section-number">11.6.1</span> Cargar los Datos</a></li>
+  <li><a href="#ancova-multiple" id="toc-ancova-multiple" class="nav-link" data-scroll-target="#ancova-multiple"> <span class="header-section-number">11.6.2</span> ANCOVA multiple</a></li>
+  </ul></li>
+  <li><a href="#evaluación-de-modelo-ancova-multiple" id="toc-evaluación-de-modelo-ancova-multiple" class="nav-link" data-scroll-target="#evaluación-de-modelo-ancova-multiple"> <span class="header-section-number">11.7</span> Evaluación de Modelo Ancova Multiple</a>
+  <ul class="collapse">
+  <li><a href="#normalidad-de-residuos" id="toc-normalidad-de-residuos" class="nav-link" data-scroll-target="#normalidad-de-residuos"> <span class="header-section-number">11.7.1</span> Normalidad de residuos</a></li>
+  <li><a href="#visualización-relación-entre-variables" id="toc-visualización-relación-entre-variables" class="nav-link" data-scroll-target="#visualización-relación-entre-variables"> <span class="header-section-number">11.7.2</span> Visualización relación entre variables</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-anova" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="one-way-ancova" class="level2 page-columns page-full" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="one-way-ancova"><span class="header-section-number">11.1</span> One-way ANCOVA</h2>
+<p><strong>Regresión + ANOVA.</strong></p>
+<p>La idea acá es combinar variables continuas con factores para analizar. Se puede pensar como un ANOVA donde hay una co-variable continua que es interesante para el estudio. O como una regresión con una co-variable factorial…</p>
+<div id="fig-one-way-ancova" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/one_way_ancova.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 11.1: Datos para análisis One Way Ancova</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Ejemplo:</strong></p>
+<p>Experimento sobre el impacto del pastoreo en la producción de semillas de una planta. 40 plantas fueron asignadas a dos tratamientos, pastoreadas y no pastoreadas. Las plantas pastoreadas fueron expuestas a los conejos durante las dos primeras semanas de elongación del tallo. A continuación, se protegieron del pastoreo posterior mediante la instalación de una valla y se les permitió volver a crecer. Dado que el tamaño inicial de la planta se pensó que podía influir en la producción de fruta, se midió el diámetro de la parte superior del portainjerto (sobre la raíz) antes de plantar en maceta. Al final de la temporada de cultivo, se registró la producción de fruta (peso seco en miligramos) en cada una de las 40 plantas, y esto constituye la variable de respuesta en el siguiente análisis.</p>
+<p>Data:</p>
+<pre><code>- Fuit (variable Y, contínua)
+- Root (variable X, contínua)
+- Grazing (variable X, factorial)</code></pre>
+<p>¿Cómo afecta el tipo de pastoreo (factor) y el diámetro del tallo sobre la raíz (continua) a la producción de semilla y fruta de la planta?</p>
+<div id="fig-graph_ancova" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/graph_ancova.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 11.2: Efectos de pastoreo (Grazed)</figcaption><p></p>
+</figure>
+</div>
+<div id="fig-ancova-lm" class="quarto-layout-panel">
+<p></p><figcaption>Figure 11.3: One-way ANCOVA</figcaption><p></p>
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="images/ancova-lm.png" class="img-fluid figure-img"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="images/summary-ancova-lm.png" class="img-fluid figure-img"></p>
+</div>
+</div>
+</figure>
+</div>
+<p><strong>Ejemplo:</strong></p>
+<p>El siguiente experimento, con el peso como variable de respuesta, incluía el genotipo y el sexo como dos variables explicativas categóricas y la edad como covariable continua. Hay seis niveles de genotipo y dos niveles de sexo.</p>
+<p><code>Peso ~ genotipo(factor) + sexo(factor) + edad(numérica)</code></p>
+<div id="fig-summary_eg" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/summary_eg.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 11.4: Summary del Ejemplo propuesto</figcaption><p></p>
+</figure>
+</div>
+<section id="two-way-ancova" class="level3 page-columns page-full" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="two-way-ancova"><span class="header-section-number">11.1.1</span> Two-way ANCOVA</h3>
+<p>Usar stepwise selección automática para hacer el modelo más simple?</p>
+<p><code>Step()</code> hace el trabajo similar a lo hecho en caret con los modelos de regresión: prueba todas las combinaciones de variables y elije la mas parsimoniosa según AIC:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Weight<span class="sc">~</span>Sex<span class="sc">*</span>Age<span class="sc">*</span>Genotype)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Sex               1  10.37  10.374 183.440 1.06e-15 ***
+Age               1  10.77  10.770 190.450 6.03e-16 ***
+Genotype          5  54.96  10.992 194.371  &lt; 2e-16 ***
+Sex:Age           1   0.05   0.049   0.865    0.358    
+Sex:Genotype      5   0.15   0.029   0.520    0.760    
+Age:Genotype      5   0.17   0.034   0.595    0.704    
+Sex:Age:Genotype  5   0.35   0.070   1.235    0.313    
+Residuals        36   2.04   0.057                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">step</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=-155.01
+Weight ~ Sex * Age * Genotype
+
+                   Df Sum of Sq    RSS     AIC
+- Sex:Age:Genotype  5   0.34912 2.3849 -155.51
+&lt;none&gt;                          2.0358 -155.01
+
+Step:  AIC=-155.51
+Weight ~ Sex + Age + Genotype + Sex:Age + Sex:Genotype + Age:Genotype
+
+               Df Sum of Sq    RSS     AIC
+- Sex:Genotype  5  0.146901 2.5318 -161.92
+- Age:Genotype  5  0.168136 2.5531 -161.42
+- Sex:Age       1  0.048937 2.4339 -156.29
+&lt;none&gt;                      2.3849 -155.51
+
+Step:  AIC=-161.92
+Weight ~ Sex + Age + Genotype + Sex:Age + Age:Genotype
+
+               Df Sum of Sq    RSS     AIC
+- Age:Genotype  5  0.168136 2.7000 -168.07
+- Sex:Age       1  0.048937 2.5808 -162.78
+&lt;none&gt;                      2.5318 -161.92
+
+Step:  AIC=-168.07
+Weight ~ Sex + Age + Genotype + Sex:Age
+
+           Df Sum of Sq    RSS      AIC
+- Sex:Age   1     0.049  2.749 -168.989
+&lt;none&gt;                   2.700 -168.066
+- Genotype  5    54.958 57.658    5.612
+
+Step:  AIC=-168.99
+Weight ~ Sex + Age + Genotype
+
+           Df Sum of Sq    RSS      AIC
+&lt;none&gt;                   2.749 -168.989
+- Sex       1    10.374 13.122  -77.201
+- Age       1    10.770 13.519  -75.415
+- Genotype  5    54.958 57.707    3.662</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)    
+Sex          1  10.37  10.374   196.2 &lt;2e-16 ***
+Age          1  10.77  10.770   203.7 &lt;2e-16 ***
+Genotype     5  54.96  10.992   207.9 &lt;2e-16 ***
+Residuals   52   2.75   0.053                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = Weight ~ Sex + Age + Genotype)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.40005 -0.15120 -0.01668  0.16953  0.49227 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     7.93701    0.10066  78.851  &lt; 2e-16 ***
+Sexmale        -0.83161    0.05937 -14.008  &lt; 2e-16 ***
+Age             0.29958    0.02099  14.273  &lt; 2e-16 ***
+GenotypeCloneB  0.96778    0.10282   9.412 8.07e-13 ***
+GenotypeCloneC -1.04361    0.10282 -10.149 6.21e-14 ***
+GenotypeCloneD  0.82396    0.10282   8.013 1.21e-10 ***
+GenotypeCloneE -0.87540    0.10282  -8.514 1.98e-11 ***
+GenotypeCloneF  1.53460    0.10282  14.925  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2299 on 52 degrees of freedom
+Multiple R-squared:  0.9651,    Adjusted R-squared:  0.9604 
+F-statistic: 205.7 on 7 and 52 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Diferencias de Modelos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Weight ~ Sex * Age * Genotype
+Model 2: Weight ~ Sex + Age + Genotype
+  Res.Df    RSS  Df Sum of Sq      F Pr(&gt;F)
+1     36 2.0358                            
+2     52 2.7489 -16   -0.7131 0.7881 0.6883</code></pre>
+</div>
+</div>
+<p>Normalidad en los Residuos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(m2<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  m2$residuals
+W = 0.98321, p-value = 0.5782</code></pre>
+</div>
+</div>
+<p>Distribución de los residuos</p>
+<div id="fig-residuos_ancova" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/plot_residuos_ancova.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 11.5: Distribución de Residuos Ancova</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="sección-práctica-ancova" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="sección-práctica-ancova"><span class="header-section-number">11.2</span> Sección Práctica Ancova</h2>
+</section>
+<section id="anova-con-parcelas-dividadas" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="anova-con-parcelas-dividadas"><span class="header-section-number">11.3</span> ANOVA con parcelas dividadas</h2>
+<section id="carga-de-datos" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="carga-de-datos"><span class="header-section-number">11.3.1</span> Carga de datos</h3>
+<p>Tipos de suelo y cosecha (yield) en cultivos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/splityield.txt'</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># estructura de los datos</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   72 obs. of  5 variables:
+ $ yield     : int  90 95 107 92 89 92 81 92 93 80 ...
+ $ block     : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...
+ $ irrigation: Factor w/ 2 levels "control","irrigated": 1 1 1 1 1 1 1 1 1 2 ...
+ $ density   : Factor w/ 3 levels "high","low","medium": 2 2 2 3 3 3 1 1 1 2 ...
+ $ fertilizer: Factor w/ 3 levels "N","NP","P": 1 3 2 1 3 2 1 3 2 1 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     yield        block      irrigation   density   fertilizer
+ Min.   : 60.00   A:18   control  :36   high  :24   N :24     
+ 1st Qu.: 86.00   B:18   irrigated:36   low   :24   NP:24     
+ Median : 95.00   C:18                  medium:24   P :24     
+ Mean   : 99.72   D:18                                        
+ 3rd Qu.:114.00                                               
+ Max.   :136.00                                               </code></pre>
+</div>
+</div>
+<p>Fertilizantes:</p>
+<ul>
+<li><span class="math inline">N</span>: Nitrogeno</li>
+<li><span class="math inline">P</span>: Fósforo</li>
+</ul>
+</section>
+<section id="modelo-anova" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="modelo-anova"><span class="header-section-number">11.3.2</span> Modelo ANOVA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA normal que hacemos siempre</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(yield <span class="sc">~</span> irrigation<span class="sc">*</span>density<span class="sc">*</span>fertilizer, <span class="at">data =</span> data)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+irrigation                     1   8278    8278  59.575 2.81e-10 ***
+density                        2   1758     879   6.328  0.00340 ** 
+fertilizer                     2   1977     989   7.116  0.00181 ** 
+irrigation:density             2   2747    1374   9.885  0.00022 ***
+irrigation:fertilizer          2    953     477   3.431  0.03956 *  
+density:fertilizer             4    305      76   0.549  0.70082    
+irrigation:density:fertilizer  4    235      59   0.422  0.79183    
+Residuals                     54   7503     139                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="modelo-anova-con-declaracion-de-error" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="modelo-anova-con-declaracion-de-error"><span class="header-section-number">11.3.3</span> Modelo ANOVA con declaracion de Error</h3>
+<p>Se debe poner los bloques de mayor a menor tamano separados por un parentesis. El tamano mas pequeno no es necesario ponerlo</p>
+<p>(por defecto se sabe que el que no se pone es el ultimo)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(yield <span class="sc">~</span> irrigation <span class="sc">*</span> density <span class="sc">*</span> fertilizer  <span class="sc">+</span> <span class="fu">Error</span>(block <span class="sc">/</span> irrigation <span class="sc">/</span> density), <span class="at">data =</span> data)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Error: block
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals  3  194.4   64.81               
+
+Error: block:irrigation
+           Df Sum Sq Mean Sq F value Pr(&gt;F)  
+irrigation  1   8278    8278   17.59 0.0247 *
+Residuals   3   1412     471                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Error: block:irrigation:density
+                   Df Sum Sq Mean Sq F value Pr(&gt;F)  
+density             2   1758   879.2   3.784 0.0532 .
+irrigation:density  2   2747  1373.5   5.912 0.0163 *
+Residuals          12   2788   232.3                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Error: Within
+                              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+fertilizer                     2 1977.4   988.7  11.449 0.000142 ***
+irrigation:fertilizer          2  953.4   476.7   5.520 0.008108 ** 
+density:fertilizer             4  304.9    76.2   0.883 0.484053    
+irrigation:density:fertilizer  4  234.7    58.7   0.680 0.610667    
+Residuals                     36 3108.8    86.4                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="graficos-de-interacción" class="level3" data-number="11.3.4">
+<h3 data-number="11.3.4" class="anchored" data-anchor-id="graficos-de-interacción"><span class="header-section-number">11.3.4</span> Graficos de interacción</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ver interacciones entre fertilizacion y riego</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(data<span class="sc">$</span>fertilizer, data<span class="sc">$</span>irrigation, data<span class="sc">$</span>yield)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ancova_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ver interacciones entre densidad y riego</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(data<span class="sc">$</span>density, data<span class="sc">$</span>irrigation, data<span class="sc">$</span>yield)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ancova_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="interacción-entre-variables" class="level3" data-number="11.3.5">
+<h3 data-number="11.3.5" class="anchored" data-anchor-id="interacción-entre-variables"><span class="header-section-number">11.3.5</span> Interacción entre variables</h3>
+<p>Interaccion entre variables usando el paquete effects. Se debe usar modelo lm en este caso</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>lattice theme set by effectsTheme()
+See ?effectsTheme for details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hacer un modelo lm. No es necasario los terminos de error, ya que es solo para ver interacciones en un grafico</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>model2_b <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield <span class="sc">~</span> irrigation<span class="sc">*</span>density<span class="sc">*</span>fertilizer, <span class="at">data =</span> data) <span class="co"># es el mismo que model1, pero con la funcion lm</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>effects <span class="ot">&lt;-</span> <span class="fu">allEffects</span>(model2_b)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(effects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ancova_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="anova-con-muestreo-anidado-bloque" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="anova-con-muestreo-anidado-bloque"><span class="header-section-number">11.4</span> ANOVA con muestreo anidado (bloque)</h2>
+<section id="lectura-de-datos" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="lectura-de-datos"><span class="header-section-number">11.4.1</span> Lectura de Datos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Carga de datos ---------------------------------------------------------</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../data/crop.data.csv'</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   96 obs. of  4 variables:
+ $ density   : int  1 2 1 2 1 2 1 2 1 2 ...
+ $ block     : int  1 2 3 4 1 2 3 4 1 2 ...
+ $ fertilizer: int  1 1 1 1 1 1 1 1 1 1 ...
+ $ yield     : num  177 178 176 178 177 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># se fijan, hay tratamientos de fertilizacion 1, 2, 3 en cada bloque</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data[data<span class="sc">$</span>block <span class="sc">==</span> <span class="dv">4</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   density block fertilizer    yield
+4        2     4          1 177.7036
+8        2     4          1 177.0612
+12       2     4          1 177.0305
+16       2     4          1 176.0084
+20       2     4          1 176.9188
+24       2     4          1 176.8179
+28       2     4          1 177.1649
+32       2     4          1 175.8828
+36       2     4          2 177.3608
+40       2     4          2 177.9980
+44       2     4          2 177.0341
+48       2     4          2 177.1977
+52       2     4          2 176.8191
+56       2     4          2 176.6683
+60       2     4          2 176.8789
+64       2     4          2 177.3526
+68       2     4          3 177.5403
+72       2     4          3 176.4308
+76       2     4          3 177.3442
+80       2     4          3 179.0609
+84       2     4          3 177.7945
+88       2     4          3 177.6328
+92       2     4          3 177.4053
+96       2     4          3 177.1182</code></pre>
+</div>
+</div>
+</section>
+<section id="one-way-anova" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="one-way-anova"><span class="header-section-number">11.4.2</span> one-way ANOVA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(yield <span class="sc">~</span> fertilizer, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+fertilizer   1   5.74   5.743   14.91 0.000207 ***
+Residuals   94  36.21   0.385                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(yield <span class="sc">~</span> <span class="fu">as.factor</span>(fertilizer), <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = yield ~ as.factor(fertilizer), data = data)
+
+$`as.factor(fertilizer)`
+         diff         lwr       upr     p adj
+2-1 0.1761687 -0.19371896 0.5460564 0.4954705
+3-1 0.5991256  0.22923789 0.9690133 0.0006125
+3-2 0.4229569  0.05306916 0.7928445 0.0208735</code></pre>
+</div>
+</div>
+</section>
+<section id="two-way-anova" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="two-way-anova"><span class="header-section-number">11.4.3</span> two-way ANOVA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(yield <span class="sc">~</span> fertilizer <span class="sc">+</span> density, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+fertilizer   1  5.743   5.743   17.18 7.49e-05 ***
+density      1  5.122   5.122   15.32 0.000173 ***
+Residuals   93 31.089   0.334                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(yield <span class="sc">~</span> fertilizer <span class="sc">*</span> density, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+fertilizer          1  5.743   5.743  17.078  7.9e-05 ***
+density             1  5.122   5.122  15.230 0.000181 ***
+fertilizer:density  1  0.150   0.150   0.447 0.505630    
+Residuals          92 30.939   0.336                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Agregar bloque ----------------------------------------------------------</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(yield <span class="sc">~</span> fertilizer <span class="sc">+</span> density <span class="sc">+</span> block, <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+fertilizer   1  5.743   5.743  17.265 7.27e-05 ***
+density      1  5.122   5.122  15.397 0.000168 ***
+block        1  0.486   0.486   1.461 0.229823    
+Residuals   92 30.603   0.333                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LO IMPORTANTE ACA ES QUE LA IMPORTANCIA DEL BLOQUE ES BAJA. SE LOGRA ELIMINAR SU EFECTO</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="one-way-ancova-1" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="one-way-ancova-1"><span class="header-section-number">11.5</span> one-way ANCOVA</h2>
+<section id="cargar-datos" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="cargar-datos"><span class="header-section-number">11.5.1</span> Cargar Datos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Carga de datos ----------------------------------------------------------</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>regrowth <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/ipomopsis.txt'</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(regrowth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Root"    "Fruit"   "Grazing"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(regrowth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   40 obs. of  3 variables:
+ $ Root   : num  6.22 6.49 4.92 5.13 5.42 ...
+ $ Fruit  : num  59.8 61 14.7 19.3 34.2 ...
+ $ Grazing: Factor w/ 2 levels "Grazed","Ungrazed": 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(regrowth<span class="sc">$</span>Grazing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Grazed"   "Ungrazed"</code></pre>
+</div>
+</div>
+</section>
+<section id="ploteo-relacion-entre-variables" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="ploteo-relacion-entre-variables"><span class="header-section-number">11.5.2</span> Ploteo relacion entre variables</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot de la relacion entre cantidad de fruta, tamano de raiz y clases de riego</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(regrowth<span class="sc">$</span>Root, regrowth<span class="sc">$</span>Fruit, <span class="at">pch =</span> <span class="dv">16</span> <span class="sc">+</span> <span class="fu">as.numeric</span>(regrowth<span class="sc">$</span>Grazing),</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)[<span class="fu">as.numeric</span>(regrowth<span class="sc">$</span>Grazing)],</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Tamaño de la raíz"</span>, <span class="at">ylab =</span> <span class="st">"Cantidad de fruta"</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Fruit[Grazing <span class="sc">==</span> <span class="st">"Grazed"</span>] <span class="sc">~</span> Root[Grazing <span class="sc">==</span> <span class="st">"Grazed"</span>], <span class="at">data =</span> regrowth),</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Fruit[Grazing <span class="sc">==</span> <span class="st">"Ungrazed"</span>] <span class="sc">~</span> Root[Grazing <span class="sc">==</span> <span class="st">"Ungrazed"</span>], <span class="at">data =</span> regrowth),</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'topleft'</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">'Grazed'</span>, <span class="st">'Ungrazed'</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ancova_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="anova" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="anova"><span class="header-section-number">11.5.3</span> ANOVA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(Fruit <span class="sc">~</span> Grazing, <span class="at">data =</span> regrowth))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+Grazing      1   2910  2910.4   5.309 0.0268 *
+Residuals   38  20833   548.2                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="regresion" class="level3" data-number="11.5.4">
+<h3 data-number="11.5.4" class="anchored" data-anchor-id="regresion"><span class="header-section-number">11.5.4</span> Regresion</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Fruit <span class="sc">~</span> Root, <span class="at">data =</span> regrowth))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Fruit ~ Root, data = regrowth)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-29.3844 -10.4447  -0.7574  10.7606  23.7556 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -41.286     10.723  -3.850 0.000439 ***
+Root          14.022      1.463   9.584  1.1e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 13.52 on 38 degrees of freedom
+Multiple R-squared:  0.7073,    Adjusted R-squared:  0.6996 
+F-statistic: 91.84 on 1 and 38 DF,  p-value: 1.099e-11</code></pre>
+</div>
+</div>
+</section>
+<section id="ancoca" class="level3" data-number="11.5.5">
+<h3 data-number="11.5.5" class="anchored" data-anchor-id="ancoca"><span class="header-section-number">11.5.5</span> ANCOCA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ANCOVA</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>ancova <span class="ot">&lt;-</span> <span class="fu">aov</span>(Fruit <span class="sc">~</span> Root<span class="sc">*</span>Grazing, <span class="at">data =</span> regrowth)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Root -&gt; variable continua</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Grazing -&gt; Factor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resumen-de-los-modelos" class="level3" data-number="11.5.6">
+<h3 data-number="11.5.6" class="anchored" data-anchor-id="resumen-de-los-modelos"><span class="header-section-number">11.5.6</span> Resumen de los Modelos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Root          1  16795   16795 359.968  &lt; 2e-16 ***
+Grazing       1   5264    5264 112.832 1.21e-12 ***
+Root:Grazing  1      5       5   0.103     0.75    
+Residuals    36   1680      47                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = Fruit ~ Root * Grazing, data = regrowth)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-17.3177  -2.8320   0.1247   3.8511  17.1313 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          -125.173     12.811  -9.771 1.15e-11 ***
+Root                   23.240      1.531  15.182  &lt; 2e-16 ***
+GrazingUngrazed        30.806     16.842   1.829   0.0757 .  
+Root:GrazingUngrazed    0.756      2.354   0.321   0.7500    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 6.831 on 36 degrees of freedom
+Multiple R-squared:  0.9293,    Adjusted R-squared:  0.9234 
+F-statistic: 157.6 on 3 and 36 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="simplificacion-del-modelo" class="level3" data-number="11.5.7">
+<h3 data-number="11.5.7" class="anchored" data-anchor-id="simplificacion-del-modelo"><span class="header-section-number">11.5.7</span> Simplificacion del modelo</h3>
+<p><strong>Alternativa 1</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>ancova2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Fruit <span class="sc">~</span> Grazing <span class="sc">+</span> Root, <span class="at">data =</span> regrowth)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ancova2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value  Pr(&gt;F)    
+Grazing      1   2910    2910   63.93 1.4e-09 ***
+Root         1  19149   19149  420.62 &lt; 2e-16 ***
+Residuals   37   1684      46                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p><strong>Alternativa 2</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>ancova2 <span class="ot">&lt;-</span> <span class="fu">update</span>(ancova, <span class="sc">~</span> . <span class="sc">-</span> Grazing<span class="sc">:</span>Root)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ancova2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Root         1  16795   16795   368.9  &lt; 2e-16 ***
+Grazing      1   5264    5264   115.6 6.11e-13 ***
+Residuals   37   1684      46                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Comparación de las simplificaciones</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># la diferencia es significativa?</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(ancova, ancova2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Fruit ~ Root * Grazing
+Model 2: Fruit ~ Root + Grazing
+  Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+1     36 1679.7                           
+2     37 1684.5 -1   -4.8122 0.1031   0.75</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(ancova, ancova2) <span class="co"># AIC ancova2 es menor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        df      AIC
+ancova   5 273.0135
+ancova2  4 271.1279</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ancova2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Root         1  16795   16795   368.9  &lt; 2e-16 ***
+Grazing      1   5264    5264   115.6 6.11e-13 ***
+Residuals   37   1684      46                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(ancova2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = Fruit ~ Root + Grazing, data = regrowth)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-17.1920  -2.8224   0.3223   3.9144  17.3290 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     -127.829      9.664  -13.23 1.35e-15 ***
+Root              23.560      1.149   20.51  &lt; 2e-16 ***
+GrazingUngrazed   36.103      3.357   10.75 6.11e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 6.747 on 37 degrees of freedom
+Multiple R-squared:  0.9291,    Adjusted R-squared:  0.9252 
+F-statistic: 242.3 on 2 and 37 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intercept es Grazinggrazed (es la primera variable)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Evaluación de Modelos con la función <code>step()</code></p>
+<p>Se puede hacer una simplificacion de modelos automaticamente tambien usando la funcion step() la funcion es similar a lo que hicimos anteriormente en regresión, prueba todas las combinaicones de terminos y variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="do">## step() -----------------------------------------------------------------</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">step</span>(ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=157.5
+Fruit ~ Root * Grazing
+
+               Df Sum of Sq    RSS    AIC
+- Root:Grazing  1    4.8122 1684.5 155.61
+&lt;none&gt;                      1679.7 157.50
+
+Step:  AIC=155.61
+Fruit ~ Root + Grazing
+
+          Df Sum of Sq     RSS    AIC
+&lt;none&gt;                  1684.5 155.61
+- Grazing  1    5264.4  6948.8 210.30
+- Root     1   19148.9 20833.4 254.22</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+   aov(formula = Fruit ~ Root + Grazing, data = regrowth)
+
+Terms:
+                     Root   Grazing Residuals
+Sum of Squares  16795.002  5264.374  1684.461
+Deg. of Freedom         1         1        37
+
+Residual standard error: 6.747294
+Estimated effects may be unbalanced</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>ancova2 <span class="ot">&lt;-</span> <span class="fu">step</span>(ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=157.5
+Fruit ~ Root * Grazing
+
+               Df Sum of Sq    RSS    AIC
+- Root:Grazing  1    4.8122 1684.5 155.61
+&lt;none&gt;                      1679.7 157.50
+
+Step:  AIC=155.61
+Fruit ~ Root + Grazing
+
+          Df Sum of Sq     RSS    AIC
+&lt;none&gt;                  1684.5 155.61
+- Grazing  1    5264.4  6948.8 210.30
+- Root     1   19148.9 20833.4 254.22</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(ancova2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Root         1  16795   16795   368.9  &lt; 2e-16 ***
+Grazing      1   5264    5264   115.6 6.11e-13 ***
+Residuals   37   1684      46                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="ancova-con-dos-factores-y-una-variable-continua" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="ancova-con-dos-factores-y-una-variable-continua"><span class="header-section-number">11.6</span> ANCOVA con dos factores y una variable continua</h2>
+<section id="cargar-los-datos" class="level3" data-number="11.6.1">
+<h3 data-number="11.6.1" class="anchored" data-anchor-id="cargar-los-datos"><span class="header-section-number">11.6.1</span> Cargar los Datos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>Gain <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/Gain.txt'</span>,</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">header=</span>T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(Gain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from Gain (pos = 5):
+
+    Age, Genotype, Score, Sex, Weight</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Gain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Weight"   "Sex"      "Age"      "Genotype" "Score"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Gain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   60 obs. of  5 variables:
+ $ Weight  : num  7.45 8 7.71 8.35 8.45 ...
+ $ Sex     : Factor w/ 2 levels "female","male": 2 2 2 2 2 2 2 2 2 2 ...
+ $ Age     : int  1 2 3 4 5 1 2 3 4 5 ...
+ $ Genotype: Factor w/ 6 levels "CloneA","CloneB",..: 1 1 1 1 1 2 2 2 2 2 ...
+ $ Score   : num  4 4 4 4 4 5 5 5 5 5 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="ancova-multiple" class="level3" data-number="11.6.2">
+<h3 data-number="11.6.2" class="anchored" data-anchor-id="ancova-multiple"><span class="header-section-number">11.6.2</span> ANCOVA multiple</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(Weight <span class="sc">~</span> Sex<span class="sc">*</span>Age<span class="sc">*</span>Genotype) <span class="co"># argumento data no se utiliza</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Sex -&gt; factor</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Age -&gt; variable continua</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Genotype -&gt; factor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Sex               1  10.37  10.374 183.440 1.06e-15 ***
+Age               1  10.77  10.770 190.450 6.03e-16 ***
+Genotype          5  54.96  10.992 194.371  &lt; 2e-16 ***
+Sex:Age           1   0.05   0.049   0.865    0.358    
+Sex:Genotype      5   0.15   0.029   0.520    0.760    
+Age:Genotype      5   0.17   0.034   0.595    0.704    
+Sex:Age:Genotype  5   0.35   0.070   1.235    0.313    
+Residuals        36   2.04   0.057                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = Weight ~ Sex * Age * Genotype)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.40218 -0.12043 -0.01065  0.12592  0.44687 
+
+Coefficients:
+                           Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                 7.80053    0.24941  31.276  &lt; 2e-16 ***
+Sexmale                    -0.51966    0.35272  -1.473  0.14936    
+Age                         0.34950    0.07520   4.648 4.39e-05 ***
+GenotypeCloneB              1.19870    0.35272   3.398  0.00167 ** 
+GenotypeCloneC             -0.41751    0.35272  -1.184  0.24429    
+GenotypeCloneD              0.95600    0.35272   2.710  0.01023 *  
+GenotypeCloneE             -0.81604    0.35272  -2.314  0.02651 *  
+GenotypeCloneF              1.66851    0.35272   4.730 3.41e-05 ***
+Sexmale:Age                -0.11283    0.10635  -1.061  0.29579    
+Sexmale:GenotypeCloneB     -0.31716    0.49882  -0.636  0.52891    
+Sexmale:GenotypeCloneC     -1.06234    0.49882  -2.130  0.04010 *  
+Sexmale:GenotypeCloneD     -0.73547    0.49882  -1.474  0.14906    
+Sexmale:GenotypeCloneE     -0.28533    0.49882  -0.572  0.57087    
+Sexmale:GenotypeCloneF     -0.19839    0.49882  -0.398  0.69319    
+Age:GenotypeCloneB         -0.10146    0.10635  -0.954  0.34643    
+Age:GenotypeCloneC         -0.20825    0.10635  -1.958  0.05799 .  
+Age:GenotypeCloneD         -0.01757    0.10635  -0.165  0.86970    
+Age:GenotypeCloneE         -0.03825    0.10635  -0.360  0.72123    
+Age:GenotypeCloneF         -0.05512    0.10635  -0.518  0.60743    
+Sexmale:Age:GenotypeCloneB  0.15469    0.15040   1.029  0.31055    
+Sexmale:Age:GenotypeCloneC  0.35322    0.15040   2.349  0.02446 *  
+Sexmale:Age:GenotypeCloneD  0.19227    0.15040   1.278  0.20929    
+Sexmale:Age:GenotypeCloneE  0.13203    0.15040   0.878  0.38585    
+Sexmale:Age:GenotypeCloneF  0.08709    0.15040   0.579  0.56616    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2378 on 36 degrees of freedom
+Multiple R-squared:  0.9742,    Adjusted R-squared:  0.9577 
+F-statistic: 59.06 on 23 and 36 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="evaluación-de-modelo-ancova-multiple" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="evaluación-de-modelo-ancova-multiple"><span class="header-section-number">11.7</span> Evaluación de Modelo Ancova Multiple</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="do">## step() -----------------------------------------------------------------</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">step</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=-155.01
+Weight ~ Sex * Age * Genotype
+
+                   Df Sum of Sq    RSS     AIC
+- Sex:Age:Genotype  5   0.34912 2.3849 -155.51
+&lt;none&gt;                          2.0358 -155.01
+
+Step:  AIC=-155.51
+Weight ~ Sex + Age + Genotype + Sex:Age + Sex:Genotype + Age:Genotype
+
+               Df Sum of Sq    RSS     AIC
+- Sex:Genotype  5  0.146901 2.5318 -161.92
+- Age:Genotype  5  0.168136 2.5531 -161.42
+- Sex:Age       1  0.048937 2.4339 -156.29
+&lt;none&gt;                      2.3849 -155.51
+
+Step:  AIC=-161.92
+Weight ~ Sex + Age + Genotype + Sex:Age + Age:Genotype
+
+               Df Sum of Sq    RSS     AIC
+- Age:Genotype  5  0.168136 2.7000 -168.07
+- Sex:Age       1  0.048937 2.5808 -162.78
+&lt;none&gt;                      2.5318 -161.92
+
+Step:  AIC=-168.07
+Weight ~ Sex + Age + Genotype + Sex:Age
+
+           Df Sum of Sq    RSS      AIC
+- Sex:Age   1     0.049  2.749 -168.989
+&lt;none&gt;                   2.700 -168.066
+- Genotype  5    54.958 57.658    5.612
+
+Step:  AIC=-168.99
+Weight ~ Sex + Age + Genotype
+
+           Df Sum of Sq    RSS      AIC
+&lt;none&gt;                   2.749 -168.989
+- Sex       1    10.374 13.122  -77.201
+- Age       1    10.770 13.519  -75.415
+- Genotype  5    54.958 57.707    3.662</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)    
+Sex          1  10.37  10.374   196.2 &lt;2e-16 ***
+Age          1  10.77  10.770   203.7 &lt;2e-16 ***
+Genotype     5  54.96  10.992   207.9 &lt;2e-16 ***
+Residuals   52   2.75   0.053                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+aov(formula = Weight ~ Sex + Age + Genotype)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.40005 -0.15120 -0.01668  0.16953  0.49227 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     7.93701    0.10066  78.851  &lt; 2e-16 ***
+Sexmale        -0.83161    0.05937 -14.008  &lt; 2e-16 ***
+Age             0.29958    0.02099  14.273  &lt; 2e-16 ***
+GenotypeCloneB  0.96778    0.10282   9.412 8.07e-13 ***
+GenotypeCloneC -1.04361    0.10282 -10.149 6.21e-14 ***
+GenotypeCloneD  0.82396    0.10282   8.013 1.21e-10 ***
+GenotypeCloneE -0.87540    0.10282  -8.514 1.98e-11 ***
+GenotypeCloneF  1.53460    0.10282  14.925  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2299 on 52 degrees of freedom
+Multiple R-squared:  0.9651,    Adjusted R-squared:  0.9604 
+F-statistic: 205.7 on 7 and 52 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Weight ~ Sex * Age * Genotype
+Model 2: Weight ~ Sex + Age + Genotype
+  Res.Df    RSS  Df Sum of Sq      F Pr(&gt;F)
+1     36 2.0358                            
+2     52 2.7489 -16   -0.7131 0.7881 0.6883</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1, m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   df       AIC
+m1 25 17.265355
+m2  9  3.283978</code></pre>
+</div>
+</div>
+<section id="normalidad-de-residuos" class="level3" data-number="11.7.1">
+<h3 data-number="11.7.1" class="anchored" data-anchor-id="normalidad-de-residuos"><span class="header-section-number">11.7.1</span> Normalidad de residuos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shapiro test de normalidad en los residuos</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(m2<span class="sc">$</span>residuals) <span class="co"># son normales</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  m2$residuals
+W = 0.98321, p-value = 0.5782</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ancova_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
+</div>
+</div>
+</section>
+<section id="visualización-relación-entre-variables" class="level3" data-number="11.7.2">
+<h3 data-number="11.7.2" class="anchored" data-anchor-id="visualización-relación-entre-variables"><span class="header-section-number">11.7.2</span> Visualización relación entre variables</h3>
+<p>Gráfico de las relaciones entre peso y edad en relacion a las clases de genotipo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Age, Weight, <span class="at">type =</span> <span class="st">"n"</span>)</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>colours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"blue"</span>)</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>lines <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>symbols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">17</span>)</span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Age, Weight, <span class="at">pch =</span> symbols[<span class="fu">as.numeric</span>(Sex)],</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> colours[<span class="fu">as.numeric</span>(Genotype)])</span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>xv <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> <span class="fu">coef</span>(m2)[<span class="dv">1</span>]<span class="sc">+</span>(i<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">*</span> <span class="fu">coef</span>(m2)[<span class="dv">2</span>]<span class="sc">+</span>(j<span class="sc">&gt;</span><span class="dv">1</span>)<span class="sc">*</span><span class="fu">coef</span>(m2)[j<span class="sc">+</span><span class="dv">2</span>]</span>
+<span id="cb105-12"><a href="#cb105-12" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> <span class="fu">coef</span>(m2)[<span class="dv">3</span>]</span>
+<span id="cb105-13"><a href="#cb105-13" aria-hidden="true" tabindex="-1"></a>    yv <span class="ot">&lt;-</span> a<span class="sc">+</span>b<span class="sc">*</span>xv</span>
+<span id="cb105-14"><a href="#cb105-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(xv,yv,<span class="at">lty=</span>lines[i],<span class="at">col=</span>colours[j]) } }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ancova_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./anova.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Denis Berroeta</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

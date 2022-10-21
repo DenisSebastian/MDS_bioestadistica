@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Curso: Bioestadística 2022 - 9&nbsp; Diseño de Experimentos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./anova.html" rel="next">
+<link href="./reg_no_lineal.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Curso: Bioestadística 2022</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamendos Básicos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./t_limite_central.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Teorema del Límite Central</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./correlaciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Correlaciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./val_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reg_no_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diseno_exp.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ancova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#test-de-hipótesis" id="toc-test-de-hipótesis" class="nav-link active" data-scroll-target="#test-de-hipótesis"> <span class="header-section-number">9.1</span> Test de Hipótesis</a>
+  <ul class="collapse">
+  <li><a href="#región-de-rechazo-y-aceptación" id="toc-región-de-rechazo-y-aceptación" class="nav-link" data-scroll-target="#región-de-rechazo-y-aceptación"> <span class="header-section-number">9.1.1</span> Región de rechazo y aceptación</a></li>
+  <li><a href="#valor-crítico" id="toc-valor-crítico" class="nav-link" data-scroll-target="#valor-crítico"> <span class="header-section-number">9.1.2</span> Valor Crítico</a></li>
+  <li><a href="#errores-tipo-i-y-ii" id="toc-errores-tipo-i-y-ii" class="nav-link" data-scroll-target="#errores-tipo-i-y-ii"> <span class="header-section-number">9.1.3</span> Errores tipo I y II</a></li>
+  </ul></li>
+  <li><a href="#p-valor" id="toc-p-valor" class="nav-link" data-scroll-target="#p-valor"> <span class="header-section-number">9.2</span> P-Valor</a></li>
+  <li><a href="#aplicabilidad-qué-test-debo-usar" id="toc-aplicabilidad-qué-test-debo-usar" class="nav-link" data-scroll-target="#aplicabilidad-qué-test-debo-usar"> <span class="header-section-number">9.3</span> Aplicabilidad: ¿Qué test debo usar?</a>
+  <ul class="collapse">
+  <li><a href="#comparar-dos-muestras" id="toc-comparar-dos-muestras" class="nav-link" data-scroll-target="#comparar-dos-muestras"> <span class="header-section-number">9.3.1</span> Comparar dos muestras</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="regresiones" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="test-de-hipótesis" class="level2 page-columns page-full" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="test-de-hipótesis"><span class="header-section-number">9.1</span> Test de Hipótesis</h2>
+<p>El objetivo principal de la estadística es hacer inferencias sobre poblaciones a partir de muestras.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/test_hip.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Descripción de Test de Hipótesis</figcaption><p></p>
+</figure>
+</div>
+<p>El objetivo es decidir, basado en una muestra de la población, si existe evidencia suficiente para rechazar la hipótesis nula.</p>
+<section id="región-de-rechazo-y-aceptación" class="level3 page-columns page-full" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="región-de-rechazo-y-aceptación"><span class="header-section-number">9.1.1</span> Región de rechazo y aceptación</h3>
+<p>Normalmente, un test de hipótesis se especifica en base a un estadístico (ej., <span class="math inline">Z, t, F</span>). Es decir, una función que determina un valor dada la muestra de datos sobre la <span class="math inline">H_0</span>. Todo test se hace en base a <span class="math inline">H_0</span>.</p>
+<p>El procedimiento de un test de hipótesis debe especificar:</p>
+<ul>
+<li>Para que valores la hipótesis <span class="math inline">H_0</span> se considera “<em>verdadera</em>”; realmente no existe evidencia suficiente para rechazar <span class="math inline">H_0</span>.</li>
+<li>Para que valores la hipótesis <span class="math inline">H_0</span> se rechaza y <span class="math inline">H_1</span> es “aceptada” como verdad; realmente no hay suficiente información para aceptar <span class="math inline">H_0</span>.</li>
+</ul>
+<p>Los valores para los cuales el test de hipótesis se rechaza se denomina región de rechazo o región crítica. El complemento de esta región se denomina región de aceptación.</p>
+<p><strong>Colas</strong></p>
+<p>Normalmente existen dos tipos de test de hipótesis, de una cola y de dos colas.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/TH_colas.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Colas en Test de Hipótesis</figcaption><p></p>
+</figure>
+</div>
+<p>La probabilidad de rechazar <span class="math inline">H_0</span> se conoce como nivel de significancia (significance level), y se denota con la letra griega alfa. Ej., <span class="math inline">\alpha = 0.05 (5%)</span></p>
+<p>El valor del estadígrafo utilizado en el test (ej., Z, t, F) correspondiente a α se conoce como valor crítico (critical value)</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/two_tails.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Eg. Test dos colas</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="valor-crítico" class="level3 page-columns page-full" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="valor-crítico"><span class="header-section-number">9.1.2</span> Valor Crítico</h3>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/v_critico.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Eg. Valor Crítico</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="errores-tipo-i-y-ii" class="level3 page-columns page-full" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="errores-tipo-i-y-ii"><span class="header-section-number">9.1.3</span> Errores tipo I y II</h3>
+<p><strong>Error Tipo 1</strong></p>
+<p>Es muy importante darse cuenta de que una hipótesis nula verdadera en ocasiones será rechazada. Además, este error se cometerá con una frecuencia de <span class="math inline">\alpha</span> (e.g.&nbsp;<span class="math inline">\alpha = 0.05</span>)</p>
+<p>El rechazo de una hipótesis nula cuando en realidad es verdadera es lo que se conoce como <strong><em>Error Tipo 1</em></strong></p>
+<p><strong>Error Tipo 2</strong></p>
+<p>The probability of not rejecting th null hypothesis when it in fact false is represented by <span class="math inline">\beta</span> <strong><em>Error Tipo 2</em></strong></p>
+<p>La potencia de una prueba estadística se define como <span class="math inline">1-\beta</span></p>
+<p><strong>Conculsión de los Errores</strong></p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/errores.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Conculsión de los errores</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/dist_errores.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Gráfico de errores</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="p-valor" class="level2 page-columns page-full" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="p-valor"><span class="header-section-number">9.2</span> P-Valor</h2>
+<p>Determinar la región crítica basado en un valor <span class="math inline">\alpha</span> solo podemos tomar una decisión binaria sobre la hipótesis, sin info. suficiente para “rechazar” o “aceptar” <span class="math inline">H_0</span>.</p>
+<p>Dado un estadístico <span class="math inline">W_{(X)}</span>, el <em>p-valor</em> de un test de hipótesis es la probabilidad de obtener un resultado igual o más extremo que el estadístico observado <span class="math inline">W(x)=w</span>, asumiendo <span class="math inline">H_0</span> como verdad.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/conc_pvalue.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Conceptualización Probalística del <em>p-value</em></figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li><p>Un p-valor bajo =&gt; que es muy poco probable haber obtenido <span class="math inline">W_{(x)}</span> (ej., <span class="math inline">p &lt; 0.05</span> … no hay evidencia suficiente para aceptar …(se rechaza)… <span class="math inline">H_0</span>).</p></li>
+<li><p>Un <em>p-valor</em> alto =&gt; que es muy probable haber obtenido <span class="math inline">W_{(x)}</span> (ej., <span class="math inline">p &gt; 0.05</span> … se acepta <span class="math inline">H_0</span>)</p></li>
+</ul>
+</section>
+<section id="aplicabilidad-qué-test-debo-usar" class="level2 page-columns page-full" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="aplicabilidad-qué-test-debo-usar"><span class="header-section-number">9.3</span> Aplicabilidad: ¿Qué test debo usar?</h2>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/decision_test.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Árbol de decisión para seleccionar test</figcaption><p></p>
+</figure>
+</div>
+<section id="comparar-dos-muestras" class="level3 page-columns page-full" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="comparar-dos-muestras"><span class="header-section-number">9.3.1</span> Comparar dos muestras</h3>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/tab_comp_muestras.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Comparar dos muestras</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Comparar dos medias</strong></p>
+<p>¿Qué probabilidad hay de que nuestras dos medias muestrales procedan de dos poblaciones con la misma media?</p>
+<ol type="a">
+<li>Es muy probable → Las dos medias muestrales no son signiﬁcativamente diferentes.</li>
+<li>Es bastante improbable → Las medias muestrales son signiﬁcativamente diferentes.</li>
+</ol>
+<p>Si esta probabilidad es muy baja (digamos, menos del 5% o menos del 1%), entonces podemos estar razonablemente seguros (95% o 99% en estos dos ejemplos) de que las medias son realmente diferentes entre sí.</p>
+<p>OJO!: hay que tener en cuenta que nunca podemos estar seguros al 100%; la diferencia aparente podría deberse simplemente a un muestreo aleatorio, es decir, que hemos obtenido muchos valores bajos en una muestra y muchos valores altos en la otra (error de diseño muestral)</p>
+<p><strong>t Student:</strong></p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/t-student.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">t Student</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/se_diff.png" class="img-fluid figure-img" style="width:20.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Error Estandas de las Diferencias</figcaption><p></p>
+</figure>
+</div>
+<p>Ejemplo: Ver si las medias de dos muestras de datos de n=20 difieren:</p>
+<ul>
+<li>DF = 20 – 2 = 18 (- 2 por que en este caso son dos poblaciones, no una)</li>
+<li>Nivel de significancia: Normalmente utilizamos el 5% como probabilidad de rechazar la hipótesis nula cuando es verdadera (es la tasa de error de tipo I). Puede cambiar dependiendo de la aplicación o el campo de estudio (e.g., 10% o 1%).</li>
+<li>Valor crítico: Este test es típicamente de dos colas, y el valor crítico que se usa para ver si se acepta o rechaza <span class="math inline">H_0</span> sería:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># porqué 0.975 envés de 0.95? por qué el test es de dos colas, </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># y el nivel de significancia se divide en dos </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">18</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.100922</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valor crítico!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Esto significa que nuestro estadístico t de prueba tiene que ser mayor que 2,1 (valor crítico) para rechazar la hipótesis nula y, por tanto concluir que las dos medias son signiﬁcativamente diferentes a α = 0,05.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(gardenA, gardenB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/box_notchs.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Prueba visual: Usar boxplot con muescas (notchs)</figcaption><p></p>
+</figure>
+</div>
+<p>En R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(A, B, <span class="at">notch=</span><span class="cn">TRUE</span>, <span class="at">xlab=</span><span class="st">"Garden"</span>, <span class="at">ylab=</span><span class="st">"Ozone"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/box_notchs_test.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Prueba visual en R</figcaption><p></p>
+</figure>
+</div>
+<p>Visualmente las muescas no se sobrelapan, se podría concluir que las medias de las dos distribuciones son significativamente diferentes al nivel de 5%</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./reg_no_lineal.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./anova.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Denis Berroeta</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

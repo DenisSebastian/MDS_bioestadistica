@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Curso: Bioestadística 2022 - 9&nbsp; Anova</title>
+<title>Curso: Bioestadística 2022 - 10&nbsp; Anova</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -88,8 +88,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./reg_no_lineal.html" rel="prev">
+<link href="./ancova.html" rel="next">
+<link href="./diseno_exp.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -139,13 +139,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -210,7 +210,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./anova.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  <a href="./diseno_exp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ancova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -227,39 +237,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sección-práctica-anova" id="toc-sección-práctica-anova" class="nav-link active" data-scroll-target="#sección-práctica-anova"> <span class="header-section-number">9.1</span> Sección Práctica Anova</a>
+  <li><a href="#tipos-de-modelos-predictivos-en-r" id="toc-tipos-de-modelos-predictivos-en-r" class="nav-link active" data-scroll-target="#tipos-de-modelos-predictivos-en-r"> <span class="header-section-number">10.0.1</span> Tipos de modelos predictivos en R</a></li>
+  <li><a href="#anova-análisis-de-varianza" id="toc-anova-análisis-de-varianza" class="nav-link" data-scroll-target="#anova-análisis-de-varianza"> <span class="header-section-number">10.1</span> ANOVA: Análisis de Varianza</a></li>
+  <li><a href="#on-way-anova" id="toc-on-way-anova" class="nav-link" data-scroll-target="#on-way-anova"> <span class="header-section-number">10.2</span> On-Way ANOVA</a></li>
+  <li><a href="#experimento-factorial-two-way-anova" id="toc-experimento-factorial-two-way-anova" class="nav-link" data-scroll-target="#experimento-factorial-two-way-anova"> <span class="header-section-number">10.3</span> Experimento factorial (Two-Way ANOVA)</a></li>
+  <li><a href="#pseudoreplicación-diseños-anidados-y-parcelas-divididas" id="toc-pseudoreplicación-diseños-anidados-y-parcelas-divididas" class="nav-link" data-scroll-target="#pseudoreplicación-diseños-anidados-y-parcelas-divididas"> <span class="header-section-number">10.4</span> Pseudoreplicación: Diseños anidados y parcelas divididas</a>
   <ul class="collapse">
-  <li><a href="#tratamiento-a-los-datos" id="toc-tratamiento-a-los-datos" class="nav-link" data-scroll-target="#tratamiento-a-los-datos"> <span class="header-section-number">9.1.1</span> Tratamiento a los Datos</a></li>
-  <li><a href="#test-de-bartlett" id="toc-test-de-bartlett" class="nav-link" data-scroll-target="#test-de-bartlett"> <span class="header-section-number">9.1.2</span> Test de Bartlett</a></li>
-  <li><a href="#one-way-anova" id="toc-one-way-anova" class="nav-link" data-scroll-target="#one-way-anova"> <span class="header-section-number">9.1.3</span> one-way ANOVA</a></li>
-  <li><a href="#normalidad-de-los-residuos" id="toc-normalidad-de-los-residuos" class="nav-link" data-scroll-target="#normalidad-de-los-residuos"> <span class="header-section-number">9.1.4</span> Normalidad de los Residuos</a></li>
-  <li><a href="#post-hoc" id="toc-post-hoc" class="nav-link" data-scroll-target="#post-hoc"> <span class="header-section-number">9.1.5</span> Post-Hoc</a></li>
-  <li><a href="#visualización" id="toc-visualización" class="nav-link" data-scroll-target="#visualización"> <span class="header-section-number">9.1.6</span> Visualización</a></li>
+  <li><a href="#parcelas-divididas" id="toc-parcelas-divididas" class="nav-link" data-scroll-target="#parcelas-divididas"> <span class="header-section-number">10.4.1</span> Parcelas divididas</a></li>
+  <li><a href="#muestreo-anidado" id="toc-muestreo-anidado" class="nav-link" data-scroll-target="#muestreo-anidado"> <span class="header-section-number">10.4.2</span> Muestreo Anidado</a></li>
   </ul></li>
-  <li><a href="#ejemplo-2" id="toc-ejemplo-2" class="nav-link" data-scroll-target="#ejemplo-2"> <span class="header-section-number">9.2</span> Ejemplo 2</a>
+  <li><a href="#sección-práctica-anova" id="toc-sección-práctica-anova" class="nav-link" data-scroll-target="#sección-práctica-anova"> <span class="header-section-number">10.5</span> Sección Práctica Anova</a>
   <ul class="collapse">
-  <li><a href="#one-way-anova-1" id="toc-one-way-anova-1" class="nav-link" data-scroll-target="#one-way-anova-1"> <span class="header-section-number">9.2.1</span> one-way ANOVA</a></li>
-  <li><a href="#revision-de-residuos" id="toc-revision-de-residuos" class="nav-link" data-scroll-target="#revision-de-residuos"> <span class="header-section-number">9.2.2</span> Revision de residuos</a></li>
-  <li><a href="#test-de-dunnett" id="toc-test-de-dunnett" class="nav-link" data-scroll-target="#test-de-dunnett"> <span class="header-section-number">9.2.3</span> Test de Dunnett</a></li>
-  <li><a href="#posthocs" id="toc-posthocs" class="nav-link" data-scroll-target="#posthocs"> <span class="header-section-number">9.2.4</span> PostHocs</a></li>
+  <li><a href="#tratamiento-a-los-datos" id="toc-tratamiento-a-los-datos" class="nav-link" data-scroll-target="#tratamiento-a-los-datos"> <span class="header-section-number">10.5.1</span> Tratamiento a los Datos</a></li>
+  <li><a href="#test-de-bartlett" id="toc-test-de-bartlett" class="nav-link" data-scroll-target="#test-de-bartlett"> <span class="header-section-number">10.5.2</span> Test de Bartlett</a></li>
+  <li><a href="#one-way-anova" id="toc-one-way-anova" class="nav-link" data-scroll-target="#one-way-anova"> <span class="header-section-number">10.5.3</span> one-way ANOVA</a></li>
+  <li><a href="#normalidad-de-los-residuos" id="toc-normalidad-de-los-residuos" class="nav-link" data-scroll-target="#normalidad-de-los-residuos"> <span class="header-section-number">10.5.4</span> Normalidad de los Residuos</a></li>
+  <li><a href="#post-hoc" id="toc-post-hoc" class="nav-link" data-scroll-target="#post-hoc"> <span class="header-section-number">10.5.5</span> Post-Hoc</a></li>
+  <li><a href="#visualización" id="toc-visualización" class="nav-link" data-scroll-target="#visualización"> <span class="header-section-number">10.5.6</span> Visualización</a></li>
   </ul></li>
-  <li><a href="#experimento-factorial-two-way-anova" id="toc-experimento-factorial-two-way-anova" class="nav-link" data-scroll-target="#experimento-factorial-two-way-anova"> <span class="header-section-number">9.3</span> Experimento Factorial (two-way Anova)</a>
+  <li><a href="#ejemplo-2" id="toc-ejemplo-2" class="nav-link" data-scroll-target="#ejemplo-2"> <span class="header-section-number">10.6</span> Ejemplo 2</a>
   <ul class="collapse">
-  <li><a href="#lectura-data" id="toc-lectura-data" class="nav-link" data-scroll-target="#lectura-data"> <span class="header-section-number">9.3.1</span> Lectura Data</a></li>
-  <li><a href="#barplot" id="toc-barplot" class="nav-link" data-scroll-target="#barplot"> <span class="header-section-number">9.3.2</span> Barplot</a></li>
-  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"> <span class="header-section-number">9.3.3</span> ANOVA</a></li>
-  <li><a href="#test-de-varianzas-homogeneas" id="toc-test-de-varianzas-homogeneas" class="nav-link" data-scroll-target="#test-de-varianzas-homogeneas"> <span class="header-section-number">9.3.4</span> Test de varianzas homogeneas</a></li>
-  <li><a href="#comparación-de-modelos" id="toc-comparación-de-modelos" class="nav-link" data-scroll-target="#comparación-de-modelos"> <span class="header-section-number">9.3.5</span> Comparación de modelos</a></li>
+  <li><a href="#one-way-anova-1" id="toc-one-way-anova-1" class="nav-link" data-scroll-target="#one-way-anova-1"> <span class="header-section-number">10.6.1</span> one-way ANOVA</a></li>
+  <li><a href="#revision-de-residuos" id="toc-revision-de-residuos" class="nav-link" data-scroll-target="#revision-de-residuos"> <span class="header-section-number">10.6.2</span> Revision de residuos</a></li>
+  <li><a href="#test-de-dunnett" id="toc-test-de-dunnett" class="nav-link" data-scroll-target="#test-de-dunnett"> <span class="header-section-number">10.6.3</span> Test de Dunnett</a></li>
+  <li><a href="#posthocs" id="toc-posthocs" class="nav-link" data-scroll-target="#posthocs"> <span class="header-section-number">10.6.4</span> PostHocs</a></li>
+  </ul></li>
+  <li><a href="#experimento-factorial-two-way-anova-1" id="toc-experimento-factorial-two-way-anova-1" class="nav-link" data-scroll-target="#experimento-factorial-two-way-anova-1"> <span class="header-section-number">10.7</span> Experimento Factorial (two-way Anova)</a>
+  <ul class="collapse">
+  <li><a href="#lectura-data" id="toc-lectura-data" class="nav-link" data-scroll-target="#lectura-data"> <span class="header-section-number">10.7.1</span> Lectura Data</a></li>
+  <li><a href="#barplot" id="toc-barplot" class="nav-link" data-scroll-target="#barplot"> <span class="header-section-number">10.7.2</span> Barplot</a></li>
+  <li><a href="#anova" id="toc-anova" class="nav-link" data-scroll-target="#anova"> <span class="header-section-number">10.7.3</span> ANOVA</a></li>
+  <li><a href="#test-de-varianzas-homogeneas" id="toc-test-de-varianzas-homogeneas" class="nav-link" data-scroll-target="#test-de-varianzas-homogeneas"> <span class="header-section-number">10.7.4</span> Test de varianzas homogeneas</a></li>
+  <li><a href="#comparación-de-modelos" id="toc-comparación-de-modelos" class="nav-link" data-scroll-target="#comparación-de-modelos"> <span class="header-section-number">10.7.5</span> Comparación de modelos</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-anova" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Anova</span></span></h1>
+<h1 class="title"><span id="sec-anova" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></span></h1>
 </div>
 
 
@@ -273,10 +292,149 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="sección-práctica-anova" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="sección-práctica-anova"><span class="header-section-number">9.1</span> Sección Práctica Anova</h2>
-<section id="tratamiento-a-los-datos" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="tratamiento-a-los-datos"><span class="header-section-number">9.1.1</span> Tratamiento a los Datos</h3>
+<p>Si queremos predecir una variable <span class="math inline">Y</span> de tipo continua, podemos dividir a grandes rasgos los tipos de modelos predictivos en tres grandes tipo en base a la naturaleza de los predictores o variables <span class="math inline">(X)</span>:</p>
+<div id="fig-models-by-vars" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/tipos_models.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.1: Tipos de Modelos por variables explicatoria</figcaption><p></p>
+</figure>
+</div>
+<section id="tipos-de-modelos-predictivos-en-r" class="level3 page-columns page-full" data-number="10.0.1">
+<h3 data-number="10.0.1" class="anchored" data-anchor-id="tipos-de-modelos-predictivos-en-r"><span class="header-section-number">10.0.1</span> Tipos de modelos predictivos en R</h3>
+<div id="fig-models-in-r" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/mod_pred.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.2: Sintaxis general de modelos predictivos en R.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="anova-análisis-de-varianza" class="level2 page-columns page-full" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="anova-análisis-de-varianza"><span class="header-section-number">10.1</span> ANOVA: Análisis de Varianza</h2>
+<p>Predecir Y usando una o más variables factoriales</p>
+<p>Y ~ A; Y ~ A+B; Y ~ A+B+C</p>
+<p>H0: μ1 = μ2 = μ3….(todas las medias poblacionales de Y son iguales, o no significativamente distintas)</p>
+<p>H1: Al menos una media poblacional es distinta del resto</p>
+<ul>
+<li>No dice cual es la distinta!</li>
+</ul>
+<p>Asume que:</p>
+<ul>
+<li>La selección de valores en los subgrupos es aleatoria e independiente</li>
+<li>Todas los subgrupos tienen una distribución de errores normal (residuos)</li>
+<li>Todas las poblaciones de los subgrupos de Y tienen la misma varianza</li>
+</ul>
+<p>En caso que alguno de estos supuestos no se cumplan: Impactarán directamente sobre los valores p-valor reportados, y por lo tanto sobre la calidad de las conclusiones que finalmente buscamos obtener.</p>
+<p>La verificación de los supuestos se realiza en la práctica a través de los predictores de los términos de error aleatorio que son los residuos aleatorios asociados a cada observación Por lo tanto los supuestos pueden verificarse mediante el análisis de los RESIDUOS.</p>
+<div id="fig-tabcomp" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/one-two-way.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.3: Comparación de Análisis de Anova Unidireccional y Multidimensional. La única diferencia entre ANOVA unidireccional y bidireccional es el número de variables independientes. Un ANOVA unidireccional tiene una variable independiente, mientras que un ANOVA bidireccional tiene dos.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="on-way-anova" class="level2 page-columns page-full" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="on-way-anova"><span class="header-section-number">10.2</span> On-Way ANOVA</h2>
+<p>ANOVA de unas sola cola, o comparación de una variable Y en un variable X de tipo factorial</p>
+<p>Output del modelo simpre es:</p>
+<div id="fig-models-one-way" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/one_way.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.4: Summary del Modelo de Anova</figcaption><p></p>
+</figure>
+</div>
+<div id="fig-siglas-ANOVA" class="quarto-layout-panel">
+<p></p><figcaption>Figure 10.5: Definición de Siglas</figcaption><p></p>
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="images/siglas_1.png" class="img-fluid figure-img"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="images/siglas_2.png" class="img-fluid figure-img"></p>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="experimento-factorial-two-way-anova" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="experimento-factorial-two-way-anova"><span class="header-section-number">10.3</span> Experimento factorial (Two-Way ANOVA)</h2>
+<p>En estas situaciones estimamos los parámetros para los efectos principales de cada nivel de dieta y cada nivel de suplemento, además de los términos para la interacción entre la dieta y el suplemento. Los grados de libertad de la interacción son el producto de los grados de libertad de los términos componentes (es decir, (3 - 1) × (4 - 1) = 6).</p>
+<p>El modelo es <code>gain~diet+supplement+diet:supplement</code>, pero puede simplificarse utilizando la notación del asterisco así:</p>
+<p><code>model &lt;- aov(gain~diet*supplement)</code></p>
+<p><code>summary(model)</code></p>
+<p><img src="images/one_way.png" class="img-fluid"></p>
+<p>Output del modelo Two-Way ANOVA :::</p>
+<p><strong>No hay evidencia</strong> de que las diferencias que dieta causa sobre Y (gain) varían en función de los suplementos, y viceversa. En este caso se puede decir entonces que los efectos de dieta y suplementos son Aditivos!</p>
+</section>
+<section id="pseudoreplicación-diseños-anidados-y-parcelas-divididas" class="level2 page-columns page-full" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="pseudoreplicación-diseños-anidados-y-parcelas-divididas"><span class="header-section-number">10.4</span> Pseudoreplicación: Diseños anidados y parcelas divididas</h2>
+<p>Los modelos ANOVA tienen la facilidad de tratar con estructuras de error complicadas, y es importante que puedan reconocer tales estructuras de error, y por lo tanto evitar posibles trampas de la pseudoreplicación.</p>
+<p>Hay dos casos generales:</p>
+<ul>
+<li><p><strong>Muestreo anidado</strong>, como cuando se toman medidas repetidas del mismo individuo, o se realizan estudios observacionales donde datos se llevan a cabo en varias escalas espaciales diferentes (principalmente efectos aleatorios);</p></li>
+<li><p><strong>Análisis de parcelas divididas</strong>, como cuando los experimentos diseñados tienen diferentes tratamientos aplicados a parcelas de diferentes tamaños (en su mayoría, efectos fijos).</p></li>
+</ul>
+<section id="parcelas-divididas" class="level3 page-columns page-full" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="parcelas-divididas"><span class="header-section-number">10.4.1</span> Parcelas divididas</h3>
+<p>Se aplican diferentes tratamientos a parcelas de diferentes tamaños. Cada tamaño de parcela tiene su propia varianza de error asociada, por lo que en lugar de tener una varianza de error (como en todas las tablas de ANOVA hasta este punto), tenemos tantos términos de error como tamaños de parcela diferentes. El análisis se presenta como una serie de tablas de ANOVA de componentes, una para cada tamaño de parcela, en una jerarquía que va desde el tamaño de parcela más grande con la menor replicación en la parte superior, hasta el tamaño de parcela más pequeño con la mayor replicación en la parte inferior.</p>
+<p>Ejemplo: un experimento de campo diseñado sobre el rendimiento de los cultivos con tres tratamientos: riego (con dos niveles, regado o no), densidad de siembra (con tres niveles, bajo, medio y alto), y aplicación de fertilizantes (con tres niveles, bajo, medio y alto).</p>
+<p>Las parcelas más grandes fueron los cuatro campos completos (bloque), cada uno de los cuales se dividió por la mitad, y el riego se asignó al azar a una mitad del campo. Cada parcela de riego se dividió en tres, y se asignó al azar una de las tres densidades de siembra diferentes (baja, media o alta) (independientemente para cada nivel de riego y cada bloque). Por último, cada parcela de densidad se dividió en tres, y se asignó al azar uno de los tres tratamientos de nutrientes fertilizantes (N, P, o N y P juntos).</p>
+<div id="fig-parc-div" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/parcela_div.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.6: Parcelas Divididas</figcaption><p></p>
+</figure>
+</div>
+<p>El problema de los experimentos con parcelas divididas es la pseudoreplicación.</p>
+<p>En el ejemplo, hay cuatro bloques, cada uno dividido por la mitad, con una mitad regada y la otra como control. En caso específico del factor riego, el experimento debería contener sólo 8 filas (no 72 filas como en el presente caso). Debería tener d.f. = 7: tres para los bloques, uno para el riego y sólo 7 - 3 - 1 = 3 d.f. para el error.</p>
+<div id="fig-str-datos-parc-div" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/str_datos_parc_div.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.7: Estructura de Datos Parcelas Divididas</figcaption><p></p>
+</figure>
+</div>
+<p>Si no se ha detectado esto, el modelo podría ejecutarse con 51 f.d. que representan una pseudoreplicación masiva (el valor de p-valor correcto para el tratamiento de riego es 0,0247, pero en una ANOVA normal el error pseudoreplicado da <span class="math inline">p-valor = 2.81 × 10^{-10}</span>).</p>
+<p>Ej.,modelo factorial, usando todas las combinaciones entre factores (asteriscos en formula; *)</p>
+<div id="fig-aov-parc-div" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/aov-parc-div.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.8: Summary del Modelo ANOVA factorial Parcelas Divididas</figcaption><p></p>
+</figure>
+</div>
+<p>Para corregir esto, la estructura del error se deﬁne en el término Error, con los tamaños de parcela enumerados de izquierda a derecha, de mayor a menor, con cada variable separada por el operador de barra diagonal /. Tenga en cuenta que el tamaño de parcela más pequeño, el fertilizante, no necesita aparecer en el término Error:</p>
+<div id="fig-model-error-parc-div" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/model-error-parc-div.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.9: Efectos entre factores: Densidad al parecer no es sig. por si solo (efecto aditivo), pero sí tiene relevancia en sus efectos sinérgicos con irrigación.</figcaption><p></p>
+</figure>
+</div>
+<p>Nótese que el efecto principal no signiﬁcativo de la densidad (p = 0,053) no significa que la densidad no sea importante, porque la densidad aparece en una interacción signiﬁcativa con el riego (los términos de densidad se anulan, cuando se promedian en los dos tratamientos de riego; véase más adelante). La mejor manera de entender los dos términos de interacción signiﬁcativos es trazarlos utilizando interaction.plot de la siguiente manera:</p>
+<p><em>irrigation:fertilizer relationship</em></p>
+<div id="fig-iteration-plot" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/iteration-plot.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.10: En las parcelas con riego, el rendimiento con baja densidad, pero en las parcelas de control el rendimiento es menor que en las parcelas de alta densidad.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="muestreo-anidado" class="level3 page-columns page-full" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="muestreo-anidado"><span class="header-section-number">10.4.2</span> Muestreo Anidado</h3>
+<p>En este caso, hay un posible gradiente que se quiere ELIMINAR del análisis, para centrarse bien en el gradiente o efecto que SI es interesante. Ejemplo:</p>
+<p>Se tiene una plantación de paltos en una ladera de cerro, y se quiere ver el efecto de fertilizantes y densidad de cultivo. Cómo la ladera de cerro puede tener mucho efecto en los resultados, debido a efectos de pendiente, características del suelo, etc., lo más importante acá es eliminar el efecto ladera-suelo del análisis.</p>
+<p>Diseño de muestreo estratificado por ladera: clasificar 3 tipos de ladera (baja, media y alta) y hacer las MISMAS mediciones de fertilizante y densidad en las 3 clases de ladera. Finalmente, se agrega la info del bloque como factor para ser si efecto independiente.</p>
+<p><code>aov(yield ~ fertilizer + density + block, data = block)</code></p>
+<div id="fig-aov-anidado" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/aov_anidado.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 10.11: Anova para el caso de muestreo anidado que denota que no hay efecto bloque</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="sección-práctica-anova" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="sección-práctica-anova"><span class="header-section-number">10.5</span> Sección Práctica Anova</h2>
+<section id="tratamiento-a-los-datos" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="tratamiento-a-los-datos"><span class="header-section-number">10.5.1</span> Tratamiento a los Datos</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -320,8 +478,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>La clase soil es de tipo factorial esto es fundamental</li>
 </ul>
 </section>
-<section id="test-de-bartlett" class="level3" data-number="9.1.2">
-<h3 data-number="9.1.2" class="anchored" data-anchor-id="test-de-bartlett"><span class="header-section-number">9.1.2</span> Test de Bartlett</h3>
+<section id="test-de-bartlett" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="test-de-bartlett"><span class="header-section-number">10.5.2</span> Test de Bartlett</h3>
 <p>Analizar si las varianza por subgrupo es homogeneas con test de Bartlett, este test no necesita hacerse sobre los residuos</p>
 <ul>
 <li>H0 = son homogeneas</li>
@@ -340,8 +498,8 @@ Bartlett's K-squared = 1.2764, df = 2, p-value = 0.5283</code></pre>
 </div>
 </div>
 </section>
-<section id="one-way-anova" class="level3" data-number="9.1.3">
-<h3 data-number="9.1.3" class="anchored" data-anchor-id="one-way-anova"><span class="header-section-number">9.1.3</span> one-way ANOVA</h3>
+<section id="one-way-anova" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="one-way-anova"><span class="header-section-number">10.5.3</span> one-way ANOVA</h3>
 <p>Realizar test anova usando la funcion <code>aov</code>. Esta es la funcion estandar para este tipo de analisis</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>anov1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> data2)</span>
@@ -377,8 +535,8 @@ F-statistic: 4.245 on 2 and 27 DF,  p-value: 0.02495</code></pre>
 </div>
 </div>
 </section>
-<section id="normalidad-de-los-residuos" class="level3" data-number="9.1.4">
-<h3 data-number="9.1.4" class="anchored" data-anchor-id="normalidad-de-los-residuos"><span class="header-section-number">9.1.4</span> Normalidad de los Residuos</h3>
+<section id="normalidad-de-los-residuos" class="level3" data-number="10.5.4">
+<h3 data-number="10.5.4" class="anchored" data-anchor-id="normalidad-de-los-residuos"><span class="header-section-number">10.5.4</span> Normalidad de los Residuos</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anov1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -407,8 +565,8 @@ W = 0.99131, p-value = 0.9961</code></pre>
 </div>
 </div>
 </section>
-<section id="post-hoc" class="level3" data-number="9.1.5">
-<h3 data-number="9.1.5" class="anchored" data-anchor-id="post-hoc"><span class="header-section-number">9.1.5</span> Post-Hoc</h3>
+<section id="post-hoc" class="level3" data-number="10.5.5">
+<h3 data-number="10.5.5" class="anchored" data-anchor-id="post-hoc"><span class="header-section-number">10.5.5</span> Post-Hoc</h3>
 <p>Necesitamos saber donde estan las diferencias entre clases</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tuk <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(anov1, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
@@ -433,8 +591,8 @@ loam-clay  2.8 -0.9903777 6.590378 0.1785489</code></pre>
 </div>
 <p>La diferencia entre loam y sand (limo y arena) es la unica significativa</p>
 </section>
-<section id="visualización" class="level3" data-number="9.1.6">
-<h3 data-number="9.1.6" class="anchored" data-anchor-id="visualización"><span class="header-section-number">9.1.6</span> Visualización</h3>
+<section id="visualización" class="level3" data-number="10.5.6">
+<h3 data-number="10.5.6" class="anchored" data-anchor-id="visualización"><span class="header-section-number">10.5.6</span> Visualización</h3>
 <p><strong>Boxplot</strong>*</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(yield <span class="sc">~</span> soil, <span class="at">data =</span> data2, <span class="at">col =</span> <span class="st">'lightblue'</span>, <span class="at">notch =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -496,8 +654,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </section>
 </section>
-<section id="ejemplo-2" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="ejemplo-2"><span class="header-section-number">9.2</span> Ejemplo 2</h2>
+<section id="ejemplo-2" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="ejemplo-2"><span class="header-section-number">10.6</span> Ejemplo 2</h2>
 <p>one-way anova con tratamiento con control y post-hoc test de Dun</p>
 <p>Ejemplo, examinar si dos nuevas tecnicas de ensenanza tienen potencialmente un beneficio en la nota final de un examen. Se dividen los estudiantes en 30 individuos en los siguientes grupos:</p>
 <p>Control Group: 10 students New Study technique 1: 10 students New Study Technique 2: 10 students</p>
@@ -547,8 +705,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><img src="anova_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="one-way-anova-1" class="level3" data-number="9.2.1">
-<h3 data-number="9.2.1" class="anchored" data-anchor-id="one-way-anova-1"><span class="header-section-number">9.2.1</span> one-way ANOVA</h3>
+<section id="one-way-anova-1" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="one-way-anova-1"><span class="header-section-number">10.6.1</span> one-way ANOVA</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(score <span class="sc">~</span> technique, <span class="at">data =</span> data)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -561,8 +719,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
-<section id="revision-de-residuos" class="level3" data-number="9.2.2">
-<h3 data-number="9.2.2" class="anchored" data-anchor-id="revision-de-residuos"><span class="header-section-number">9.2.2</span> Revision de residuos</h3>
+<section id="revision-de-residuos" class="level3" data-number="10.6.2">
+<h3 data-number="10.6.2" class="anchored" data-anchor-id="revision-de-residuos"><span class="header-section-number">10.6.2</span> Revision de residuos</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -585,8 +743,8 @@ W = 0.97617, p-value = 0.7172</code></pre>
 </div>
 </div>
 </section>
-<section id="test-de-dunnett" class="level3" data-number="9.2.3">
-<h3 data-number="9.2.3" class="anchored" data-anchor-id="test-de-dunnett"><span class="header-section-number">9.2.3</span> Test de Dunnett</h3>
+<section id="test-de-dunnett" class="level3" data-number="10.6.3">
+<h3 data-number="10.6.3" class="anchored" data-anchor-id="test-de-dunnett"><span class="header-section-number">10.6.3</span> Test de Dunnett</h3>
 <p>compara solo las clases contra el tratamiento control</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">DunnettTest</span>(<span class="at">x =</span> data<span class="sc">$</span>score, <span class="at">g =</span> data<span class="sc">$</span>technique))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -596,11 +754,11 @@ W = 0.97617, p-value = 0.7172</code></pre>
 </div>
 <p><strong>ASEGURARSE</strong> siempre que el control tenga el nombre ‘control’ exactamente en la tabla</p>
 </section>
-<section id="posthocs" class="level3" data-number="9.2.4">
-<h3 data-number="9.2.4" class="anchored" data-anchor-id="posthocs"><span class="header-section-number">9.2.4</span> PostHocs</h3>
+<section id="posthocs" class="level3" data-number="10.6.4">
+<h3 data-number="10.6.4" class="anchored" data-anchor-id="posthocs"><span class="header-section-number">10.6.4</span> PostHocs</h3>
 <p>la libreria DescTools tiene muchos test Post-hoc para hacer</p>
-<section id="test-de-tukey" class="level4" data-number="9.2.4.1">
-<h4 data-number="9.2.4.1" class="anchored" data-anchor-id="test-de-tukey"><span class="header-section-number">9.2.4.1</span> Test de Tukey</h4>
+<section id="test-de-tukey" class="level4" data-number="10.6.4.1">
+<h4 data-number="10.6.4.1" class="anchored" data-anchor-id="test-de-tukey"><span class="header-section-number">10.6.4.1</span> Test de Tukey</h4>
 <p>Dos formas de visualizar el test de tukey</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando DescTools</span></span>
@@ -647,10 +805,10 @@ new2-new1     2.2 -3.9700112  8.370011 0.6547756</code></pre>
 </section>
 </section>
 </section>
-<section id="experimento-factorial-two-way-anova" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="experimento-factorial-two-way-anova"><span class="header-section-number">9.3</span> Experimento Factorial (two-way Anova)</h2>
-<section id="lectura-data" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="lectura-data"><span class="header-section-number">9.3.1</span> Lectura Data</h3>
+<section id="experimento-factorial-two-way-anova-1" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="experimento-factorial-two-way-anova-1"><span class="header-section-number">10.7</span> Experimento Factorial (two-way Anova)</h2>
+<section id="lectura-data" class="level3" data-number="10.7.1">
+<h3 data-number="10.7.1" class="anchored" data-anchor-id="lectura-data"><span class="header-section-number">10.7.1</span> Lectura Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/growth.txt'</span>,</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">header=</span>T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
@@ -664,8 +822,8 @@ new2-new1     2.2 -3.9700112  8.370011 0.6547756</code></pre>
 </div>
 </div>
 </section>
-<section id="barplot" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="barplot"><span class="header-section-number">9.3.2</span> Barplot</h3>
+<section id="barplot" class="level3" data-number="10.7.2">
+<h3 data-number="10.7.2" class="anchored" data-anchor-id="barplot"><span class="header-section-number">10.7.2</span> Barplot</h3>
 <p>inspeccion de datos con barplot. Primero, crear una tabla con promedios por clase usando <code>tapply</code> esta vez en tapply usamos una lista con los dos factores para que los tome a los dos en cuenta</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ymean <span class="ot">&lt;-</span> <span class="fu">tapply</span>(weights<span class="sc">$</span>gain, <span class="fu">list</span>(weights<span class="sc">$</span>diet, weights<span class="sc">$</span>supplement), mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -680,8 +838,8 @@ new2-new1     2.2 -3.9700112  8.370011 0.6547756</code></pre>
 </div>
 </div>
 </section>
-<section id="anova" class="level3" data-number="9.3.3">
-<h3 data-number="9.3.3" class="anchored" data-anchor-id="anova"><span class="header-section-number">9.3.3</span> ANOVA</h3>
+<section id="anova" class="level3" data-number="10.7.3">
+<h3 data-number="10.7.3" class="anchored" data-anchor-id="anova"><span class="header-section-number">10.7.3</span> ANOVA</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(gain <span class="sc">~</span> diet<span class="sc">*</span>supplement, <span class="at">data =</span> weights)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -731,8 +889,8 @@ F-statistic: 20.22 on 11 and 36 DF,  p-value: 3.295e-12</code></pre>
 </div>
 <p>Modelo muy complejo, por lo que podemos dejar solo los componentes e interacciones significativas e interesantes.</p>
 </section>
-<section id="test-de-varianzas-homogeneas" class="level3" data-number="9.3.4">
-<h3 data-number="9.3.4" class="anchored" data-anchor-id="test-de-varianzas-homogeneas"><span class="header-section-number">9.3.4</span> Test de varianzas homogeneas</h3>
+<section id="test-de-varianzas-homogeneas" class="level3" data-number="10.7.4">
+<h3 data-number="10.7.4" class="anchored" data-anchor-id="test-de-varianzas-homogeneas"><span class="header-section-number">10.7.4</span> Test de varianzas homogeneas</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(gain <span class="sc">~</span> diet, <span class="at">data =</span> weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -789,8 +947,8 @@ F-statistic: 48.76 on 5 and 42 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="comparación-de-modelos" class="level3" data-number="9.3.5">
-<h3 data-number="9.3.5" class="anchored" data-anchor-id="comparación-de-modelos"><span class="header-section-number">9.3.5</span> Comparación de modelos</h3>
+<section id="comparación-de-modelos" class="level3" data-number="10.7.5">
+<h3 data-number="10.7.5" class="anchored" data-anchor-id="comparación-de-modelos"><span class="header-section-number">10.7.5</span> Comparación de modelos</h3>
 <ul>
 <li><code>model</code>: Factorial</li>
 <li><code>model2</code>: Aditivo</li>
@@ -911,6 +1069,7 @@ wheat:supersupp-oats:supersupp    -2.191893628  -5.4279069  1.0441197 0.4537097<
 </div>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(TukeyHSD(model))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<!-- https://es.differbetween.com/article/difference_between_one_way_and_two_way_anova -->
 
 
 </section>
@@ -1016,13 +1175,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./reg_no_lineal.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></span>
+      <a href="./diseno_exp.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ancova.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
