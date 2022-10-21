@@ -7,6 +7,203 @@ editor_options:
 # Anova {#sec-anova}
 
 
+Si queremos predecir una variable $Y$ de tipo continua, podemos dividir a grandes rasgos los tipos de modelos predictivos en tres grandes tipo en base a la naturaleza de los predictores o variables $(X)$:
+
+
+::: {#fig-models-by-vars}
+![](images/tipos_models.png)
+
+Tipos de Modelos por variables explicatoria
+:::
+
+
+### Tipos de modelos predictivos en R
+
+
+::: {#fig-models-in-r}
+![](images/mod_pred.png)
+
+Sintaxis general de modelos predictivos en R.
+:::
+
+## ANOVA: Análisis de Varianza
+
+
+Predecir Y usando una o más variables factoriales
+
+Y ~ A;          Y ~ A+B;         Y ~ A+B+C  
+
+H0: μ1 = μ2 = μ3….(todas las medias poblacionales de Y son iguales, o no significativamente distintas)
+
+H1: Al menos una media poblacional es distinta del resto
+
+- No dice cual es la distinta! 
+
+Asume que:
+
+- La selección de valores en los subgrupos es aleatoria e independiente
+- Todas los subgrupos tienen una distribución de errores normal (residuos)
+- Todas las poblaciones de los subgrupos de Y tienen la misma varianza
+
+En caso que alguno de estos supuestos no se cumplan: Impactarán directamente sobre los valores p-valor reportados, y por lo tanto sobre la calidad de las conclusiones que
+finalmente buscamos obtener.
+
+
+La verificación de los supuestos se realiza en la práctica a través de los predictores de los términos de error aleatorio que son los residuos aleatorios asociados a cada observación Por lo tanto los supuestos pueden verificarse mediante el análisis de los RESIDUOS.
+
+
+::: {#fig-tabcomp}
+![](images/one-two-way.png)
+
+Comparación de Análisis de Anova Unidireccional y Multidimensional. La única diferencia entre ANOVA unidireccional y bidireccional es el número de variables independientes. Un ANOVA unidireccional tiene una variable independiente, mientras que un ANOVA bidireccional tiene dos.
+:::
+
+## On-Way ANOVA
+
+ANOVA de unas sola cola, o comparación de una variable Y en un variable X de tipo factorial
+
+Output del modelo simpre es:
+
+::: {#fig-models-one-way}
+![](images/one_way.png)
+
+Summary del Modelo de Anova
+:::
+
+::: {#fig-siglas-ANOVA  layout-ncol=2}
+![](images/siglas_1.png)
+
+![](images/siglas_2.png)
+
+Definición de Siglas
+:::
+
+
+
+
+## Experimento factorial (Two-Way ANOVA)
+
+En estas situaciones estimamos los parámetros para los efectos principales de cada nivel de dieta y cada nivel de suplemento, además de los términos para la interacción entre la dieta y el suplemento. Los grados de libertad de la interacción son el producto de los grados de libertad de los términos componentes (es decir, (3 - 1) × (4 - 1) = 6). 
+
+El modelo es `gain~diet+supplement+diet:supplement`, pero puede simplificarse utilizando la notación del asterisco así:
+
+`model <- aov(gain~diet*supplement)`
+
+`summary(model)`
+
+![](images/one_way.png)
+
+Output del modelo Two-Way ANOVA
+:::
+
+
+
+
+
+**No hay evidencia** de que las diferencias que dieta causa sobre Y (gain) varían en función de los suplementos, y viceversa. En este caso se puede decir entonces que los efectos de dieta y suplementos son Aditivos!
+
+
+## Pseudoreplicación: Diseños anidados y parcelas divididas
+
+Los modelos ANOVA tienen la facilidad de tratar con estructuras de error complicadas, y es importante que puedan reconocer tales estructuras de error, y por lo tanto evitar posibles trampas de la pseudoreplicación.
+
+Hay dos casos generales:
+
+* **Muestreo anidado**, como cuando se toman medidas repetidas del mismo individuo, o se realizan estudios observacionales donde datos se llevan a cabo en varias escalas espaciales diferentes (principalmente efectos aleatorios);
+
+* **Análisis de parcelas divididas**, como cuando los experimentos diseñados tienen diferentes tratamientos aplicados a parcelas de diferentes tamaños (en su mayoría, efectos fijos).
+
+
+### Parcelas divididas
+
+Se aplican diferentes tratamientos a parcelas de diferentes tamaños. Cada tamaño de parcela tiene su propia varianza de error asociada, por lo que en lugar de tener una varianza de error (como en todas las tablas de ANOVA hasta este punto), tenemos tantos términos de error como tamaños de parcela diferentes. El análisis se presenta como una serie de tablas de ANOVA de componentes, una para cada tamaño de parcela, en una jerarquía que va desde el tamaño de parcela más grande con la menor replicación en la parte superior, hasta el tamaño de parcela más pequeño con la mayor replicación en la parte inferior.
+
+Ejemplo: un experimento de campo diseñado sobre el rendimiento de los cultivos con tres tratamientos: riego (con dos niveles, regado o no), densidad de siembra (con tres niveles, bajo, medio y alto), y aplicación de fertilizantes (con tres niveles, bajo, medio y alto).
+
+Las parcelas más grandes fueron los cuatro campos completos (bloque), cada uno de los cuales se dividió por la mitad, y el riego se asignó al azar a una mitad del campo. Cada parcela de riego se dividió en tres, y se asignó al azar una de las tres densidades de siembra diferentes (baja, media o alta) (independientemente para cada nivel de riego y cada bloque). Por último, cada parcela de densidad se dividió en tres, y se asignó al azar uno de los tres tratamientos de nutrientes fertilizantes (N, P, o N y P juntos).
+
+
+
+
+::: {#fig-parc-div}
+![](images/parcela_div.png){width=60%}
+
+Parcelas Divididas
+:::
+
+
+El problema de los experimentos con parcelas divididas es la pseudoreplicación. 
+
+
+
+
+En el ejemplo, hay cuatro bloques, cada uno dividido por la mitad, con una mitad regada y la otra como control. En caso específico del factor riego, el experimento debería contener sólo 8 filas (no 72 filas como en el presente caso). Debería tener d.f. = 7: tres para los bloques, uno para el riego y sólo 7 - 3 - 1 = 3 d.f. para el error. 
+
+
+
+
+
+::: {#fig-str-datos-parc-div}
+![](images/str_datos_parc_div.png){width=60%}
+
+Estructura de Datos Parcelas Divididas
+:::
+
+
+Si no se ha detectado esto, el modelo podría ejecutarse con 51 f.d. que representan una pseudoreplicación masiva (el valor de p-valor correcto para el tratamiento de riego es 0,0247, pero en una ANOVA normal el error pseudoreplicado da $p-valor = 2.81 × 10^{-10}$).
+ 
+Ej.,modelo factorial, usando todas las combinaciones entre factores (asteriscos en formula; *)
+
+::: {#fig-aov-parc-div}
+
+![](images/aov-parc-div.png){width=60%}
+
+Summary del Modelo ANOVA factorial Parcelas Divididas
+:::
+
+
+
+Para corregir esto, la estructura del error se deﬁne en el término Error, con los tamaños de parcela enumerados de izquierda a derecha, de mayor a menor, con cada variable separada por el operador de barra diagonal /. Tenga en cuenta que el tamaño de parcela más pequeño, el fertilizante, no necesita aparecer en el término Error:
+
+
+::: {#fig-model-error-parc-div}
+![](images/model-error-parc-div.png){width=60%}
+
+Efectos entre factores: Densidad al parecer no es sig. por si solo (efecto aditivo), pero sí tiene relevancia en sus efectos sinérgicos con irrigación.
+:::
+
+
+
+Nótese que el efecto principal no signiﬁcativo de la densidad (p = 0,053) no significa que la densidad no sea importante, porque la densidad aparece en una interacción signiﬁcativa con el riego (los términos de densidad se anulan, cuando se promedian en los dos tratamientos de riego; véase más adelante). La mejor manera de entender los dos términos de interacción signiﬁcativos es trazarlos utilizando interaction.plot de la siguiente manera:
+
+_irrigation:fertilizer relationship_
+
+
+
+::: {#fig-iteration-plot}
+![](images/iteration-plot.png){width=60%}
+
+En las parcelas con riego, el rendimiento con baja densidad, pero en las parcelas de control el rendimiento es menor que en las parcelas de alta densidad.
+:::
+
+
+### Muestreo Anidado
+
+En este caso, hay un posible gradiente que se quiere ELIMINAR del análisis, para centrarse bien en el gradiente o efecto que SI es interesante. Ejemplo: 
+
+Se tiene una plantación de paltos en una ladera de cerro, y se quiere ver el efecto de fertilizantes y densidad de cultivo. Cómo la ladera de cerro puede tener mucho efecto en los resultados, debido a efectos de pendiente, características del suelo, etc., lo más importante acá es eliminar el efecto ladera-suelo del análisis. 
+
+Diseño de muestreo estratificado por ladera: clasificar 3 tipos de ladera (baja, media y alta) y hacer las MISMAS mediciones de fertilizante y densidad en las 3 clases de ladera. Finalmente, se agrega la info del bloque como factor para ser si efecto independiente. 
+
+`aov(yield ~ fertilizer + density + block, data = block)`
+
+::: {#fig-aov-anidado}
+![](images/aov_anidado.png){width=60%}
+
+Anova para el caso de muestreo anidado que denota que no hay efecto bloque
+:::
+
+
 ## Sección Práctica Anova
 
 
@@ -356,6 +553,6 @@ TukeyHSD(model)
 
 
 
-
+<!-- https://es.differbetween.com/article/difference_between_one_way_and_two_way_anova -->
 
 

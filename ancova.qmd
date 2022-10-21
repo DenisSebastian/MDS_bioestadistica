@@ -1,0 +1,431 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Ancova {#sec-anova}
+
+## One-way ANCOVA
+
+**Regresión + ANOVA.**
+
+La idea acá es combinar variables continuas con factores para analizar. Se puede pensar como un ANOVA donde hay una co-variable continua que es interesante para el estudio.  O como una regresión con una co-variable factorial… 
+
+::: {#fig-one-way-ancova}
+![](images/one_way_ancova.png){width=70%}
+
+Datos para análisis One Way Ancova
+:::
+
+**Ejemplo:**
+
+Experimento sobre el impacto del pastoreo en la producción de semillas de una planta. 40 plantas fueron asignadas a dos tratamientos, pastoreadas y no pastoreadas. Las plantas pastoreadas fueron expuestas a los conejos durante las dos primeras semanas de elongación del tallo. A continuación, se protegieron del pastoreo posterior mediante la instalación de una valla y se les permitió volver a crecer. Dado que el tamaño inicial de la planta se pensó que podía influir en la producción de fruta, se midió el diámetro de la parte superior del portainjerto (sobre la raíz) antes de plantar en maceta. Al final de la temporada de cultivo, se registró la producción de fruta (peso seco en miligramos) en cada una de las 40 plantas, y esto constituye la variable de respuesta en el siguiente análisis. 
+
+Data:
+
+	- Fuit (variable Y, contínua)
+	- Root (variable X, contínua)
+	- Grazing (variable X, factorial)
+
+¿Cómo afecta el tipo de pastoreo (factor) y el diámetro del tallo sobre la raíz (continua) a la producción de semilla y fruta de la planta?
+
+
+::: {#fig-graph_ancova}
+![](images/graph_ancova.png){width=70%}
+
+Efectos de pastoreo (Grazed)
+:::
+
+
+
+::: {#fig-ancova-lm layout-ncol=2}
+
+![](images/ancova-lm.png)
+
+![](images/summary-ancova-lm.png)
+
+
+One-way ANCOVA
+:::
+
+
+**Ejemplo:**
+
+El siguiente experimento, con el peso como variable de respuesta, incluía el genotipo y el sexo como dos variables explicativas categóricas y la edad como covariable continua. Hay seis niveles de genotipo y dos niveles de sexo.
+
+`Peso ~ genotipo(factor) + sexo(factor) + edad(numérica)`
+
+::: {#fig-summary_eg}
+![](images/summary_eg.png){width=70%}
+
+Summary del Ejemplo propuesto
+:::
+
+
+### Two-way ANCOVA
+
+
+Usar stepwise selección automática para hacer el modelo más simple? 
+
+`Step()` hace el trabajo similar a lo hecho en caret con los modelos de regresión: prueba todas las combinaciones de variables y elije la mas parsimoniosa según AIC: 
+
+```{r echo=FALSE, message=FALSE}
+Gain <-
+  read.table(
+    'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/Gain.txt',
+    header = T,
+    stringsAsFactors = TRUE
+  )
+
+attach(Gain)
+```
+
+
+```{r eval=TRUE}
+m1 <- aov(Weight~Sex*Age*Genotype)
+summary(m1)
+m2 <- step(m1)
+summary(m2)
+```
+
+
+```{r eval=TRUE}
+summary.lm(m2)
+```
+
+
+Diferencias de Modelos
+
+```{r}
+anova(m1, m2)
+```
+
+
+
+Normalidad en los Residuos
+
+```{r}
+shapiro.test(m2$residuals)
+```
+
+Distribución de los residuos
+
+
+
+::: {#fig-residuos_ancova}
+![](images/plot_residuos_ancova.png){width=70%}
+
+Distribución de Residuos Ancova
+:::
+
+
+
+
+
+
+## Sección Práctica Ancova
+
+
+## ANOVA con parcelas dividadas
+
+### Carga de datos 
+
+Tipos de suelo y cosecha (yield) en cultivos
+
+```{r}
+data <- read.table('https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/splityield.txt',
+                   header = T, stringsAsFactors = TRUE)
+# estructura de los datos
+str(data)
+summary(data)
+```
+
+Fertilizantes:
+
+- $N$: Nitrogeno
+- $P$: Fósforo
+
+
+
+### Modelo ANOVA 
+
+```{r}
+# ANOVA normal que hacemos siempre
+
+model1 <- aov(yield ~ irrigation*density*fertilizer, data = data)
+summary(model1)
+```
+
+### Modelo ANOVA con declaracion de Error
+
+Se debe poner los bloques de mayor a menor tamano separados por un parentesis. El tamano mas pequeno no es necesario ponerlo 
+
+(por defecto se sabe que el que no se pone es el ultimo)
+
+```{r}
+
+model2 <- aov(yield ~ irrigation * density * fertilizer  + Error(block / irrigation / density), data = data)
+summary(model2)
+```
+
+
+### Graficos de interacción
+
+```{r}
+# ver interacciones entre fertilizacion y riego
+interaction.plot(data$fertilizer, data$irrigation, data$yield)
+
+# ver interacciones entre densidad y riego
+interaction.plot(data$density, data$irrigation, data$yield)
+```
+
+
+### Interacción entre variables
+
+Interaccion entre variables usando el paquete effects. Se debe usar modelo lm en este caso
+
+```{r}
+# 
+library(effects)
+
+# hacer un modelo lm. No es necasario los terminos de error, ya que es solo para ver interacciones en un grafico
+model2_b <- lm(yield ~ irrigation*density*fertilizer, data = data) # es el mismo que model1, pero con la funcion lm
+effects <- allEffects(model2_b)
+plot(effects)
+```
+
+## ANOVA con muestreo anidado (bloque)
+
+### Lectura de Datos
+```{r}
+## Carga de datos ---------------------------------------------------------
+
+data <- read.csv('../data/crop.data.csv')
+
+str(data)
+
+# se fijan, hay tratamientos de fertilizacion 1, 2, 3 en cada bloque
+data[data$block == 4, ]
+```
+
+
+### one-way ANOVA 
+
+```{r}
+
+summary(aov(yield ~ fertilizer, data = data))
+TukeyHSD(aov(yield ~ as.factor(fertilizer), data = data))
+```
+
+
+### two-way ANOVA 
+
+```{r}
+summary(aov(yield ~ fertilizer + density, data = data))
+summary(aov(yield ~ fertilizer * density, data = data))
+```
+
+
+```{r}
+## Agregar bloque ----------------------------------------------------------
+summary(aov(yield ~ fertilizer + density + block, data = data))
+
+# LO IMPORTANTE ACA ES QUE LA IMPORTANCIA DEL BLOQUE ES BAJA. SE LOGRA ELIMINAR SU EFECTO
+```
+
+##  one-way ANCOVA 
+
+### Cargar Datos
+
+```{r}
+## Carga de datos ----------------------------------------------------------
+
+regrowth <- read.table('https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/ipomopsis.txt',
+                       header = T, stringsAsFactors = TRUE)
+names(regrowth)
+str(regrowth)
+
+levels(regrowth$Grazing)
+```
+
+
+### Ploteo relacion entre variables 
+
+```{r}
+# plot de la relacion entre cantidad de fruta, tamano de raiz y clases de riego
+plot(regrowth$Root, regrowth$Fruit, pch = 16 + as.numeric(regrowth$Grazing),
+     col = c("blue", "red")[as.numeric(regrowth$Grazing)],
+     xlab = "Tamaño de la raíz", ylab = "Cantidad de fruta")
+abline(lm(Fruit[Grazing == "Grazed"] ~ Root[Grazing == "Grazed"], data = regrowth),
+       lty = 2, col = "blue")
+abline(lm(Fruit[Grazing == "Ungrazed"] ~ Root[Grazing == "Ungrazed"], data = regrowth),
+       lty = 2, col = "red")
+legend('topleft', legend = c('Grazed', 'Ungrazed'), lwd = 2, col = c("blue", "red"))
+```
+
+
+### ANOVA
+
+```{r}
+summary(aov(Fruit ~ Grazing, data = regrowth))
+```
+
+### Regresion
+
+```{r}
+summary(lm(Fruit ~ Root, data = regrowth))
+```
+
+
+### ANCOCA
+```{r}
+# ANCOVA
+ancova <- aov(Fruit ~ Root*Grazing, data = regrowth)
+# Root -> variable continua
+# Grazing -> Factor
+```
+
+
+### Resumen de los Modelos
+```{r}
+summary(ancova)
+summary.lm(ancova)
+```
+
+
+
+
+
+### Simplificacion del modelo
+
+**Alternativa 1**
+
+
+```{r}
+ancova2 <- aov(Fruit ~ Grazing + Root, data = regrowth)
+summary(ancova2)
+```
+
+
+**Alternativa 2** 
+
+```{r}
+
+ancova2 <- update(ancova, ~ . - Grazing:Root)
+summary(ancova2)
+```
+
+
+Comparación de las simplificaciones 
+
+```{r}
+# la diferencia es significativa?
+
+anova(ancova, ancova2)
+AIC(ancova, ancova2) # AIC ancova2 es menor
+
+summary(ancova2)
+summary.lm(ancova2) 
+
+# Intercept es Grazinggrazed (es la primera variable)
+```
+
+
+Evaluación de Modelos con la función `step()`
+
+Se puede hacer una simplificacion de modelos automaticamente tambien usando la funcion step()  la funcion es similar a lo que hicimos anteriormente en regresión, prueba todas las combinaicones de terminos y variables
+
+```{r}
+## step() -----------------------------------------------------------------
+
+step(ancova)
+ancova2 <- step(ancova)
+
+summary.aov(ancova2)
+```
+
+## ANCOVA con dos factores y una variable continua 
+
+### Cargar los Datos
+```{r}
+Gain <- read.table('https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/Gain.txt',
+                   header=T, stringsAsFactors = TRUE)
+
+attach(Gain)
+names(Gain)
+str(Gain)
+```
+
+
+### ANCOVA multiple 
+
+```{r}
+
+m1 <- aov(Weight ~ Sex*Age*Genotype) # argumento data no se utiliza
+# Sex -> factor
+# Age -> variable continua
+# Genotype -> factor
+```
+
+
+```{r}
+summary(m1)
+summary.lm(m1)
+```
+
+## Evaluación de Modelo Ancova Multiple
+
+```{r}
+## step() -----------------------------------------------------------------
+m2 <- step(m1)
+
+summary(m2)
+summary.lm(m2)
+
+anova(m1, m2)
+AIC(m1, m2)
+```
+
+
+### Normalidad de residuos 
+
+
+```{r}
+# shapiro test de normalidad en los residuos
+
+shapiro.test(m2$residuals) # son normales
+
+par(mfrow = c(2, 2))
+plot(m2)
+
+dev.off()
+```
+
+### Visualización relación entre variables
+
+Gráfico de las relaciones entre peso y edad en relacion a las clases de genotipo.
+
+
+```{r}
+plot(Age, Weight, type = "n")
+colours <- c("green", "red", "black", "blue")
+lines <- c(1, 2)
+symbols <- c(16, 17)
+points(Age, Weight, pch = symbols[as.numeric(Sex)],
+       col = colours[as.numeric(Genotype)])
+xv <- c(1, 5)
+
+for (i in 1:2) {
+  for (j in 1:4) {
+    a <- coef(m2)[1]+(i>1)* coef(m2)[2]+(j>1)*coef(m2)[j+2]
+    b <- coef(m2)[3]
+    yv <- a+b*xv
+    lines(xv,yv,lty=lines[i],col=colours[j]) } }
+
+```
+
+
+
+
+

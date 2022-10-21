@@ -18,7 +18,9 @@ book:
     - regresiones.qmd
     - val_models.qmd
     - reg_no_lineal.qmd
+    - diseno_exp.qmd
     - anova.qmd
+    - ancova.qmd
     - references.qmd
 
 
