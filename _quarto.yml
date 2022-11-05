@@ -21,6 +21,8 @@ book:
     - diseno_exp.qmd
     - anova.qmd
     - ancova.qmd
+    - non_params.qmd
+    - multivariante.qmd
     - references.qmd
 
 

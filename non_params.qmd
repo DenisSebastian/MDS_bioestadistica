@@ -1,0 +1,429 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Est. No Paramétrica {#sec-noparam}
+
+Existe un amplio conjunto de métodos estadísticos que no requieren la estimación de los parámetros de la población (ej., X, S) y que prueban hipótesis que no son afirmaciones sobre los parámetros de la población. Estos procedimientos estadísticos se denominan pruebas no paramétricas. 
+
+Aunque pueden suponer que las poblaciones muestreadas tienen la misma dispersión o forma, los métodos no paramétricos no suelen hacer suposiciones sobre la naturaleza de las distribuciones de las poblaciones (por ejemplo, no hay suposición de normalidad)
+
+¡Tanto las pruebas paramétricas como las no paramétricas requieren que los datos procedan al azar de las poblaciones muestreadas! 
+
+Las pruebas no paramétricas pueden aplicarse generalmente a cualquier situación en la que estaría justificado emplear una prueba paramétrica. Los tests paramétricos son generalmente más potentes: método paramétrico tendrá normalmente una menor probabilidad de cometer un error de tipo II). Sin embargo, a menudo la diferencia de potencia no es grande y puede compensarse con un pequeño aumento del tamaño de la muestra para la prueba no paramétrica.
+
+Cuando los supuestos subyacentes de una prueba paramétrica se violan gravemente, entonces la contraparte no paramétrica puede ser decididamente más potente.
+
+La mayoría de las técnicas estadísticas no paramétricas convierten los datos observados en los rangos de los datos (es decir, su orden numérico). 
+
+Por ejemplo, las medidas de 2,1, 2,3, 2,9 3,6 y 4,0 kg se analizarían mediante sus rangos de 1, 2, 3, 4 y 5. Una posible desventaja de esta transformación de los datos en rangos es que se pierde algo de información (por ejemplo, los mismos rangos resultan de las mediciones de 1,1, 1,3, 2,9, 4,6 y 5,0 kg). 
+
+Una posible ventaja es que los valores atípicos (outliars) tendrán mucha menos influencia (por ejemplo, los mismos rangos resultan de mediciones de 2,1,2,3 2,9,3,6 y 25,0 kg).
+
+
+
+::: {#fig-compmedias}
+![](images/comp_medias.png){width='90%'}
+
+Comparación de Medias con T-Student como método paramétrico
+:::
+
+::: {#fig-comptest  layout-ncol=1}
+![](images/tab_comp.png)
+
+![](images/tab_comp_tests.png)
+
+![](images/tab_test.png)
+
+Comparación de diferentes test paramétricos y no  paramamétricos
+:::
+
+## Two-sample Rank Testing
+
+
+Comparar las tendencias centrales de dos poblaciones (es decir, ubicaciones en la escala de medición) cuando los supuestos subyacentes de la prueba t no se cumplen. 
+
+La prueba de este tipo que se emplea con más frecuencia es la que propuso originalmente, para para tamaños de muestra iguales, por Wilcoxon (1945) e independientemente presentada por Mann y Whitney (1947), para n's iguales o desiguales. Se denomina prueba de Wilcoxon-Mann-Whitney o, más comúnmente, prueba de Mann-Whitney.
+
+Mann-Whitney: Para esta prueba, como para muchos otros procedimientos no paramétricos, no se emplean las medidas reales, sino que se utilizan los rangos de de las mediciones.
+
+::: {#fig-Two-sampleRankTesting}
+![](images/Two-sampleRankTesting.png){width='90%'}
+
+Two-sample Rank Testing en R
+
+:::
+
+## Análisis de varianza no paramétrico
+
+
+Si un conjunto de datos se recoge de acuerdo con un diseño completamente aleatorio en el que k > 2, es posible realizar una prueba no paramétrica de las diferencias entre grupos. Esto puede hacerse mediante la prueba de Kruskal-Wallis (Kruskal y Wallis, 1952).
+
+Esta prueba puede utilizarse en cualquier situación en la que sea aplicable el ANOVA paramétrico de un solo factor (utilizando F).
+
+También puede emplearse en casos en los que no se puede aplicar ANOVA. El análisis no paramétrico es especialmente deseable cuando las muestras k no proceden de poblaciones normales.
+
+Como ANOVA, la prueba de Kruskal-Wallis tiende a ser más potente con tamaños de muestra más grandes, y la potencia es menor cuando los n’s no son iguales, especialmente si las medias grandes están asociadas con los n’s pequeños (Boehnke, 1984).
+
+Boehnke (1984) desaconseja el uso de la prueba de Kruskal-Wallis a menos que N > 20
+
+
+::: {#fig-kurskal-test}
+![](images/kuskal-test.png){width='90%'}
+
+Test de Kruskal test en R
+
+:::
+
+
+
+
+::: {#fig-comp_clases}
+![](images/comp_clases.png){width='70%'}
+
+Comparación de Clases control y tratamientos
+:::
+
+### Post-Hoc tests:
+
+En Kruskal-Wallis no se pueden usar los mismos Post-Hoc test que en ANOVA, ej.,  TukeyHSD.
+
+Pero se puede hacer un test de pares con el mismo Wilcox.test:
+
+
+
+
+::: {#fig-pairwise_wilcox}
+![](images/pairwise_wilcox.png){width='70%'}
+
+Wilcox.test
+:::
+
+
+## Datos pareados 
+
+El test de Friedman es la alternativa no paramétrica a la prueba ANOVA de una vía cuando los datos son dependientes (pareados). Se trata de una extensión de la prueba de los rangos con signo de Wilcoxon para más de dos grupos (basada en suma de rangos). Asumiendo ciertas simplificaciones, puede considerarse como una comparación entre las medianas de varios grupos.
+
+El test de Friedman es el test adecuado cuando los datos tienen un orden natural, (cuando para darles sentido tienen que estar ordenados) y además son pareados. 
+
+Por ejemplo, si se quiere estudiar la diferencia en el rendimiento de un grupo de corredores dependiendo de la estación del año, se hace correr al mismo grupo de personas una vez en cada estación. Como resultado, se puede disponer de dos tipos de datos: los tiempos de cada participante (análisis con ANOVA pareado) o las posiciones en las que han terminado la carrera cada participante en cada una de las carreras (análisis con Friedman test).
+
+## Datos pareados y two-way variance
+
+
+El test de Friedman genera un estadístico conocido como Fr o Q que se distribuye:
+
+Si el número total de individuos (N) es mayor de 10, la distribución de Fr se aproxima a una distribución χ2 con k−1 grados de libertad (siendo k el número de grupos a comparar).
+
+Si el número de individuos es menor de 10, se recurre a tablas con los valores de significancia para un test de Friedman.
+
+Post-Hoc: los más comunes son:
+
+Test de rangos con signo de Wilcoxon entre cada par de grupos con corrección de significancia pairwise.wilcox.test( paried = TRUE ).
+
+Tukey's range test: en R existe la función `friedmanmc()` del paquete pgirmess.
+
+
+
+
+::: {#fig-pairwise-two-way-variance}
+![](images/pairwise-two-way-variance.png){width='70%'}
+
+Datos pareados y two-way variance, Friedman.test Wilcox.test en R
+:::
+
+
+::: {#fig-friedman_test}
+![](images/friedman_test.png){width='70%'}
+
+Visualizacióin de Friedman-test
+:::
+
+
+## Parte Práctica
+
+Importar data
+
+
+```{r}
+
+data1 <- read.table(
+  'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/gardens.txt',
+  header = T,
+  stringsAsFactors = TRUE
+)
+
+head(data1)
+
+```
+
+Comparacion de variables 
+
+```{r}
+# gardenA vs gardenB
+boxplot(data1$gardenA, data1$gardenB, notch = TRUE, ylab = 'Ozono', xlab = "Garden")
+
+# distribucion de los datos
+hist(data1$gardenC)
+
+```
+
+### T-Student  (Paramétrico)
+
+```{r}
+# Diferencias entre muestras de ozono usando el test parametrico t test
+t.test(data1$gardenA, data1$gardenB) # cual es el valor de p?
+
+
+```
+
+
+### Wilcoxon rank-sum test (No Paramétrico)
+```{r}
+wilcox.test(data1$gardenA, data1$gardenB)
+```
+
+Esta es una alternativa no parametrica a la prueba t de Student, que podriamos usar 
+si los errores no fueran normales. El test de Wilcoxon rank-sum, W
+La funcion utiliza un algoritmo de aproximacion normal para calcular un valor z y,
+a partir de este, un valor p para evaluar la hipotesis de que las dos medias son iguales. 
+Este valor p de 0,002988 es mucho menor que 0,05, por lo que se rechazar la hipotesis
+nula y concluimos que las concentraciones medias de ozono en los jardines A y B son 
+significativamente diferente.
+El mensaje de advertencia al final llama la atencion sobre el hecho de que hay 
+correlacion en los datos (repeticiones de la misma medida de ozono), y esto 
+significa que el valor p no se puede calcular exactamente (esto rara vez es preocupacion).
+Es interesante comparar los valores de p de la prueba t y la prueba de
+Wilcoxon con los mismos datos: 
+
+**T-Student:**
+
+- $p = 0.001115$
+
+**Prueba Wilcox:**
+
+- $p = 0.002988$
+
+La prueba no parametrica es mucho mas apropiada que la prueba t cuando los errores no son normales, y la prueba no parametrica es aproximadamente un 95% tan poderosa con errores normales, y puede ser mas mas potente que la prueba t si la distribucion esta fuertemente sesgada por la presencia de valores atipicos. Tipicamente, como aqui, La prueba t dara el valor p mas bajo, por lo que se dice que la prueba de Wilcoxon es conservadora: si una diferencia es significativa bajo una prueba de Wilcoxon seria aun mas significativo bajo una prueba t.
+
+
+### Tests on paired samples
+
+A veces, los datos de dos muestras provienen de observaciones emparejadas. En este 
+caso, podriamos esperar una correlacion entre las dos mediciones, porque se
+realizaron en el mismo individuo o se tomaron de la misma ubicacion.
+
+**Importar data** 
+
+Los siguientes datos son una puntuacion de biodiversidad compuesta basada en una 
+muestra de invertebrados acuaticos. Los elementos estan emparejados porque las dos
+muestras fueron tomadas en el mismo rio, una aguas arriba y otra aguas abajo del 
+mismo canal de aguas residuales
+
+```{r}
+streams <- read.table('https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/streams.txt',
+                      header = T, stringsAsFactors = TRUE)
+
+head(streams)
+```
+
+Comparacion de variables 
+
+```{r}
+boxplot(streams$down, streams$up, notch = TRUE) # es correcto?
+```
+
+
+Asumiendo independencia 
+
+
+```{r}
+t.test(streams$down, streams$up) # p = 0.6856
+wilcox.test(streams$down, streams$up) # p = 0.5559
+```
+
+Asumiendo que son datos pareados 
+
+```{r}
+t.test(streams$down, streams$up, paired = TRUE) # p = 0.0081
+wilcox.test(streams$down, streams$up, paired = TRUE) # p = 0.01406
+```
+
+
+**Kruskal-Wallis test**
+
+Resultados de un experimento para comparar rendimientos (medidos por el peso seco de las plantas) obtenido bajo un control y dos condiciones de tratamiento diferentes.
+
+Importar data 
+
+```{r eval=T}
+# dataset = PlantGrowth.csv
+my_data <- read.csv("data/PlantGrowth.csv", stringsAsFactors = TRUE)
+
+head(my_data)
+# str(my_data)
+
+# group levels
+levels(my_data$group)
+```
+
+Visualizacion 
+
+```{r eval=T, warning=FALSE, message=FALSE}
+# no es necesario usar esta libreria, es solo un ejemplo mas bonito
+
+
+library(ggpubr)
+library(rstatix)
+ggboxplot(my_data, x = "group", y = "weight", 
+          color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("ctrl", "trt1", "trt2"),
+          ylab = "Weight", xlab = "Treatment")
+
+ggline(my_data, x = "group", y = "weight", 
+       color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+       add = c("mean_se", "jitter"), add.params = list(size = 2, alpha = 0.2),
+       order = c("ctrl", "trt1", "trt2"),
+       ylab = "Weight", xlab = "Treatment")
+
+
+
+
+```
+
+Comparacion de los tratamientos 
+
+```{r}
+
+summary(aov(weight ~ group, data = my_data)) # p = 0.0159
+kruskal.test(weight ~ group, data = my_data) # p = 0.01842
+
+```
+
+Como el valor p es menor que el nivel de significancia 0.05, podemos concluir que existen diferencias significativas entre los grupos de tratamiento.
+
+
+Multiple pairwise-comparison between groups
+
+A partir del resultado de la prueba de Kruskal-Wallis, sabemos que existe una diferencia entre grupos, pero no sabemos que pares de grupos son diferentes. Es posible usar la funcion pairwise.wilcox.test() para calcular por pares comparaciones entre niveles de grupo con correcciones para pruebas multiples.
+
+
+```{r}
+
+
+# ?pairwise.wilcox.test
+
+pairwise.wilcox.test(PlantGrowth$weight, PlantGrowth$group,
+                     p.adjust.method = "bonf")
+
+```
+
+La comparacion por pares muestra que solo trt1 y trt2 son significativamente diferentes (p < 0.05).
+
+### Friedman test 
+
+Importar data
+
+Usaremos el conjunto de datos de puntaje de autoestima medido en tres puntos de tiempo.Los datos estan disponibles en el paquete `datarium`.
+
+
+```{r}
+
+# dataset = selfesteem.csv
+
+selfesteem <- read.csv("data/selfesteem.csv", stringsAsFactors = TRUE)
+
+head(selfesteem)
+# str(selfesteem)
+
+# trasnfromar id a factor
+selfesteem$id = as.factor(selfesteem$id)
+```
+
+
+```{r}
+# vamos a probar los test que vienen dentro de R basico y 
+# de un paquete que se llama rstatix
+
+
+ggboxplot(selfesteem, x = "time", y = "score", add = "jitter")
+```
+
+
+```{r}
+## Comparacion de Friedman test, de dos paquetes distintos --------------
+### Basico ------------------------------------------------------------------
+
+friedman.test(score ~ time | id, data=selfesteem) # p = 0.0001117
+```
+
+
+```{r}
+### rstatix -----------------------------------------------------------------
+
+res.fried <- friedman_test(score ~ time | id, data=selfesteem)
+res.fried # p = 0.000112
+```
+
+
+**Comparacion de Wilcoxon test, de dos paquetes distintos**
+
+Basico
+
+```{r}
+pairwise.wilcox.test(selfesteem$score, selfesteem$time, paired = TRUE, 
+                     p.adjust.method = "bonf")
+```
+
+
+rstatix
+
+```{r}
+
+pwc <- wilcox_test(score ~ time, paired = TRUE, p.adjust.method = "bonferroni"
+                   , data=selfesteem)
+pwc
+
+# agregar coordenadas y posiciones de los valores. Solo necesario para hacer graficos
+pwc = add_xy_position(pwc, x = "time")
+pwc
+```
+
+
+```{r}
+
+ggboxplot(selfesteem, x = "time", y = "score", add = "point") +
+  stat_pvalue_manual(pwc, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.fried,  detailed = TRUE),
+    caption = get_pwc_label(pwc)
+  )
+
+```
+
+
+
+```{r eval=FALSE}
+## Plot --------------------------------------------------------------------
+# Funcion para exportar el plot como svg. Despues de usarla, se debe 
+# correr el plot y para finalizar la exportacion, debemos aplicar el
+# dev.off()
+
+svg('plot.svg', width = 8, height = 8) 
+
+plot_box <- ggboxplot(selfesteem, x = "time", y = "score", add = "point") +
+  stat_pvalue_manual(pwc, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.fried,  detailed = TRUE),
+    caption = get_pwc_label(pwc)
+  )
+
+dev.off()
+
+# para visualizarlo
+plot_box
+
+```
+

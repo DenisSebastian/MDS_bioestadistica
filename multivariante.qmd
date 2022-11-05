@@ -1,0 +1,577 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Estadísticas Multivariante {#multivariante}
+
+El mundo en el que vivimos no es de una sola dimensión, es multivariante, con múltiples dimensiones, con muchos datos cruzándose todo el tiempo y con medidas de más de una variable aleatoria. 
+
+Definición formal:
+: "rama de las estadísticas que abarca la observación y el análisis simultáneos de más de una variable respuesta."
+
+
+Hay dos aplicaciones típicas de este tipo de estadística: 
+
+* Reducción de información (Feature reduction) – Ordenación de la información (Ordination)
+
+* Clustering – Agrupación de clases de datos homogéneos
+
+Pero hay muchas más. 
+
+
+## La Dimensionalidad
+
+
+**La maldición de la dimensionalidad**
+
+* Una cantidad correcta de atributos ayudan a crear mejores modelos.
+* Los datos de altas dimensiones se vuelven cada vez más dispersos en su espacio.
+* Las definiciones de densidad y distancia entre puntos se vuelven menos significativas a mayor numero de atributos.
+
+![La Maldición de la dimensionalidad](images/la_maldicion.png)
+
+## Análisis exploratorio de datos (EDA)
+
+Análisis del conjunto de datos para resumir sus principales características, mediante métodos estadísticos y visuales.
+
+### Objetivos EDA:
+
+-   Descubrir la estructura subyacente de los datos
+-   Identificar variables relevantes Detectar valores atípicos y anomalías Validar supuestos
+-   Generar hipótesis a partir de los datos
+
+![Ejemplo de Análisis exploratorio de datos (EDA)](images/eda.png){width="60%"}
+
+
+## Definición de Ingeniería de Atributos
+
+Selección de atributos:
+: Selección de un subconjunto de atributos según algún criterio específico.
+
+![Selección de atributos](images/f-selection.png){width="15%"}
+
+Extracción de atributos:
+: Creación de nuevos atributos a partir de atributos originales
+
+![Extracción de atributos](images/f-extraction.png){width="15%"}
+
+Pueden hacerse con conocimiento del dominio o algorítmicamente
+
+## Medidas de distancia
+
+
+Una métrica que mide la distancia entre un par de entidades dados los dos puntos $x$ e $y$, una función métrica o de distancia debe cumplir las siguientes condiciones:
+
+
+| Nombre Condición       | Condición              |
+|------------------------|------------------------|
+| No negatividad         | $d(x,y) >0$            |
+| Identidad              | $d(x,y)=0 <=> x=y$       |
+| Simetría               | $d(x,y)=d(y,x)$          |
+| Desigualdad triangular | $d(x,z) <= d(x,y)+d(y,z)$ |
+
+: Tabla de Condiciones de Distancias
+
+
+
+Todos los métodos de clustering y ordination tienen una cosa en común, para poder llevar a cabo las agrupaciones necesitan definir y cuantificar la similitud entre las observaciones. El término distancia se emplea para cuantificar la similitud (o disimilitud; dissimilarity) entre observaciones. 
+
+Se calcula la “distancia” en una matriz de todos contra todos.
+
+
+![Matriz de Distancias](images/matriz-distancia.png){width="100%"}
+
+![Matriz de Disimilitud](images/matriz_dis.png){width=50%}
+
+
+Si se representan las observaciones en un espacio $p$ dimensional, siendo p el número de variables asociadas a cada observación, cuanto más se asemeje dos observaciones, más próximas estarán. Por eso se emplea el término distancia. La característica que hace del clustering y ordenación métodos adaptables a escenarios muy diversos es que puede emplear cualquier tipo de distancia, lo que permite al investigador escoger la más adecuada para el estudio en cuestión. A continuación, se describen algunas de las más utilizadas.
+
+
+
+![Tipos de Distancias](images/tipos_distancia.png){width=60%}
+
+### Distancia euclidiana
+
+Se desprende del teorema de Pitágoras
+
+![Distancia Euclediana](images/d-euclediana.png){width="60%"}
+
+$$d_E(P_1, P_2)=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$$
+
+* Para: variables continuas con distribución cercana a la normal 
+
+
+### Distancia Manhattan
+
+Distancia entre dos puntos como la sumatoria de las diferencias absolutas entre cada dimensión. Esta medida se ve menos afectada por outliers (es más robusta) que la distancia euclidiana debido a que no eleva al cuadrado las diferencias.
+
+* Para: variables continuas, no normales y con posibles outliars
+
+### Índice de Jaccard
+
+Cuando las variables con las que se pretende determinar la similitud entre observaciones son de tipo binario, a pesar de que es posible codificarlas de forma numérica como 1 o 0, no tiene sentido aplicar operaciones aritméticas sobre ellas (media, suma…)
+
+* Para: variables binarias
+
+
+### Distancia Bray-Curtis
+
+La distancia Bray-Curtis se refiere a la diferencia total en la abundancia de especies entre dos sitios, dividido para la abundancia total en cada sitio.
+
+La ecuación que permite el cálculo de la distancia de Bray-Curtis: aquí, se comparan dos muestras $j$ y $k$:
+
+
+$$BC_{jk}= 1- \frac{2\sum_{i=1}^{p}min(N_{ij}, N_{ik})}{\sum_{i=1}^{p}(N_{ij}+N_{ik})}$$
+
+Donde es la abundancia de una especie $i$ en la muestra $j$ y la abundancia de la misma especie i en la muestra $k$. El término $min (.,.)$ Corresponde al mínimo obtenido para dos conteos en las mismas muestras. Las sumas ubicadas en el numerador y denominador se realizan sobre todas las especies presentes en las muestras. $N_ {ij}N_{ik}$
+
+La distancia Bray-Curtis tiende a resultar más intuitiva debido a que las especies comunes y raras tienen pesos relativamente similares, mientras que la distancia euclidiana depende en mayor medida de las especies más abundantes. Esto sucede porque las distancias euclidianas se basan en diferencias al cuadrado, mientras que Bray-Curtis utiliza diferencias absolutas. El elevar un número al cuadrado siempre amplifica la importancia de los valores más grandes
+
+* Para: variables porcentajes o proporciones (0-1)
+
+**En resumen:**
+
+Resumen, ¿Cuál distancia usar?
+
+La distancia ideal a utilizar va a depender completamente de los datos que estamos usando. 
+
+* Si los datos son continuos y no presentan outliars la distancia euclidiana es suficiente. 
+
+* Si la distribución de las variables es no-normal y presenta outliars, es mejor la distancia de Manhattan.
+
+* En caso de que los datos presentan valores nulos (ej., presencia/ausencia de especies), entonces es mejor usar Jaccard. 
+
+* Si las variables son proporciones o porcentajes entre cero y uno, por ejemplo abundancia de especies o otro tipo de frecuencias, es buena la distancia de Bray-Curtis.
+
+Por supuesto, existen muchos otros índices de distancia que pueden buscar y utilizar.
+
+
+
+## Ordenación
+
+En ecología es bastante normal que dispongamos de datos que están conformados por un conjunto de sitios o localidades, para los cuales tenemos una serie de variables. Estas variables puede ser cada especie o cada condición que levantemos en el sitio, de esta forma, un sitio va a tener tantas variables como especies o factores ambientales se registren.
+
+Ordenamos las parcelas en función de la cantidad de individuos de dos especies, de esta forma la distancia a la que se encontraba cada comunidad nos daba información sobre cuanto se parecían. Aunque esta es una forma fácil de ordenar nuestras comunidades, esta forma de graficar es solo posible con dos o máximo tres especies, pero pocas comunidades tienen únicamente tres especies, cuando tenemos más de tres especies es necesario buscar otras formas de ordenación que nos permitan rescatar el gradiente ambiental.
+
+De esta forma, el objetivo de los métodos de ordenación es representar los datos a lo largo de un número reducido de ejes ortogonales, construidos de tal manera que representan, en orden, las principales tendencias de los datos (Borcard, Gillet, and Legendre 2011).
+
+Las ordenaciones pueden ser indirectas y directas (constreñidas). Las ordenaciones indirectas pueden ser utilizadas para interpretarse visualmente o asociadas a otros métodos, como regresión. Por su parte, las ordenaciones directas permiten hacer asociaciones con variables explicativas, generando un orden constreñido pobasado en unas variables explicativas.
+
+
+Por ejemplo, si se registran las abundancias de diez especies en diferentes sitios, entonces la variación total entre sitios podría ser representada gráficamente en diez dimensiones (i.e., una por especie). Obviamente, esto no es muy eficiente. Sin embargo, si sólo hubieran unas pocas tendencias o gradientes claves compartidas entre las especies, entonces se podría derivar un conjunto más pequeño de ejes (por ejemplo, dos) que resumiera la mayor parte de la variación en el conjunto de datos. 
+
+El término "ordenación" refleja la intención original del enfoque - identificar gradientes únicos (es decir, respuestas ordenadas) de variables que podría reflejar los procesos ecológicos.
+
+
+
+Para reducir la dimensionalidad de las variables dentro de una análisis estadístico (i.e., tener menos variables), hay dos formas principales:
+
+* Feature selection: Seleccionar variables; ejempo: Stepwise selection
+
+* Feature extraction: Extraer la información relevante de cada variable, y crear un número menor de nuevos componentes con esa información
+
+
+## Métodos de ordenación
+
+### Principal Component Analysis (PCA)
+
+Esta técnica de ordenación es sencilla de interpretar, las distancias entre las muestras son interpretadas directamente como distancias euclidianas. Este método de ordenación es ampliamente usado con datos ambientales, donde el valor de cero es informativo, aunque se puede usar en datos biológicos previo una transformación. El PCA al usar distancias euclidianas es fuertemente afectado por ceros, y detecta relaciones lineares de los datos.
+
+Además de las limitantes de los dobles ceros, otro inconveniente que puede tener esta ordenación, es que la proyección de las distancias euclidias en un plano puede distorsionar algunas distancias en otros planos.
+
+Los gráficos de dispersión de la ordenación PCA, los objetos (las comunidades) se representan como puntos y las variables se muestran como flechas.
+
+
+Usa matrices de disimilaridad en base a distancias EUCLIDIANAS! Distancias lineales. 
+
+Número de Componentes Principales Creados es = el Número de variables iniciales.
+
+PCA ordena de forma decreciente los componentes de acuerdo a cuánta información de las variables originales contiene. Ej., PC1 es siempre el que contiene más información, y PCn prácticamente nada (muchas veces los últimos componentes se consideran ruido! ): información en los datos no relevante en relación al contexto general de su organización e interacción. 
+
+
+![Principal Component Analysis (PCA)](images/pca.png)
+
+
+Loadings: 
+: Pueden interpretarse como el peso/importancia que tiene cada variable en cada componente y, por lo tanto, ayudan a conocer que tipo de información recoge cada una de las componentes. Cada variable original no es asignada completamente a un solo componente principal, sino que la varianza de una variable puede ser compartida por muchos componentes.
+
+Scores:
+: Los scores son los componentes principales que el método crea para resumir la información de los datos originales.
+
+Eigenvectors y Eigenvalues:
+: Estos dos conceptos están relacionados con los componentes o loadings. De manera simple, eigenvectors y eigenvalues son en realidad propiedades de la multiplicación de matrices cuadradas realizadas durante el PCA (y otros muchos métodos). Eigenvectors serían las direcciones de rotación de cada componente, mientras que eigenvalue es la cantidad de varianza que cada componente explica. Por lo tanto, el eigenvalue determina el orden de los componentes en PCA.
+
+
+
+**Número óptimo de componentes principales**
+
+Normalmente el criterio para seleccionar el número deseado de componentes es graficando la varianza acumulada de los eigenvalues y elegir el punto de inflexión (elbow). La idea es reducir la dimensionalidad de los datos, por lo que un número bajo de componentes es deseado. Además, normalmente los componentes altos (i.e., baja varianza) en general tienen mucho ruido. 
+
+Ejemplo: datos foliares de pigmentos (clorofila, carotenoides, contenido de agua, ...) con datos hiperespectrales tomados por espectroscopia de campo (datos de reflectancia de teledetección = 2051 variables)
+
+
+![Varianza explicada](images/bar_varianza.png){#fig-barPCA width=60%}
+
+![Suma acumulada de la varianza](images/cumsum_varianza_pca.png){#fig-cumsumPCA width=60%}
+
+**Interpetración Gráfica de PCA**
+
+
+Scatterplot de los dos primeros componentes, PC1 y PC2, los que contienen justos cerca del 75% de la varianza de los datos. Como se puede ver:
+
+Los componentes, o las variables nuevas creadas, no tienen las mismas unidades de medida originales. Estas son variables sin unidades. Datos de coordenadas en la nueva dimensión.
+Puntos más lejos del centro (0,0) contribuyen más a la creación del del nuevo espacio de coordenadas.
+
+Las distancias entre los puntos indican que observaciones (filas) tienen valores parecidos y cuales muy distintos (lejos). En este caso, las distancias SI importan, ya que la distancia euclidiana mantiene las proporciones lineales de los datos originales. 
+
+
+![Visualización de dos PCA](images/pca2d.png){#fig-graphPCA width=60%}
+
+Se pueden ajustar vectores o factores ambientales en una ordenación. Las proyecciones de los puntos sobre los vectores tienen la máxima correlación con las variables ambientales correspondientes, y los factores muestran las medias de los niveles de los factores. 
+
+Ej: el contenido de agua de la hoja (Cw) se relaciona con PC1 (negativo) y con PC2 (positivo). El hecho de que sea positivo o negativo importa poco. 
+
+Puntos cerca de ese vector de Cw son los que tienen más agua, y viceversa. 
+
+
+![Visualización de dos PCA con proyección de variables ambientales](images/pca2d_2.png){#fig-graphPCA-2 width=60%}
+
+
+### Principal coordinates analysis (PCoA)
+
+PCoA, conocido también como escalado métrico multidimensional (MDS) es conceptualmente similar a PCA y análisis de correspondencia (CA) que preservan distancias Eudlicean y chi-cuadrado entre objetos, respectivamente, la diferencia con estos métodos de ordenación es que el PCoA puede preservar las distancias generadas a partir de cualquier medida de similitud o disimilitud permitiendo un manejo más flexible de datos ecológicos complejos. PCA se usa comúnmente para similitudes y PCoA para diferencias.
+
+Una ventaja importante es que el PCoA permite manejar matrices de disimilitud calculadas a partir de variables cuantitativas, semicuantitativas, cualitativas y mixtas. En este caso la elección de la medida de similitud o disimilitud es crítica y debe ser adecuada para los datos con los que se está trabajando.
+
+Aunque, este método presenta varias ventajas hay que recordad que el PCoA representa en el plano los componentes euclidianos de la matriz, incluso si la matriz contiene distancias no euclidianas.
+
+
+Principal coordinates analysis (PCoA) es una extensión conceptual de la técnica de PCA descrita anteriormente. De manera similar, busca ordenar los objetos a lo largo de los ejes de las coordenadas principales para maximizar la varianza del conjunto de datos original. Sin embargo, mientras que el PCA organiza los objetos linealmente mediante medidas de distancia euclidianas, el PCoA puede aplicarse con cualquier matriz de distancia (dissimilarity) (Gower 1966).
+
+PCoA utiliza matrices de distancia como input.
+
+Las distancias entre puntos no representan distancias reales entre las variables, ya que no usa distancia euclidiana
+
+También genera Número de Componentes Principales Creados es = el Número de variables iniciales.
+
+![Visualización de Principal coordinates analysis (PCoA)](images/PCoA.png){#fig-graphPCoA width=60%}
+
+
+<!-- ### Nonmetric multidimensional scaling (NMDS) -->
+
+Es una técnica de ordenación única, ya que se elige explícitamente un (pequeño) número de ejes de ordenación antes del análisis y los datos se ajustan a esas dimensiones. 
+
+Por ej., el total de la variación de los datos de entrada se puede transformar en 2-3 componentes.
+
+De manera similar al PCoA, se calcula primero una matriz de diferencias de objetos utilizando una métrica de distancia elegida (lineal, no-lineal, etc). 
+
+En NMDS, se calculan los rangos de estas distancias entre todos los objetos. El algoritmo encuentra entonces una configuración de objetos en el espacio ordinal elegido de N-dimensiones que se ajusta mejor a las diferencias de rangos (Kruskal 1964). Se usa una métrica de costo k para identificar el mejor número de componentes a crear. Los costos bajo 1.2 se consideran buenos. 
+
+En este caso, la distancia y ubicación en las coordenadas no importa, únicamente dice si: si dos puntos están cerca de si = contienen información similar, si están lejos = información distinta.
+
+
+![Visualización de Nonmetric multidimensional scaling (NMDS)](images/NMDS.png){#fig-graphNMDS width=60%}
+
+## Referencias Teóricas
+
+[Análisis multivariante de la comunidad](https://ciespinosa.github.io/AnalisisMultivariante/index.html)
+
+
+## Parte Práctica
+
+```{r}
+library(dplyr)
+```
+
+
+### Insumos
+
+Cargar foliares de pigmentos (clorofila, carotenoides, contenido de agua, ...) con datos hiperespectrales tomados por espectroscopia de campo (datos de reflectancia de teledetección = 2051 variables)
+
+
+```{r}
+# datos de rasgos de hojas + reflectancia
+data1 = read.csv('https://raw.githubusercontent.com/JavierLopatin/Clases/master/M%C3%A9todos_avanzados_en_R/dataset/angers-leaf-optical-properties-database--2003.csv')
+```
+
+
+Solamente utilizar los datos de reflectancia, los de transmitancia no los utilizaremos.
+
+```{r}
+data1 = data1 %>% 
+  filter(Measurement_type == 'reflectance')
+
+# primero verificar que los datos no tengan NaNs
+any( is.na(data1) )
+# data1 = na.omit(data1)
+```
+
+
+
+Obtener los los rasgos y cambiar el nombre de las columnas, corresponde a las variables que no queremeos que se reduzcan.
+
+
+```{r}
+traits = data1 %>% 
+  dplyr::select(2,4,7,9,15)
+
+colnames(traits) = c('Car', 'Cab', 'Cw', 'Cm', 'N')
+traits %>% head()
+
+```
+
+
+Variables que nos interesa reducir, correspondiente a los valores de reflectancia.
+
+```{r}
+# obtener la reflectancia
+reflec <- data1 %>% 
+  select(22:ncol(.))
+
+
+```
+
+Hagamos un gráfico de la reflectancia media solo para visualización
+
+```{r, warning=FALSE}
+plot(seq(400,2450), colMeans(reflec), type='l', las=1, lwd=2, ylab='Reflectance',
+     xlab='Wavelength [nm]', main="", ylim = c(0, 0.5))
+lines(seq(400,2450), colMeans(reflec)-sapply(reflec, sd), ltw=2, lty=2)
+lines(seq(400,2450), colMeans(reflec)+sapply(reflec, sd), ltw=2, lty=2)
+legend('topright', legend=c('Reflectacia media', 'Desviacion estandar'), lty=c(1,2), bty = 'n')
+
+```
+
+```{r}
+dat <- data.frame(x= seq(400,2450), y =colMeans(reflec))
+library(ggplot2)
+ggplot(dat, aes(x=x,y=y)) +
+  stat_smooth(method="loess", span=0.1, se=TRUE, alpha=0.3) +
+  theme_bw()
+```
+
+
+```{r}
+# Transformacion PCA a la reflectancia
+hist( scale(reflec$X400) )
+```
+
+
+### PCA
+
+
+```{r}
+pca <- prcomp(reflec, scale=TRUE)
+names(pca)
+```
+
+Los elementos `center` y `scale` almacenados en el objeto pca contienen la media y desviación típica de las variables previa estandarización (en la escala original).  `Rotation` contiene el valor de los _loadings_ ϕ para cada componente (eigenvector).
+
+```{r}
+pca$rotation[1:10,1:6]
+```
+
+
+Caculamos la proporción de varianza total de los datos contenido en cada componente
+```{r}
+prop_varianza <- pca$sdev^2 / sum(pca$sdev^2)
+prop_varianza[1:10]
+```
+
+Ejemplo: PC1 explica el 46% de toda la informacion, PC2 32%, ...
+
+
+Plot de los primeros 10 componentes
+```{r}
+barplot(prop_varianza[1:10], las=1, ylab='Variamza explicada [%]', xlab='Componentes',
+        main='Varianza explicada de los primeros 10 comp.')
+```
+
+
+varianza acumulada y plot
+```{r}
+prop_varianza_acum <- cumsum(prop_varianza)
+
+plot(seq(1,20), prop_varianza_acum[1:20], las=1, type='l',
+     xlab='Componentes', ylab="Prop. varianza explicada acumulada [%]")
+abline(v=3, lty=2)
+
+prop_varianza_acum
+
+```
+
+_Solo 3 componentes tienen >90% de la informacion de las 2051 variables_
+
+
+### Features Spaces
+
+```{r}
+# analizas si distribución en el espacio muestral (feature space)
+library(vegan)
+
+# ordiplot es una funcion especifica para este tipo de datos. Tiene parametros inetresantes
+ordiplot(pca)
+
+# lo mismo que 
+plot(pca$x[,1:2])
+
+# PC2 contra PC3
+ordiplot(pca, choices = c(2,3))
+
+# ver que observación es cada punto
+ordiplot(pca, type = "text")
+```
+
+
+```{r}
+
+# crear modelo que ajusta otras variables al gradiente de coordenadas creado
+env = envfit(pca, traits)
+env
+
+# plot
+ordiplot(pca, type = "text")
+plot(env)
+
+```
+
+
+La distribución espacial de los datos esta dado por la variabilidad (información) que explica.
+
+
+
+
+Visualización 3d de los PCA
+
+```{r eval=TRUE}
+data <-  pca$x[,1:3] %>% scale() %>% as.data.frame() %>% 
+  mutate(sd = pca$sdev)
+library(plotly)
+fig <- plot_ly(data, x = ~PC1, y = ~PC2, z = ~PC3
+               # marker = list(color = ~sd, 
+               #               colorscale = c('#FFE1A1', '#683531'),
+               #               showscale = TRUE)
+               )
+fig <- fig %>% add_markers()
+fig <- fig %>% layout(scene = list(
+  xaxis = list(title = 'PC1'),
+  yaxis = list(title = 'PC2'),
+  zaxis = list(title = 'PC3')))
+
+fig
+
+```
+
+
+
+###  PCoA
+
+```{r}
+library(ape)
+library(vegan)
+```
+
+
+Base de datos contenida en vegan, de cobertura (0-100%) especies en praderas europeas y  
+
+```{r}
+data(varespec)
+varespec %>% head()
+```
+
+
+```{r}
+# datos ambientales en esa pradera
+data(varechem)
+varechem %>% head()
+```
+
+```{r}
+# Calluna vulgaris
+hist(varespec$Callvulg)
+```
+
+Aquí tendríamos muchos problemas con PCA u otro método usando distancias eclidianas
+
+
+
+```{r}
+# calcular disimiridad usando Bray-Curtis
+varespec.bray <- vegdist(varespec, method = "bray") 
+varespec.bray
+```
+
+
+```{r warning=FALSE}
+# PCoA
+pcoa <- pcoa(varespec.bray)
+names(pcoa)
+
+biplot(pcoa, plot.axes = c(2,3))#ordiplot no funciona con esta funcion, pero si biplot()
+biplot(pcoa, varechem)
+
+# varianza o otra informacion
+names(pcoa$values)
+
+# varianza acumulada
+plot(seq(1,24), pcoa$values$Cum_corr_eig, las=1, type='l',
+     xlab='Componentes', ylab="Prop. varianza explicada acumulada [%]")
+
+### PCoA en los valores de reflectancia
+norm.reflec <- apply(reflec, 2, scale, center=TRUE, scale=TRUE)
+# reflec[,1]
+# norm.reflec[,1]
+
+reflec.euclid <- vegdist(norm.reflec, method = "euclidean") 
+pcoa2 <- pcoa(reflec.euclid)
+biplot(pcoa2, traits)
+
+# varianza acumulada de los componentes
+pcoa2$values[,2]
+
+# varianza acumulada primeros 10 comp
+plot(seq(1,10), pcoa2$values$Cum_corr_eig[1:10], las=1, type='l',
+     xlab='Componentes', ylab="Prop. varianza explicada acumulada [%]")
+abline(v=3, lty=2)
+# tres componentes sigue siendo el punto optimo
+
+```
+
+
+
+
+### NMDS
+
+Con distancia euclineada y normalizado con scale(), como pca toda la varianza de los datos a 2 componentes
+
+```{r}
+data("varechem")
+nMDS <- metaMDS(norm.reflec, distance='euclidean', k=2, trymax=1000)
+env2 = envfit(nMDS, traits)
+# ordiplot(nMDS)
+# plot(env2)
+```
+
+
+```{r}
+# con los datos de especies, y usando la distancia Bray-Curtis
+nMDS2 <- metaMDS(varespec, distance='bray', k=2, trymax=1000)
+env3 = envfit(nMDS2, varechem)
+ordiplot(nMDS2, type = 'text', las=1, main='NMDS para especies con Bray-Curtis')
+plot(env3)
+
+# En NMDS es stress debe ser < 1.3
+
+
+
+
+```
+
+
+
+
+
+
+
