@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Curso: Bioestadística 2022 - 13&nbsp; Estadísticas Multivariante</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./non_params.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Estadísticas Multivariante</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Curso: Bioestadística 2022</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamendos Básicos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./d_prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Distr. de Probabilidades</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./t_limite_central.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Teorema del Límite Central</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./correlaciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Correlaciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Regresiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./val_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Validación de Modelos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reg_no_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos no Lineales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diseno_exp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Diseño de Experimentos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./anova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Anova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ancova.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ancova</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./non_params.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Est. No Paramétrica</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multivariante.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Estadísticas Multivariante</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#la-dimensionalidad" id="toc-la-dimensionalidad" class="nav-link active" data-scroll-target="#la-dimensionalidad"> <span class="header-section-number">13.1</span> La Dimensionalidad</a></li>
+  <li><a href="#análisis-exploratorio-de-datos-eda" id="toc-análisis-exploratorio-de-datos-eda" class="nav-link" data-scroll-target="#análisis-exploratorio-de-datos-eda"> <span class="header-section-number">13.2</span> Análisis exploratorio de datos (EDA)</a>
+  <ul class="collapse">
+  <li><a href="#objetivos-eda" id="toc-objetivos-eda" class="nav-link" data-scroll-target="#objetivos-eda"> <span class="header-section-number">13.2.1</span> Objetivos EDA:</a></li>
+  </ul></li>
+  <li><a href="#definición-de-ingeniería-de-atributos" id="toc-definición-de-ingeniería-de-atributos" class="nav-link" data-scroll-target="#definición-de-ingeniería-de-atributos"> <span class="header-section-number">13.3</span> Definición de Ingeniería de Atributos</a></li>
+  <li><a href="#medidas-de-distancia" id="toc-medidas-de-distancia" class="nav-link" data-scroll-target="#medidas-de-distancia"> <span class="header-section-number">13.4</span> Medidas de distancia</a>
+  <ul class="collapse">
+  <li><a href="#distancia-euclidiana" id="toc-distancia-euclidiana" class="nav-link" data-scroll-target="#distancia-euclidiana"> <span class="header-section-number">13.4.1</span> Distancia euclidiana</a></li>
+  <li><a href="#distancia-manhattan" id="toc-distancia-manhattan" class="nav-link" data-scroll-target="#distancia-manhattan"> <span class="header-section-number">13.4.2</span> Distancia Manhattan</a></li>
+  <li><a href="#índice-de-jaccard" id="toc-índice-de-jaccard" class="nav-link" data-scroll-target="#índice-de-jaccard"> <span class="header-section-number">13.4.3</span> Índice de Jaccard</a></li>
+  <li><a href="#distancia-bray-curtis" id="toc-distancia-bray-curtis" class="nav-link" data-scroll-target="#distancia-bray-curtis"> <span class="header-section-number">13.4.4</span> Distancia Bray-Curtis</a></li>
+  </ul></li>
+  <li><a href="#ordenación" id="toc-ordenación" class="nav-link" data-scroll-target="#ordenación"> <span class="header-section-number">13.5</span> Ordenación</a></li>
+  <li><a href="#métodos-de-ordenación" id="toc-métodos-de-ordenación" class="nav-link" data-scroll-target="#métodos-de-ordenación"> <span class="header-section-number">13.6</span> Métodos de ordenación</a>
+  <ul class="collapse">
+  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca"> <span class="header-section-number">13.6.1</span> Principal Component Analysis (PCA)</a></li>
+  <li><a href="#principal-coordinates-analysis-pcoa" id="toc-principal-coordinates-analysis-pcoa" class="nav-link" data-scroll-target="#principal-coordinates-analysis-pcoa"> <span class="header-section-number">13.6.2</span> Principal coordinates analysis (PCoA)</a></li>
+  </ul></li>
+  <li><a href="#referencias-teóricas" id="toc-referencias-teóricas" class="nav-link" data-scroll-target="#referencias-teóricas"> <span class="header-section-number">13.7</span> Referencias Teóricas</a></li>
+  <li><a href="#parte-práctica" id="toc-parte-práctica" class="nav-link" data-scroll-target="#parte-práctica"> <span class="header-section-number">13.8</span> Parte Práctica</a>
+  <ul class="collapse">
+  <li><a href="#insumos" id="toc-insumos" class="nav-link" data-scroll-target="#insumos"> <span class="header-section-number">13.8.1</span> Insumos</a></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca"> <span class="header-section-number">13.8.2</span> PCA</a></li>
+  <li><a href="#features-spaces" id="toc-features-spaces" class="nav-link" data-scroll-target="#features-spaces"> <span class="header-section-number">13.8.3</span> Features Spaces</a></li>
+  <li><a href="#pcoa" id="toc-pcoa" class="nav-link" data-scroll-target="#pcoa"> <span class="header-section-number">13.8.4</span> PCoA</a></li>
+  <li><a href="#nmds" id="toc-nmds" class="nav-link" data-scroll-target="#nmds"> <span class="header-section-number">13.8.5</span> NMDS</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="multivariante" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Estadísticas Multivariante</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>El mundo en el que vivimos no es de una sola dimensión, es multivariante, con múltiples dimensiones, con muchos datos cruzándose todo el tiempo y con medidas de más de una variable aleatoria.</p>
+<dl>
+<dt>Definición formal:</dt>
+<dd>
+“rama de las estadísticas que abarca la observación y el análisis simultáneos de más de una variable respuesta.”
+</dd>
+</dl>
+<p>Hay dos aplicaciones típicas de este tipo de estadística:</p>
+<ul>
+<li><p>Reducción de información (Feature reduction) – Ordenación de la información (Ordination)</p></li>
+<li><p>Clustering – Agrupación de clases de datos homogéneos</p></li>
+</ul>
+<p>Pero hay muchas más.</p>
+<section id="la-dimensionalidad" class="level2 page-columns page-full" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="la-dimensionalidad"><span class="header-section-number">13.1</span> La Dimensionalidad</h2>
+<p><strong>La maldición de la dimensionalidad</strong></p>
+<ul>
+<li>Una cantidad correcta de atributos ayudan a crear mejores modelos.</li>
+<li>Los datos de altas dimensiones se vuelven cada vez más dispersos en su espacio.</li>
+<li>Las definiciones de densidad y distancia entre puntos se vuelven menos significativas a mayor numero de atributos.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/la_maldicion.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption margin-caption">La Maldición de la dimensionalidad</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="análisis-exploratorio-de-datos-eda" class="level2 page-columns page-full" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="análisis-exploratorio-de-datos-eda"><span class="header-section-number">13.2</span> Análisis exploratorio de datos (EDA)</h2>
+<p>Análisis del conjunto de datos para resumir sus principales características, mediante métodos estadísticos y visuales.</p>
+<section id="objetivos-eda" class="level3 page-columns page-full" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="objetivos-eda"><span class="header-section-number">13.2.1</span> Objetivos EDA:</h3>
+<ul>
+<li>Descubrir la estructura subyacente de los datos</li>
+<li>Identificar variables relevantes Detectar valores atípicos y anomalías Validar supuestos</li>
+<li>Generar hipótesis a partir de los datos</li>
+</ul>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/eda.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Ejemplo de Análisis exploratorio de datos (EDA)</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="definición-de-ingeniería-de-atributos" class="level2 page-columns page-full" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="definición-de-ingeniería-de-atributos"><span class="header-section-number">13.3</span> Definición de Ingeniería de Atributos</h2>
+<dl>
+<dt>Selección de atributos:</dt>
+<dd>
+Selección de un subconjunto de atributos según algún criterio específico.
+</dd>
+</dl>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/f-selection.png" class="img-fluid figure-img" style="width:15.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Selección de atributos</figcaption><p></p>
+</figure>
+</div>
+<dl>
+<dt>Extracción de atributos:</dt>
+<dd>
+Creación de nuevos atributos a partir de atributos originales
+</dd>
+</dl>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/f-extraction.png" class="img-fluid figure-img" style="width:15.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Extracción de atributos</figcaption><p></p>
+</figure>
+</div>
+<p>Pueden hacerse con conocimiento del dominio o algorítmicamente</p>
+</section>
+<section id="medidas-de-distancia" class="level2 page-columns page-full" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="medidas-de-distancia"><span class="header-section-number">13.4</span> Medidas de distancia</h2>
+<p>Una métrica que mide la distancia entre un par de entidades dados los dos puntos <span class="math inline">x</span> e <span class="math inline">y</span>, una función métrica o de distancia debe cumplir las siguientes condiciones:</p>
+<table class="table">
+<caption>Tabla de Condiciones de Distancias</caption>
+<thead>
+<tr class="header">
+<th>Nombre Condición</th>
+<th>Condición</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No negatividad</td>
+<td><span class="math inline">d(x,y) &gt;0</span></td>
+</tr>
+<tr class="even">
+<td>Identidad</td>
+<td><span class="math inline">d(x,y)=0 &lt;=&gt; x=y</span></td>
+</tr>
+<tr class="odd">
+<td>Simetría</td>
+<td><span class="math inline">d(x,y)=d(y,x)</span></td>
+</tr>
+<tr class="even">
+<td>Desigualdad triangular</td>
+<td><span class="math inline">d(x,z) &lt;= d(x,y)+d(y,z)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Todos los métodos de clustering y ordination tienen una cosa en común, para poder llevar a cabo las agrupaciones necesitan definir y cuantificar la similitud entre las observaciones. El término distancia se emplea para cuantificar la similitud (o disimilitud; dissimilarity) entre observaciones.</p>
+<p>Se calcula la “distancia” en una matriz de todos contra todos.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/matriz-distancia.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Matriz de Distancias</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/matriz_dis.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Matriz de Disimilitud</figcaption><p></p>
+</figure>
+</div>
+<p>Si se representan las observaciones en un espacio <span class="math inline">p</span> dimensional, siendo p el número de variables asociadas a cada observación, cuanto más se asemeje dos observaciones, más próximas estarán. Por eso se emplea el término distancia. La característica que hace del clustering y ordenación métodos adaptables a escenarios muy diversos es que puede emplear cualquier tipo de distancia, lo que permite al investigador escoger la más adecuada para el estudio en cuestión. A continuación, se describen algunas de las más utilizadas.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/tipos_distancia.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Tipos de Distancias</figcaption><p></p>
+</figure>
+</div>
+<section id="distancia-euclidiana" class="level3 page-columns page-full" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="distancia-euclidiana"><span class="header-section-number">13.4.1</span> Distancia euclidiana</h3>
+<p>Se desprende del teorema de Pitágoras</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/d-euclediana.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Distancia Euclediana</figcaption><p></p>
+</figure>
+</div>
+<p><span class="math display">d_E(P_1, P_2)=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}</span></p>
+<ul>
+<li>Para: variables continuas con distribución cercana a la normal</li>
+</ul>
+</section>
+<section id="distancia-manhattan" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="distancia-manhattan"><span class="header-section-number">13.4.2</span> Distancia Manhattan</h3>
+<p>Distancia entre dos puntos como la sumatoria de las diferencias absolutas entre cada dimensión. Esta medida se ve menos afectada por outliers (es más robusta) que la distancia euclidiana debido a que no eleva al cuadrado las diferencias.</p>
+<ul>
+<li>Para: variables continuas, no normales y con posibles outliars</li>
+</ul>
+</section>
+<section id="índice-de-jaccard" class="level3" data-number="13.4.3">
+<h3 data-number="13.4.3" class="anchored" data-anchor-id="índice-de-jaccard"><span class="header-section-number">13.4.3</span> Índice de Jaccard</h3>
+<p>Cuando las variables con las que se pretende determinar la similitud entre observaciones son de tipo binario, a pesar de que es posible codificarlas de forma numérica como 1 o 0, no tiene sentido aplicar operaciones aritméticas sobre ellas (media, suma…)</p>
+<ul>
+<li>Para: variables binarias</li>
+</ul>
+</section>
+<section id="distancia-bray-curtis" class="level3" data-number="13.4.4">
+<h3 data-number="13.4.4" class="anchored" data-anchor-id="distancia-bray-curtis"><span class="header-section-number">13.4.4</span> Distancia Bray-Curtis</h3>
+<p>La distancia Bray-Curtis se refiere a la diferencia total en la abundancia de especies entre dos sitios, dividido para la abundancia total en cada sitio.</p>
+<p>La ecuación que permite el cálculo de la distancia de Bray-Curtis: aquí, se comparan dos muestras <span class="math inline">j</span> y <span class="math inline">k</span>:</p>
+<p><span class="math display">BC_{jk}= 1- \frac{2\sum_{i=1}^{p}min(N_{ij}, N_{ik})}{\sum_{i=1}^{p}(N_{ij}+N_{ik})}</span></p>
+<p>Donde es la abundancia de una especie <span class="math inline">i</span> en la muestra <span class="math inline">j</span> y la abundancia de la misma especie i en la muestra <span class="math inline">k</span>. El término <span class="math inline">min (.,.)</span> Corresponde al mínimo obtenido para dos conteos en las mismas muestras. Las sumas ubicadas en el numerador y denominador se realizan sobre todas las especies presentes en las muestras. <span class="math inline">N_ {ij}N_{ik}</span></p>
+<p>La distancia Bray-Curtis tiende a resultar más intuitiva debido a que las especies comunes y raras tienen pesos relativamente similares, mientras que la distancia euclidiana depende en mayor medida de las especies más abundantes. Esto sucede porque las distancias euclidianas se basan en diferencias al cuadrado, mientras que Bray-Curtis utiliza diferencias absolutas. El elevar un número al cuadrado siempre amplifica la importancia de los valores más grandes</p>
+<ul>
+<li>Para: variables porcentajes o proporciones (0-1)</li>
+</ul>
+<p><strong>En resumen:</strong></p>
+<p>Resumen, ¿Cuál distancia usar?</p>
+<p>La distancia ideal a utilizar va a depender completamente de los datos que estamos usando.</p>
+<ul>
+<li><p>Si los datos son continuos y no presentan outliars la distancia euclidiana es suficiente.</p></li>
+<li><p>Si la distribución de las variables es no-normal y presenta outliars, es mejor la distancia de Manhattan.</p></li>
+<li><p>En caso de que los datos presentan valores nulos (ej., presencia/ausencia de especies), entonces es mejor usar Jaccard.</p></li>
+<li><p>Si las variables son proporciones o porcentajes entre cero y uno, por ejemplo abundancia de especies o otro tipo de frecuencias, es buena la distancia de Bray-Curtis.</p></li>
+</ul>
+<p>Por supuesto, existen muchos otros índices de distancia que pueden buscar y utilizar.</p>
+</section>
+</section>
+<section id="ordenación" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="ordenación"><span class="header-section-number">13.5</span> Ordenación</h2>
+<p>En ecología es bastante normal que dispongamos de datos que están conformados por un conjunto de sitios o localidades, para los cuales tenemos una serie de variables. Estas variables puede ser cada especie o cada condición que levantemos en el sitio, de esta forma, un sitio va a tener tantas variables como especies o factores ambientales se registren.</p>
+<p>Ordenamos las parcelas en función de la cantidad de individuos de dos especies, de esta forma la distancia a la que se encontraba cada comunidad nos daba información sobre cuanto se parecían. Aunque esta es una forma fácil de ordenar nuestras comunidades, esta forma de graficar es solo posible con dos o máximo tres especies, pero pocas comunidades tienen únicamente tres especies, cuando tenemos más de tres especies es necesario buscar otras formas de ordenación que nos permitan rescatar el gradiente ambiental.</p>
+<p>De esta forma, el objetivo de los métodos de ordenación es representar los datos a lo largo de un número reducido de ejes ortogonales, construidos de tal manera que representan, en orden, las principales tendencias de los datos (Borcard, Gillet, and Legendre 2011).</p>
+<p>Las ordenaciones pueden ser indirectas y directas (constreñidas). Las ordenaciones indirectas pueden ser utilizadas para interpretarse visualmente o asociadas a otros métodos, como regresión. Por su parte, las ordenaciones directas permiten hacer asociaciones con variables explicativas, generando un orden constreñido pobasado en unas variables explicativas.</p>
+<p>Por ejemplo, si se registran las abundancias de diez especies en diferentes sitios, entonces la variación total entre sitios podría ser representada gráficamente en diez dimensiones (i.e., una por especie). Obviamente, esto no es muy eficiente. Sin embargo, si sólo hubieran unas pocas tendencias o gradientes claves compartidas entre las especies, entonces se podría derivar un conjunto más pequeño de ejes (por ejemplo, dos) que resumiera la mayor parte de la variación en el conjunto de datos.</p>
+<p>El término “ordenación” refleja la intención original del enfoque - identificar gradientes únicos (es decir, respuestas ordenadas) de variables que podría reflejar los procesos ecológicos.</p>
+<p>Para reducir la dimensionalidad de las variables dentro de una análisis estadístico (i.e., tener menos variables), hay dos formas principales:</p>
+<ul>
+<li><p>Feature selection: Seleccionar variables; ejempo: Stepwise selection</p></li>
+<li><p>Feature extraction: Extraer la información relevante de cada variable, y crear un número menor de nuevos componentes con esa información</p></li>
+</ul>
+</section>
+<section id="métodos-de-ordenación" class="level2 page-columns page-full" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="métodos-de-ordenación"><span class="header-section-number">13.6</span> Métodos de ordenación</h2>
+<section id="principal-component-analysis-pca" class="level3 page-columns page-full" data-number="13.6.1">
+<h3 data-number="13.6.1" class="anchored" data-anchor-id="principal-component-analysis-pca"><span class="header-section-number">13.6.1</span> Principal Component Analysis (PCA)</h3>
+<p>Esta técnica de ordenación es sencilla de interpretar, las distancias entre las muestras son interpretadas directamente como distancias euclidianas. Este método de ordenación es ampliamente usado con datos ambientales, donde el valor de cero es informativo, aunque se puede usar en datos biológicos previo una transformación. El PCA al usar distancias euclidianas es fuertemente afectado por ceros, y detecta relaciones lineares de los datos.</p>
+<p>Además de las limitantes de los dobles ceros, otro inconveniente que puede tener esta ordenación, es que la proyección de las distancias euclidias en un plano puede distorsionar algunas distancias en otros planos.</p>
+<p>Los gráficos de dispersión de la ordenación PCA, los objetos (las comunidades) se representan como puntos y las variables se muestran como flechas.</p>
+<p>Usa matrices de disimilaridad en base a distancias EUCLIDIANAS! Distancias lineales.</p>
+<p>Número de Componentes Principales Creados es = el Número de variables iniciales.</p>
+<p>PCA ordena de forma decreciente los componentes de acuerdo a cuánta información de las variables originales contiene. Ej., PC1 es siempre el que contiene más información, y PCn prácticamente nada (muchas veces los últimos componentes se consideran ruido! ): información en los datos no relevante en relación al contexto general de su organización e interacción.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/pca.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption margin-caption">Principal Component Analysis (PCA)</figcaption><p></p>
+</figure>
+</div>
+<dl>
+<dt>Loadings:</dt>
+<dd>
+Pueden interpretarse como el peso/importancia que tiene cada variable en cada componente y, por lo tanto, ayudan a conocer que tipo de información recoge cada una de las componentes. Cada variable original no es asignada completamente a un solo componente principal, sino que la varianza de una variable puede ser compartida por muchos componentes.
+</dd>
+<dt>Scores:</dt>
+<dd>
+Los scores son los componentes principales que el método crea para resumir la información de los datos originales.
+</dd>
+<dt>Eigenvectors y Eigenvalues:</dt>
+<dd>
+Estos dos conceptos están relacionados con los componentes o loadings. De manera simple, eigenvectors y eigenvalues son en realidad propiedades de la multiplicación de matrices cuadradas realizadas durante el PCA (y otros muchos métodos). Eigenvectors serían las direcciones de rotación de cada componente, mientras que eigenvalue es la cantidad de varianza que cada componente explica. Por lo tanto, el eigenvalue determina el orden de los componentes en PCA.
+</dd>
+</dl>
+<p><strong>Número óptimo de componentes principales</strong></p>
+<p>Normalmente el criterio para seleccionar el número deseado de componentes es graficando la varianza acumulada de los eigenvalues y elegir el punto de inflexión (elbow). La idea es reducir la dimensionalidad de los datos, por lo que un número bajo de componentes es deseado. Además, normalmente los componentes altos (i.e., baja varianza) en general tienen mucho ruido.</p>
+<p>Ejemplo: datos foliares de pigmentos (clorofila, carotenoides, contenido de agua, …) con datos hiperespectrales tomados por espectroscopia de campo (datos de reflectancia de teledetección = 2051 variables)</p>
+<div id="fig-barPCA" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/bar_varianza.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 13.1: Varianza explicada</figcaption><p></p>
+</figure>
+</div>
+<div id="fig-cumsumPCA" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/cumsum_varianza_pca.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 13.2: Suma acumulada de la varianza</figcaption><p></p>
+</figure>
+</div>
+<p><strong>Interpetración Gráfica de PCA</strong></p>
+<p>Scatterplot de los dos primeros componentes, PC1 y PC2, los que contienen justos cerca del 75% de la varianza de los datos. Como se puede ver:</p>
+<p>Los componentes, o las variables nuevas creadas, no tienen las mismas unidades de medida originales. Estas son variables sin unidades. Datos de coordenadas en la nueva dimensión. Puntos más lejos del centro (0,0) contribuyen más a la creación del del nuevo espacio de coordenadas.</p>
+<p>Las distancias entre los puntos indican que observaciones (filas) tienen valores parecidos y cuales muy distintos (lejos). En este caso, las distancias SI importan, ya que la distancia euclidiana mantiene las proporciones lineales de los datos originales.</p>
+<div id="fig-graphPCA" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/pca2d.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 13.3: Visualización de dos PCA</figcaption><p></p>
+</figure>
+</div>
+<p>Se pueden ajustar vectores o factores ambientales en una ordenación. Las proyecciones de los puntos sobre los vectores tienen la máxima correlación con las variables ambientales correspondientes, y los factores muestran las medias de los niveles de los factores.</p>
+<p>Ej: el contenido de agua de la hoja (Cw) se relaciona con PC1 (negativo) y con PC2 (positivo). El hecho de que sea positivo o negativo importa poco.</p>
+<p>Puntos cerca de ese vector de Cw son los que tienen más agua, y viceversa.</p>
+<div id="fig-graphPCA-2" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/pca2d_2.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 13.4: Visualización de dos PCA con proyección de variables ambientales</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="principal-coordinates-analysis-pcoa" class="level3 page-columns page-full" data-number="13.6.2">
+<h3 data-number="13.6.2" class="anchored" data-anchor-id="principal-coordinates-analysis-pcoa"><span class="header-section-number">13.6.2</span> Principal coordinates analysis (PCoA)</h3>
+<p>PCoA, conocido también como escalado métrico multidimensional (MDS) es conceptualmente similar a PCA y análisis de correspondencia (CA) que preservan distancias Eudlicean y chi-cuadrado entre objetos, respectivamente, la diferencia con estos métodos de ordenación es que el PCoA puede preservar las distancias generadas a partir de cualquier medida de similitud o disimilitud permitiendo un manejo más flexible de datos ecológicos complejos. PCA se usa comúnmente para similitudes y PCoA para diferencias.</p>
+<p>Una ventaja importante es que el PCoA permite manejar matrices de disimilitud calculadas a partir de variables cuantitativas, semicuantitativas, cualitativas y mixtas. En este caso la elección de la medida de similitud o disimilitud es crítica y debe ser adecuada para los datos con los que se está trabajando.</p>
+<p>Aunque, este método presenta varias ventajas hay que recordad que el PCoA representa en el plano los componentes euclidianos de la matriz, incluso si la matriz contiene distancias no euclidianas.</p>
+<p>Principal coordinates analysis (PCoA) es una extensión conceptual de la técnica de PCA descrita anteriormente. De manera similar, busca ordenar los objetos a lo largo de los ejes de las coordenadas principales para maximizar la varianza del conjunto de datos original. Sin embargo, mientras que el PCA organiza los objetos linealmente mediante medidas de distancia euclidianas, el PCoA puede aplicarse con cualquier matriz de distancia (dissimilarity) (Gower 1966).</p>
+<p>PCoA utiliza matrices de distancia como input.</p>
+<p>Las distancias entre puntos no representan distancias reales entre las variables, ya que no usa distancia euclidiana</p>
+<p>También genera Número de Componentes Principales Creados es = el Número de variables iniciales.</p>
+<div id="fig-graphPCoA" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/pcoa.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 13.5: Visualización de Principal coordinates analysis (PCoA)</figcaption><p></p>
+</figure>
+</div>
+<!-- ### Nonmetric multidimensional scaling (NMDS) -->
+<p>Es una técnica de ordenación única, ya que se elige explícitamente un (pequeño) número de ejes de ordenación antes del análisis y los datos se ajustan a esas dimensiones.</p>
+<p>Por ej., el total de la variación de los datos de entrada se puede transformar en 2-3 componentes.</p>
+<p>De manera similar al PCoA, se calcula primero una matriz de diferencias de objetos utilizando una métrica de distancia elegida (lineal, no-lineal, etc).</p>
+<p>En NMDS, se calculan los rangos de estas distancias entre todos los objetos. El algoritmo encuentra entonces una configuración de objetos en el espacio ordinal elegido de N-dimensiones que se ajusta mejor a las diferencias de rangos (Kruskal 1964). Se usa una métrica de costo k para identificar el mejor número de componentes a crear. Los costos bajo 1.2 se consideran buenos.</p>
+<p>En este caso, la distancia y ubicación en las coordenadas no importa, únicamente dice si: si dos puntos están cerca de si = contienen información similar, si están lejos = información distinta.</p>
+<div id="fig-graphNMDS" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/NMDS.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 13.6: Visualización de Nonmetric multidimensional scaling (NMDS)</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="referencias-teóricas" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="referencias-teóricas"><span class="header-section-number">13.7</span> Referencias Teóricas</h2>
+<p><a href="https://ciespinosa.github.io/AnalisisMultivariante/index.html">Análisis multivariante de la comunidad</a></p>
+</section>
+<section id="parte-práctica" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="parte-práctica"><span class="header-section-number">13.8</span> Parte Práctica</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+</div>
+<section id="insumos" class="level3" data-number="13.8.1">
+<h3 data-number="13.8.1" class="anchored" data-anchor-id="insumos"><span class="header-section-number">13.8.1</span> Insumos</h3>
+<p>Cargar foliares de pigmentos (clorofila, carotenoides, contenido de agua, …) con datos hiperespectrales tomados por espectroscopia de campo (datos de reflectancia de teledetección = 2051 variables)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># datos de rasgos de hojas + reflectancia</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/JavierLopatin/Clases/master/M%C3%A9todos_avanzados_en_R/dataset/angers-leaf-optical-properties-database--2003.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Solamente utilizar los datos de reflectancia, los de transmitancia no los utilizaremos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">=</span> data1 <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Measurement_type <span class="sc">==</span> <span class="st">'reflectance'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># primero verificar que los datos no tengan NaNs</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>( <span class="fu">is.na</span>(data1) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data1 = na.omit(data1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Obtener los los rasgos y cambiar el nombre de las columnas, corresponde a las variables que no queremeos que se reduzcan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">=</span> data1 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">15</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(traits) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'Car'</span>, <span class="st">'Cab'</span>, <span class="st">'Cw'</span>, <span class="st">'Cm'</span>, <span class="st">'N'</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>traits <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Car      Cab         Cw         Cm        N
+1 4.33 12.54078 0.01222310 0.00550680 1.313594
+2 3.65 12.41369 0.01200028 0.00525210 1.425785
+3 6.50 25.81402 0.01059972 0.00445635 1.549407
+4 6.90 24.13499 0.01085436 0.00432900 1.652313
+5 4.91 17.12158 0.01037691 0.00401070 1.437254
+6 3.85 13.54378 0.01021775 0.00401070 1.531708</code></pre>
+</div>
+</div>
+<p>Variables que nos interesa reducir, correspondiente a los valores de reflectancia.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtener la reflectancia</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>reflec <span class="ot">&lt;-</span> data1 <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">22</span><span class="sc">:</span><span class="fu">ncol</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hagamos un gráfico de la reflectancia media solo para visualización</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="dv">400</span>,<span class="dv">2450</span>), <span class="fu">colMeans</span>(reflec), <span class="at">type=</span><span class="st">'l'</span>, <span class="at">las=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">ylab=</span><span class="st">'Reflectance'</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">'Wavelength [nm]'</span>, <span class="at">main=</span><span class="st">""</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">400</span>,<span class="dv">2450</span>), <span class="fu">colMeans</span>(reflec)<span class="sc">-</span><span class="fu">sapply</span>(reflec, sd), <span class="at">ltw=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">400</span>,<span class="dv">2450</span>), <span class="fu">colMeans</span>(reflec)<span class="sc">+</span><span class="fu">sapply</span>(reflec, sd), <span class="at">ltw=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'topright'</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Reflectacia media'</span>, <span class="st">'Desviacion estandar'</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">bty =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span> <span class="fu">seq</span>(<span class="dv">400</span>,<span class="dv">2450</span>), <span class="at">y =</span><span class="fu">colMeans</span>(reflec))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">"loess"</span>, <span class="at">span=</span><span class="fl">0.1</span>, <span class="at">se=</span><span class="cn">TRUE</span>, <span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformacion PCA a la reflectancia</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>( <span class="fu">scale</span>(reflec<span class="sc">$</span>X400) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pca" class="level3" data-number="13.8.2">
+<h3 data-number="13.8.2" class="anchored" data-anchor-id="pca"><span class="header-section-number">13.8.2</span> PCA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(reflec, <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "sdev"     "rotation" "center"   "scale"    "x"       </code></pre>
+</div>
+</div>
+<p>Los elementos <code>center</code> y <code>scale</code> almacenados en el objeto pca contienen la media y desviación típica de las variables previa estandarización (en la escala original). <code>Rotation</code> contiene el valor de los <em>loadings</em> ϕ para cada componente (eigenvector).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pca<span class="sc">$</span>rotation[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              PC1         PC2         PC3        PC4         PC5         PC6
+X400 -0.006628879 0.005318331 -0.04160382 0.03819106 -0.07121438 0.010068086
+X401 -0.006452994 0.005255895 -0.04218019 0.03788624 -0.07159453 0.009762666
+X402 -0.006262953 0.005140386 -0.04276546 0.03742642 -0.07196624 0.009631123
+X403 -0.006086615 0.004983599 -0.04332606 0.03696927 -0.07237624 0.009483581
+X404 -0.005898293 0.004841682 -0.04386878 0.03649034 -0.07278967 0.009382514
+X405 -0.005680474 0.004691313 -0.04441987 0.03605830 -0.07308285 0.009345734
+X406 -0.005473701 0.004547283 -0.04495702 0.03560430 -0.07337684 0.009361069
+X407 -0.005275117 0.004419073 -0.04548110 0.03510984 -0.07358472 0.009318459
+X408 -0.005081329 0.004305750 -0.04600954 0.03451344 -0.07372950 0.009286098
+X409 -0.004905777 0.004225221 -0.04651380 0.03380798 -0.07391815 0.009068955</code></pre>
+</div>
+</div>
+<p>Caculamos la proporción de varianza total de los datos contenido en cada componente</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>prop_varianza <span class="ot">&lt;-</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>prop_varianza[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.456050786 0.321837997 0.138329255 0.025464522 0.017351791 0.006846017
+ [7] 0.005462898 0.003616478 0.002234013 0.001649435</code></pre>
+</div>
+</div>
+<p>Ejemplo: PC1 explica el 46% de toda la informacion, PC2 32%, …</p>
+<p>Plot de los primeros 10 componentes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(prop_varianza[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">las=</span><span class="dv">1</span>, <span class="at">ylab=</span><span class="st">'Variamza explicada [%]'</span>, <span class="at">xlab=</span><span class="st">'Componentes'</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main=</span><span class="st">'Varianza explicada de los primeros 10 comp.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>varianza acumulada y plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>prop_varianza_acum <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(prop_varianza)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">20</span>), prop_varianza_acum[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], <span class="at">las=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">'l'</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">'Componentes'</span>, <span class="at">ylab=</span><span class="st">"Prop. varianza explicada acumulada [%]"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">3</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>prop_varianza_acum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 0.4560508 0.7778888 0.9162180 0.9416826 0.9590344 0.9658804 0.9713433
+  [8] 0.9749597 0.9771938 0.9788432 0.9803195 0.9817553 0.9830602 0.9842584
+ [15] 0.9853523 0.9863463 0.9872446 0.9880876 0.9888183 0.9894673 0.9900842
+ [22] 0.9906678 0.9911896 0.9916342 0.9920692 0.9924730 0.9928704 0.9932518
+ [29] 0.9936089 0.9939298 0.9942392 0.9945110 0.9947651 0.9950071 0.9952379
+ [36] 0.9954623 0.9956670 0.9958620 0.9960439 0.9962170 0.9963858 0.9965401
+ [43] 0.9966887 0.9968275 0.9969574 0.9970758 0.9971891 0.9973001 0.9974108
+ [50] 0.9975162 0.9976152 0.9977081 0.9977982 0.9978850 0.9979675 0.9980432
+ [57] 0.9981179 0.9981903 0.9982537 0.9983168 0.9983783 0.9984371 0.9984926
+ [64] 0.9985430 0.9985921 0.9986407 0.9986883 0.9987340 0.9987780 0.9988210
+ [71] 0.9988627 0.9989021 0.9989393 0.9989759 0.9990120 0.9990456 0.9990775
+ [78] 0.9991086 0.9991379 0.9991667 0.9991945 0.9992210 0.9992469 0.9992721
+ [85] 0.9992966 0.9993196 0.9993418 0.9993628 0.9993835 0.9994037 0.9994233
+ [92] 0.9994424 0.9994608 0.9994790 0.9994962 0.9995131 0.9995294 0.9995451
+ [99] 0.9995607 0.9995759 0.9995907 0.9996046 0.9996181 0.9996314 0.9996441
+[106] 0.9996565 0.9996686 0.9996804 0.9996921 0.9997031 0.9997136 0.9997235
+[113] 0.9997330 0.9997423 0.9997512 0.9997600 0.9997685 0.9997766 0.9997841
+[120] 0.9997916 0.9997988 0.9998059 0.9998124 0.9998187 0.9998248 0.9998308
+[127] 0.9998365 0.9998419 0.9998472 0.9998524 0.9998575 0.9998624 0.9998670
+[134] 0.9998715 0.9998759 0.9998802 0.9998844 0.9998883 0.9998921 0.9998958
+[141] 0.9998994 0.9999029 0.9999063 0.9999096 0.9999129 0.9999160 0.9999190
+[148] 0.9999220 0.9999249 0.9999277 0.9999304 0.9999331 0.9999357 0.9999381
+[155] 0.9999405 0.9999429 0.9999450 0.9999472 0.9999492 0.9999512 0.9999531
+[162] 0.9999550 0.9999568 0.9999586 0.9999603 0.9999619 0.9999634 0.9999649
+[169] 0.9999663 0.9999677 0.9999690 0.9999703 0.9999716 0.9999728 0.9999740
+[176] 0.9999751 0.9999761 0.9999771 0.9999781 0.9999790 0.9999799 0.9999807
+[183] 0.9999816 0.9999823 0.9999831 0.9999838 0.9999845 0.9999851 0.9999858
+[190] 0.9999864 0.9999869 0.9999875 0.9999880 0.9999885 0.9999890 0.9999895
+[197] 0.9999899 0.9999903 0.9999907 0.9999911 0.9999915 0.9999918 0.9999922
+[204] 0.9999925 0.9999928 0.9999931 0.9999934 0.9999937 0.9999939 0.9999942
+[211] 0.9999944 0.9999947 0.9999949 0.9999951 0.9999953 0.9999955 0.9999957
+[218] 0.9999959 0.9999960 0.9999962 0.9999963 0.9999965 0.9999966 0.9999968
+[225] 0.9999969 0.9999971 0.9999972 0.9999973 0.9999974 0.9999975 0.9999977
+[232] 0.9999978 0.9999979 0.9999980 0.9999981 0.9999981 0.9999982 0.9999983
+[239] 0.9999984 0.9999985 0.9999985 0.9999986 0.9999987 0.9999988 0.9999988
+[246] 0.9999989 0.9999989 0.9999990 0.9999991 0.9999991 0.9999992 0.9999992
+[253] 0.9999993 0.9999993 0.9999994 0.9999994 0.9999994 0.9999995 0.9999995
+[260] 0.9999996 0.9999996 0.9999996 0.9999997 0.9999997 0.9999997 0.9999998
+[267] 0.9999998 0.9999998 0.9999999 0.9999999 0.9999999 0.9999999 1.0000000
+[274] 1.0000000 1.0000000 1.0000000</code></pre>
+</div>
+</div>
+<p><em>Solo 3 componentes tienen &gt;90% de la informacion de las 2051 variables</em></p>
+</section>
+<section id="features-spaces" class="level3" data-number="13.8.3">
+<h3 data-number="13.8.3" class="anchored" data-anchor-id="features-spaces"><span class="header-section-number">13.8.3</span> Features Spaces</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># analizas si distribución en el espacio muestral (feature space)</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: permute</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is vegan 2.6-4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ordiplot es una funcion especifica para este tipo de datos. Tiene parametros inetresantes</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lo mismo que </span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PC2 contra PC3</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(pca, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ver que observación es cada punto</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(pca, <span class="at">type =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-14-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># crear modelo que ajusta otras variables al gradiente de coordenadas creado</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>env <span class="ot">=</span> <span class="fu">envfit</span>(pca, traits)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+***VECTORS
+
+         PC1      PC2     r2 Pr(&gt;r)    
+Car -0.17252  0.98501 0.1018  0.001 ***
+Cab -0.00033  1.00000 0.1272  0.001 ***
+Cw  -0.77766  0.62868 0.8078  0.001 ***
+Cm  -0.56468  0.82531 0.5803  0.001 ***
+N    0.00416  0.99999 0.8857  0.001 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Permutation: free
+Number of permutations: 999</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(pca, <span class="at">type =</span> <span class="st">"text"</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(env)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>La distribución espacial de los datos esta dado por la variabilidad (información) que explica.</p>
+<p>Visualización 3d de los PCA</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span>  pca<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="sc">%&gt;%</span> <span class="fu">scale</span>() <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sd =</span> pca<span class="sc">$</span>sdev)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>(data, <span class="at">x =</span> <span class="sc">~</span>PC1, <span class="at">y =</span> <span class="sc">~</span>PC2, <span class="at">z =</span> <span class="sc">~</span>PC3</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>               <span class="co"># marker = list(color = ~sd, </span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>               <span class="co">#               colorscale = c('#FFE1A1', '#683531'),</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>               <span class="co">#               showscale = TRUE)</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>               )</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">add_markers</span>()</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">layout</span>(<span class="at">scene =</span> <span class="fu">list</span>(</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'PC1'</span>),</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'PC2'</span>),</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">zaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'PC3'</span>)))</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-865735fc417d0e8e8453" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-865735fc417d0e8e8453">{"x":{"visdat":{"6a1f2372bad2":["function () ","plotlyVisDat"]},"cur_data":"6a1f2372bad2","attrs":{"6a1f2372bad2":{"x":{},"y":{},"z":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d","mode":"markers","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"PC1"},"yaxis":{"title":"PC2"},"zaxis":{"title":"PC3"}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-1.39469276191504,-0.273657078564908,0.348828917529669,0.67335257676893,-0.0775175613054317,0.239226856920124,0.247303899748966,-0.14438026388473,0.486945079105166,0.413743362385681,1.15711246065972,0.683571500705164,0.256188136147899,0.0873579705087056,0.83222508152555,0.334064141192224,-0.345803284068169,-0.205199779627792,-0.254147296065987,0.0202723192010579,-0.392309008583191,-0.678996218691064,0.246684138343161,0.159216960529012,-0.170433911800726,-0.712331719183603,0.142931170771271,0.97839023541813,0.266863424777547,0.480180456740951,1.03942386690706,0.799304697830007,0.345387049354957,-0.88324203391657,0.602607321125103,1.60611152842055,1.80317415098566,1.19778545412456,1.2245086243763,0.948190091370238,1.52314813079287,0.774450264583668,1.55882413711163,1.23468323233755,1.04053036103395,0.752024989257914,1.42598065534546,1.05048725682311,0.695458513216173,1.41499808798075,0.885959243472011,0.187076924703747,-0.541148619025799,-0.47861161729704,-0.172135756729865,-0.0721027263545459,-0.808201633477715,-0.368216395575825,-0.244696092403342,0.25101762400093,-0.543781335014933,-0.594668325127116,0.0393810412767652,0.0985955293478289,0.0418155067068142,-0.0631452113961385,0.428407213191879,0.3076887223517,-0.208352851616535,-0.367091434437096,0.150779970092369,0.236578741288404,-0.5418402226146,-0.736666808847279,0.187109323905896,-0.254162531071125,-0.173720331145387,-0.260007076459783,0.718799871360896,0.516155591069497,0.0395624086622048,-0.318905393839519,0.933650904730823,1.00024596774121,0.638363877759712,0.595945925333807,0.646095905731781,0.647040858423602,0.460308975227801,0.524846743470402,0.10179596821068,0.190033217130187,-0.0514184192485958,-0.0450922561444694,0.634057380384437,0.67577460739104,0.605908710198724,0.677290032663711,0.832563475809262,0.438085269706893,0.778469911286558,0.779777291313752,0.945349016615239,0.855041585784655,-0.52466128067232,-0.597291357286843,0.221848694532538,0.308957977835349,-0.401801404529406,-0.681539201871931,0.606455846283028,0.299541095147754,-0.764254987944097,-0.564020957007906,0.00909201612434044,0.187951361534744,-0.175350483807054,-0.306136224836242,0.0351727890953019,-0.033254672091143,-0.0233132788560348,-0.313747445885496,0.555243328051997,0.33005614040433,0.770449140884029,0.940066493650448,0.896203961742849,-0.0118974845852309,-0.0876689809506713,-0.00937653917360096,-2.20764426035147,-1.94912973074588,-0.619424056422383,-1.02401537746656,0.12428427587696,-0.117827048472483,-1.02071522565745,-0.834795854924503,-0.552636685372309,-0.735771114684282,-0.849493342301023,-0.800162723155621,-0.891454611005591,-0.749182798935998,-0.242257445217521,-0.410665351507007,0.381025433930899,0.247517520503837,-0.178610623181337,-0.0755502518839005,-0.206204203359452,-0.12712081887519,-0.0174472326010853,-0.101642660899923,-0.475994608621048,-0.375334799085967,-0.542940128216221,-0.1767540652842,-0.192678753158094,0.539622751530043,-0.664687724469519,-0.806175349790899,-0.831339269873704,-0.458638003501296,-0.54706550944347,-0.586209287779308,-1.07961035832201,0.480243686879419,0.622754279686903,-1.04205505796687,-0.570170143986866,-1.05685075260851,-0.942196822912628,-0.692437651987472,1.05309456317521,-0.319135414511849,-0.0524467500693815,0.0760275278290507,2.19354175469272,0.00828636174132648,-0.404994934304745,-1.09273725587669,-1.14400437255357,1.06926534934264,0.960614553806661,0.74620329470897,1.14929387697217,1.58889224083618,2.27878328821909,-0.345163453104883,-0.420006461927317,-0.813982382790308,-1.2611333568168,0.0979429876497996,0.54701520662816,-3.57680294061072,-3.45797267825415,-2.72627097678893,-2.66354277633228,-2.7123096226705,-2.66903987701571,0.822694499531483,0.767143057673114,1.29041978670252,1.0332430534534,1.01859502685749,1.02811970747371,0.702335923881192,-0.260924631110301,0.449525943128906,1.20488435429617,0.568928499351822,0.510710467106283,-1.5676526682063,0.051249250897069,-0.0810846026428815,0.172792461953104,0.167129689760926,-0.365767685110103,-1.27293726241301,-1.05232243338888,0.748500068201677,0.607986937026673,0.314049084657116,-0.168573269378651,0.214515812737605,-1.03673637849442,1.21604183639056,1.081906968157,1.69333390900852,2.42933089168318,0.718928026164665,0.862680949734501,-0.635631758955615,0.0539153859440333,-0.0584949687767786,-0.623191677482947,3.61599358533637,3.76822785251689,-1.19121539639722,-0.0379069066769932,0.293175622443491,0.166792928590737,1.89597893345377,1.84118467564233,-0.335551405184458,-0.391983695590509,0.516160418930523,-0.500686582180391,-0.852592921301756,-0.885788540494181,-0.310368731289815,-0.775967949569452,0.283071760484848,0.509786170070519,-0.665022399653902,-0.379896934714964,0.0627705866999393,-1.07909194912111,-0.44792785581964,-0.393761486773119,-0.207632830456561,0.136238389283424,0.701909315890407,-0.694930733080447,-0.493610069035739,-3.10790181800591,-2.83968938968195,-1.25713713876481,-1.7048235393749,-3.27653185686631,-2.98461422160948,-0.17922713322711,-1.56273401450577,-0.0579356049888074,0.0344615841996226],"y":[-1.10447689826574,-0.0495248281931579,0.412446109503758,0.742161356214819,-0.104518746388324,0.140937326313081,-0.687607511539621,-0.770054299910799,-0.0925220709200659,-0.396301235893269,0.172820090493918,-0.327915101074304,-0.0806374175884949,-0.233416489818993,0.791413989618662,0.428286230857631,-0.328692010094497,-0.228760711611032,-1.11720315899945,0.179403377328202,0.00320554904426869,-0.381162472652972,0.7421141185446,0.50679131120847,-0.363617552988054,-0.783450908624811,-0.0457941059041193,0.636341377021426,-0.145558155025053,0.00924516163974066,0.55941248130637,0.374027891355619,0.621555729445582,-0.450273603550843,0.358939720605248,-1.10919423951535,-1.0241914332238,-0.7883737442878,-1.23903448890614,-1.71986430411843,-0.324473672887438,-0.884092536525121,-1.18240644532239,-1.41639973701745,-0.759400267432314,-1.18579857280091,-0.85333760468746,-1.15616228665484,-0.996259414379537,-0.904338996456538,-0.933767378428486,-1.00854446432387,-0.275542365991467,-0.0961060578703824,0.308373326753763,0.273017210086744,0.11351231342344,0.669546142155274,0.061566590369066,0.145782740448073,0.464849163017377,0.133573097850686,0.261827564073417,0.0380483874459625,-0.59780220558675,-0.353705398285493,-0.0458172141318979,-0.241556806839995,-0.113459385176005,-0.370493775885468,0.133368275986834,0.0952109431145221,0.0747651004492218,-0.113541299698537,0.492968171586239,-0.172887115170272,-1.53393659804243,-1.31198306780233,-0.441172364618417,-0.432175079850137,-1.16694557171293,-1.35198494896514,0.187813450652233,0.0357823319546902,-0.308459957074947,-0.579480752798072,-0.301682899555673,-0.355678258039405,-0.898933681087931,-1.19024826149696,-0.648735326483142,-1.06018404259895,-1.21392284883091,-1.27660378572168,-0.698831618439611,-0.728478891459324,-1.02065576558563,-0.983411696195156,-0.455185377650522,-0.636196589226573,-0.233168687996176,-0.0558678320503071,-0.0782546292884314,-0.205305087659967,-0.677532496378962,-0.596474740013333,-0.240314836109899,-0.361792948491537,-0.175290546609232,-0.271490962326141,0.220506053264057,0.111600089845174,-0.508197478611374,-0.369622183406404,-0.199252464289715,-0.132097080948595,-0.588981252706151,-0.692353256630491,-0.359997781349898,-0.3272158336691,-0.820758036607754,-0.957554980447877,-0.953410583501923,-1.30584888699848,-0.923212579049396,-0.75993564441922,-0.509405809165474,-1.64971334918651,-1.47518591884258,-1.5218944156895,-1.97733058518336,-2.50390384906522,-0.298335401469407,-0.245801796325053,-0.345000018601396,-0.450449749931267,-0.633638965078988,-0.501612598683568,-0.15255315022593,-0.111102020975199,0.0853291276895832,0.0360268500516381,-0.333710659718671,-0.299264268256257,-0.449027611785228,-0.0227115544478171,-0.824417731387658,-0.747865371997557,-0.875619921838271,-0.957689611666188,-1.14868654035054,-1.29502293326284,0.453010129314136,0.291888602988769,0.478345913599169,0.485825633247198,0.843976914758246,1.18596399561369,0.744179353333042,1.0070533574283,0.797959258618467,0.352586741625362,0.522373918590812,0.963195849567373,0.235802900763209,-0.337819654584539,0.410514679458582,-0.333367503347985,-0.470204440459355,0.244396570239337,0.438703882821919,-0.614003880408853,-0.127120764538856,-0.203153691882593,-0.327044416883699,-1.38439051987739,-1.29936495594067,-0.262218970384589,0.717465390402876,0.156572037119751,-0.0270086340650864,-1.95122809955081,-1.91973996520685,-1.41892494757678,-1.33676695307119,-0.471950780932333,-0.255942917595633,-0.291370653044427,-0.0144426149761787,0.514755330550388,0.199892044017007,0.745925764795283,0.890315355947174,1.27165618087505,1.02089208013151,0.641666694267391,0.642974493468478,0.109599811951399,0.326958671833083,1.220815005589,1.33129870999086,-0.408198724238802,-0.422791249232375,-0.522726803588733,-0.403998047303188,-0.931581756221509,-0.706730399505082,0.294344396183106,-0.158806799261552,1.22377216023288,1.20697810913554,-0.669402947739673,-0.410682542668827,1.5863577741933,1.83078602556217,0.526583251754581,0.022567226844336,2.17336345783011,1.90413378041732,1.48835437581522,1.80603202630106,0.0101243042641735,-0.114035208971057,-0.086820344935433,-1.083085620132,0.617885050357426,-0.927596625240723,0.245479636933475,-0.0503933735665879,1.73864470211473,2.4046838719569,-0.514910208304153,-1.1698086342958,1.47038329897416,1.78507389890693,1.02765603190631,0.58936782948318,3.96932515508329,4.26647937497471,1.15031493309561,1.27243554494122,2.83842511374075,2.98448526616298,2.80541602452725,2.45330122657583,1.63631060953006,1.20991659159166,0.201847764477898,0.498155586329317,0.486508402128009,0.299292530994321,0.919040413427494,1.69290310102251,1.81387892027523,1.91584309793347,1.11177050751738,1.5096233767613,-1.7973819765672,-1.15826055259505,1.36743506100047,0.0274585699371037,-0.168094920688351,-0.2973133854752,0.074722561526657,0.502155136572796,0.672852020741474,-0.46207907825471,-0.227900933194805,2.23105706767098,1.90834054859126,1.58971226024453,1.51667301977377,0.2433276180836,0.430365396235251,1.83723915625825,1.75714782236744],"z":[-0.145101070945757,-0.603214946123862,-0.059258239584481,-0.187492605046771,-0.256818974017744,-0.514264725407369,-0.011342255824756,0.143596668670549,-0.0604908359979599,0.180589844270064,-0.201750136348044,-0.0654142583050512,0.025504745779028,-0.0480921126712216,-0.0272138379488753,0.187133328371217,-0.0945508964971747,-0.250758392798941,0.522137048028384,0.236821910778163,-0.418686922333728,-0.269463250659389,0.206375114656377,0.48467685021771,-0.253770405356433,0.166355904604282,-0.0473782375932782,-0.219890410792674,-0.302673697648834,-0.381748442309059,0.0730320312027258,0.210492027311243,0.118602369800501,-0.324900153023532,0.0400854422838738,0.00843462690538631,0.0453051838802502,0.227511076605611,0.0590692103963128,0.125356963654494,0.421965554860523,0.540262992366199,0.220152104768492,0.332260403039977,0.182586722484588,0.284349020303447,0.287918472799348,0.394294853372902,0.404782919659849,-0.19807786711304,-0.103332353284094,0.190356663765373,0.254607410514671,0.298213580055591,0.642714817670005,0.537751514684146,0.229362272762691,0.0515999885872427,0.837719547262754,0.717816522820111,0.247496692412723,0.330808833795233,0.519782034910374,0.632120753461316,0.251650913748818,0.291963714277313,0.601436611629364,0.627973589689517,0.152688615509781,0.208167533076036,0.679775604909028,0.664311639065816,0.320157075983486,0.522449045133406,0.668648397947937,0.81777047615604,0.60308900404617,0.647699870361123,0.600715847918547,0.65713106103033,0.450930257005272,0.570345994714212,0.448736867111122,0.492653096905584,0.493472924105365,0.48910916543721,0.601510686179504,0.632001654055367,0.499880222574618,0.475539811615085,0.848745883540466,0.825012358674886,0.551581143223768,0.541672301543149,0.565000337247014,0.566797614155717,0.479042662113529,0.461474415810624,0.62890628702839,0.759368743532193,-0.0331106621505678,-0.10014837197854,-0.00490709171019339,0.0285991877114086,-0.170780204005673,-0.0393840855794429,0.225323671975079,0.186842670084713,-0.312952218616001,-0.190179441476568,-0.14312091870046,-0.00843541886065171,-0.35731483487522,-0.25511439220873,0.0252980893364419,0.0311031112122674,-0.772564470221384,-0.798340276142025,-0.811409250981088,-0.711729768502185,-0.306019309640856,-0.293509514984304,-1.01363679792463,-0.877465247142247,-0.253136000239593,-0.23887784981293,-0.449262587689022,-0.115845598078193,-0.081009347576225,0.0333493244918956,-0.425930772837239,-0.696132563746149,-0.296431518811914,-0.0704156840024451,-0.285393078593866,-0.190855139540404,-0.410088132251528,-0.233230244554243,0.814742583584208,0.771785012762049,0.334521489326349,0.338039121684479,1.0729632269479,1.02058231977849,0.855553265451859,0.852111592637004,0.216683388537356,0.145629845158313,0.27470140615446,0.193135488554889,0.154721373030315,0.177724055570857,0.203963730166,0.24271769286295,0.998551482765793,0.932261309847903,0.929353827457943,0.750354106277553,0.971328309677434,0.958613716104494,1.14218246218365,1.083542545723,1.00733565166662,0.805742066341439,0.375676085307288,0.527034836626501,0.72786372356603,0.261520969540375,0.142916625389596,0.768945578867098,0.80583829682116,0.0397120865572636,0.136210434522918,0.519826717684139,0.621420031039433,-0.618865713571923,-0.536237835202289,-2.81401684616673,-3.69495708792963,0.663212141440323,0.852967485234404,-0.0300198298664817,0.0201156454941549,-4.75294915967364,-5.14372797040234,-0.276804497246041,-0.333253169809226,-0.923278462862156,-1.27738826291166,-0.425204660402377,-0.292619848601802,0.620415085136942,0.760430676599367,0.192158383903489,0.129677709362091,-3.67037220633681,-3.19049264732646,0.460230490280541,0.404310264999984,0.494115032588168,0.645093790931572,-0.0596184185283781,-0.0501331425243256,-0.128870584195001,-0.0324976007948462,-0.0657688729725567,-0.0878578404675298,0.189235090775373,0.201583805326224,0.500634303139188,0.182409303616429,0.380785276139997,0.209673142718242,0.752925518371409,-0.0770051689379384,0.378502958452378,0.265766728334641,0.196459555334753,-0.189968187656632,0.74011294971156,0.576051980321816,0.242980887841739,0.103716994757401,-0.35976463322677,-0.335803308755348,-0.504187020915225,-0.0367222863705201,0.26547586215219,0.155409436552639,0.256353050504337,-0.0858419876449133,0.429938191839033,0.493204890908928,0.414900052903182,-0.539185447742764,0.151006894513553,0.427656499488559,-0.0580350751957998,-0.226489832282737,0.478907889412369,-4.22523858233539,0.474510242197107,0.474561298627963,0.352044805770394,0.140223169135117,0.751441372425452,0.675358182704518,0.17242785838502,0.153473935559814,-3.16791274107261,-0.812112541578128,0.116786018764039,0.12203322849563,-4.86635128661379,0.342974023969011,0.316037362063405,-6.37700184607414,-3.82284544243993,0.200459808426788,0.493493772392475,0.299372604631246,0.0891904626902884,-0.444829064723151,-0.14224184494183,0.703302586810203,0.564452239467,-0.52316371215186,-0.526528693180602,-3.80268361898941,0.829324678327205,0.313051586674982,0.128662078154038,0.208205637905961,0.585117077726802,-0.255250673253021,0.00985351273344376],"type":"scatter3d","mode":"markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="pcoa" class="level3" data-number="13.8.4">
+<h3 data-number="13.8.4" class="anchored" data-anchor-id="pcoa"><span class="header-section-number">13.8.4</span> PCoA</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ape)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Base de datos contenida en vegan, de cobertura (0-100%) especies en praderas europeas y</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(varespec)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>varespec <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Callvulg Empenigr Rhodtome Vaccmyrt Vaccviti Pinusylv Descflex Betupube
+18     0.55    11.13     0.00     0.00    17.80     0.07     0.00        0
+15     0.67     0.17     0.00     0.35    12.13     0.12     0.00        0
+24     0.10     1.55     0.00     0.00    13.47     0.25     0.00        0
+27     0.00    15.13     2.42     5.92    15.97     0.00     3.70        0
+23     0.00    12.68     0.00     0.00    23.73     0.03     0.00        0
+19     0.00     8.92     0.00     2.42    10.28     0.12     0.02        0
+   Vacculig Diphcomp Dicrsp Dicrfusc Dicrpoly Hylosple Pleuschr Polypili
+18     1.60     2.07   0.00     1.62     0.00      0.0     4.67     0.02
+15     0.00     0.00   0.33    10.92     0.02      0.0    37.75     0.02
+24     0.00     0.00  23.43     0.00     1.68      0.0    32.92     0.00
+27     1.12     0.00   0.00     3.63     0.00      6.7    58.07     0.00
+23     0.00     0.00   0.00     3.42     0.02      0.0    19.42     0.02
+19     0.00     0.00   0.00     0.32     0.02      0.0    21.03     0.02
+   Polyjuni Polycomm Pohlnuta Ptilcili Barbhatc Cladarbu Cladrang Cladstel
+18     0.13     0.00     0.13     0.12     0.00    21.73    21.47     3.50
+15     0.23     0.00     0.03     0.02     0.00    12.05     8.13     0.18
+24     0.23     0.00     0.32     0.03     0.00     3.58     5.52     0.07
+27     0.00     0.13     0.02     0.08     0.08     1.42     7.63     2.55
+23     2.12     0.00     0.17     1.80     0.02     9.08     9.22     0.05
+19     1.58     0.18     0.07     0.27     0.02     7.23     4.95    22.08
+   Cladunci Cladcocc Cladcorn Cladgrac Cladfimb Cladcris Cladchlo Cladbotr
+18     0.30     0.18     0.23     0.25     0.25     0.23     0.00     0.00
+15     2.65     0.13     0.18     0.23     0.25     1.23     0.00     0.00
+24     8.93     0.00     0.20     0.48     0.00     0.07     0.10     0.02
+27     0.15     0.00     0.38     0.12     0.10     0.03     0.00     0.02
+23     0.73     0.08     1.42     0.50     0.17     1.78     0.05     0.05
+19     0.25     0.10     0.25     0.18     0.10     0.12     0.05     0.02
+   Cladamau Cladsp Cetreric Cetrisla Flavniva Nepharct Stersp Peltapht Icmaeric
+18     0.08   0.02     0.02     0.00     0.12     0.02   0.62     0.02        0
+15     0.00   0.00     0.15     0.03     0.00     0.00   0.85     0.00        0
+24     0.00   0.00     0.78     0.12     0.00     0.00   0.03     0.00        0
+27     0.00   0.02     0.00     0.00     0.00     0.00   0.00     0.07        0
+23     0.00   0.00     0.00     0.00     0.02     0.00   1.58     0.33        0
+19     0.00   0.00     0.00     0.00     0.02     0.00   0.28     0.00        0
+   Cladcerv Claddefo Cladphyl
+18        0     0.25        0
+15        0     1.00        0
+24        0     0.33        0
+27        0     0.15        0
+23        0     1.97        0
+19        0     0.37        0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># datos ambientales en esa pradera</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(varechem)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>varechem <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      N    P     K    Ca    Mg    S    Al   Fe    Mn   Zn  Mo Baresoil Humdepth
+18 19.8 42.1 139.9 519.4  90.0 32.3  39.0 40.9  58.1  4.5 0.3     43.9      2.2
+15 13.4 39.1 167.3 356.7  70.7 35.2  88.1 39.0  52.4  5.4 0.3     23.6      2.2
+24 20.2 67.7 207.1 973.3 209.1 58.1 138.0 35.4  32.1 16.8 0.8     21.2      2.0
+27 20.6 60.8 233.7 834.0 127.2 40.7  15.4  4.4 132.0 10.7 0.2     18.7      2.9
+23 23.8 54.5 180.6 777.0 125.8 39.5  24.2  3.0  50.1  6.6 0.3     46.0      3.0
+19 22.8 40.9 171.4 691.8 151.4 40.8 104.8 17.6  43.6  9.1 0.4     40.5      3.8
+    pH
+18 2.7
+15 2.8
+24 3.0
+27 2.8
+23 2.7
+19 2.7</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calluna vulgaris</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(varespec<span class="sc">$</span>Callvulg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Aquí tendríamos muchos problemas con PCA u otro método usando distancias eclidianas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calcular disimiridad usando Bray-Curtis</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>varespec.bray <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(varespec, <span class="at">method =</span> <span class="st">"bray"</span>) </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>varespec.bray</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          18        15        24        27        23        19        22
+15 0.5310021                                                            
+24 0.6680661 0.3597783                                                  
+27 0.5621247 0.4055610 0.4934947                                        
+23 0.3747078 0.3652097 0.5020306 0.4286111                              
+19 0.5094738 0.4560757 0.5092318 0.4878190 0.3606242                    
+22 0.6234419 0.3579517 0.5010050 0.4655224 0.4812706 0.4726483          
+16 0.5337610 0.3976674 0.5907623 0.5683930 0.4094312 0.4496731 0.2678031
+28 0.8418209 0.5225414 0.5736665 0.3027802 0.6979519 0.6431734 0.5985666
+13 0.3453347 0.6063846 0.7576747 0.7543736 0.6221471 0.5739244 0.6948736
+14 0.5449810 0.4803756 0.6533606 0.7467915 0.5645808 0.6331942 0.5357609
+20 0.3879069 0.3784188 0.4346892 0.4957833 0.2877014 0.3953776 0.4627020
+25 0.6318891 0.3376115 0.3369098 0.5001593 0.4258617 0.4311299 0.3822981
+7  0.3603697 0.6717391 0.7931069 0.7792917 0.6390838 0.6958570 0.7459886
+5  0.4955699 0.7178612 0.8561753 0.8732190 0.7295255 0.7898205 0.8611451
+6  0.3382309 0.6355122 0.7441373 0.7496935 0.6252483 0.5684030 0.7249162
+3  0.5277480 0.7578503 0.8382119 0.8090236 0.7128798 0.5302756 0.8026152
+4  0.4694018 0.6843974 0.8309875 0.8413800 0.7117919 0.5177604 0.8015314
+2  0.5724092 0.8206269 0.8372551 0.7581924 0.7249869 0.5389222 0.8321464
+9  0.6583569 0.7761039 0.7590517 0.7415898 0.6693889 0.5393143 0.7725082
+12 0.4688038 0.6794199 0.6894538 0.6253616 0.5384762 0.4288556 0.7051751
+10 0.6248996 0.7644564 0.7842829 0.7096540 0.6625476 0.5059910 0.7875328
+11 0.4458523 0.4716274 0.5677373 0.6322919 0.4710280 0.3293493 0.5812219
+21 0.5560864 0.7607281 0.7272727 0.5456001 0.4951221 0.5315894 0.6771167
+          16        28        13        14        20        25         7
+15                                                                      
+24                                                                      
+27                                                                      
+23                                                                      
+19                                                                      
+22                                                                      
+16                                                                      
+28 0.7015360                                                            
+13 0.5514941 0.8600122                                                  
+14 0.4826350 0.8239667 0.5547565                                        
+20 0.3737797 0.6963560 0.5785542 0.5115258                              
+25 0.4306058 0.6086150 0.7412605 0.5541517 0.4518556                    
+7  0.6596144 0.8960202 0.4533054 0.6550830 0.5959162 0.7556726          
+5  0.7184789 0.9539592 0.5148988 0.7257681 0.7153827 0.8600858 0.3237446
+6  0.6509879 0.9014440 0.3515673 0.6227473 0.5439118 0.7343872 0.1754713
+3  0.6837953 0.9234485 0.4965478 0.7836661 0.6690479 0.8168684 0.5154487
+4  0.6462648 0.9381169 0.3881748 0.6734743 0.6771854 0.8400134 0.5601721
+2  0.7354202 0.9053213 0.5968691 0.8592489 0.6951539 0.8179089 0.6465777
+9  0.8185866 0.8686670 0.7292530 0.8282497 0.6982486 0.7884243 0.8318435
+12 0.6342166 0.8543167 0.5902386 0.7507074 0.5182426 0.7062564 0.6991666
+10 0.7656598 0.9016604 0.7160439 0.8304088 0.6706349 0.7845955 0.7697453
+11 0.5172825 0.7544064 0.4272808 0.6743277 0.4461712 0.6175930 0.5262233
+21 0.7474559 0.7248773 0.7212772 0.8096450 0.6320431 0.7466232 0.7933350
+           5         6         3         4         2         9        12
+15                                                                      
+24                                                                      
+27                                                                      
+23                                                                      
+19                                                                      
+22                                                                      
+16                                                                      
+28                                                                      
+13                                                                      
+14                                                                      
+20                                                                      
+25                                                                      
+7                                                                       
+5                                                                       
+6  0.3984538                                                            
+3  0.5634432 0.4517627                                                  
+4  0.5377506 0.4665100 0.3592689                                        
+2  0.7257597 0.5552754 0.2099203 0.4841145                              
+9  0.9014583 0.7223126 0.3885811 0.6222340 0.2330286                    
+12 0.7808641 0.5762462 0.2641851 0.4870742 0.1846147 0.2277228          
+10 0.8504191 0.6567926 0.3413378 0.5776062 0.1456729 0.1117280 0.1793368
+11 0.5563798 0.4077948 0.3002597 0.3215966 0.4209596 0.5145260 0.3688102
+21 0.8888316 0.6720141 0.7507773 0.7641304 0.6779661 0.5952563 0.5602137
+          10        11
+15                    
+24                    
+27                    
+23                    
+19                    
+22                    
+16                    
+28                    
+13                    
+14                    
+20                    
+25                    
+7                     
+5                     
+6                     
+3                     
+4                     
+2                     
+9                     
+12                    
+10                    
+11 0.5043578          
+21 0.6147874 0.6713363</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PCoA</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pcoa <span class="ot">&lt;-</span> <span class="fu">pcoa</span>(varespec.bray)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pcoa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "correction" "note"       "values"     "vectors"    "trace"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pcoa, <span class="at">plot.axes =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))<span class="co">#ordiplot no funciona con esta funcion, pero si biplot()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pcoa, varechem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># varianza o otra informacion</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pcoa<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Eigenvalues"    "Relative_eig"   "Rel_corr_eig"   "Broken_stick"  
+[5] "Cum_corr_eig"   "Cumul_br_stick"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># varianza acumulada</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">24</span>), pcoa<span class="sc">$</span>values<span class="sc">$</span>Cum_corr_eig, <span class="at">las=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">'l'</span>,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">'Componentes'</span>, <span class="at">ylab=</span><span class="st">"Prop. varianza explicada acumulada [%]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-22-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">### PCoA en los valores de reflectancia</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>norm.reflec <span class="ot">&lt;-</span> <span class="fu">apply</span>(reflec, <span class="dv">2</span>, scale, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reflec[,1]</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co"># norm.reflec[,1]</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>reflec.euclid <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(norm.reflec, <span class="at">method =</span> <span class="st">"euclidean"</span>) </span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>pcoa2 <span class="ot">&lt;-</span> <span class="fu">pcoa</span>(reflec.euclid)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pcoa2, traits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-22-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># varianza acumulada de los componentes</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>pcoa2<span class="sc">$</span>values[,<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 4.560508e-01 3.218380e-01 1.383293e-01 2.546452e-02 1.735179e-02
+  [6] 6.846017e-03 5.462898e-03 3.616478e-03 2.234013e-03 1.649435e-03
+ [11] 1.476259e-03 1.435876e-03 1.304862e-03 1.198212e-03 1.093945e-03
+ [16] 9.939519e-04 8.983466e-04 8.429480e-04 7.306589e-04 6.490902e-04
+ [21] 6.168674e-04 5.836293e-04 5.218073e-04 4.445388e-04 4.349852e-04
+ [26] 4.037839e-04 3.974563e-04 3.813729e-04 3.571207e-04 3.209020e-04
+ [31] 3.094196e-04 2.717250e-04 2.541212e-04 2.420565e-04 2.307918e-04
+ [36] 2.244188e-04 2.047058e-04 1.949351e-04 1.819421e-04 1.731060e-04
+ [41] 1.687303e-04 1.543348e-04 1.486321e-04 1.387929e-04 1.299182e-04
+ [46] 1.183975e-04 1.132464e-04 1.110240e-04 1.107046e-04 1.053877e-04
+ [51] 9.896249e-05 9.295175e-05 9.011024e-05 8.675865e-05 8.251886e-05
+ [56] 7.570298e-05 7.469680e-05 7.237362e-05 6.338756e-05 6.313081e-05
+ [61] 6.146383e-05 5.881598e-05 5.554237e-05 5.038870e-05 4.912571e-05
+ [66] 4.857935e-05 4.764303e-05 4.560481e-05 4.408109e-05 4.295041e-05
+ [71] 4.171522e-05 3.937944e-05 3.717072e-05 3.664157e-05 3.609617e-05
+ [76] 3.356350e-05 3.199667e-05 3.109998e-05 2.929536e-05 2.871983e-05
+ [81] 2.787995e-05 2.647449e-05 2.590881e-05 2.512759e-05 2.450626e-05
+ [86] 2.308824e-05 2.214979e-05 2.099315e-05 2.074221e-05 2.014857e-05
+ [91] 1.958325e-05 1.918015e-05 1.837066e-05 1.818512e-05 1.722095e-05
+ [96] 1.683427e-05 1.629775e-05 1.578852e-05 1.553246e-05 1.522474e-05
+[101] 1.475460e-05 1.390396e-05 1.356887e-05 1.324025e-05 1.272309e-05
+[106] 1.241279e-05 1.213025e-05 1.179806e-05 1.164115e-05 1.102660e-05
+[111] 1.047433e-05 9.908433e-06 9.528612e-06 9.309610e-06 8.906339e-06
+[116] 8.789355e-06 8.509373e-06 8.034915e-06 7.557140e-06 7.494888e-06
+[121] 7.221785e-06 7.021719e-06 6.555412e-06 6.336345e-06 6.069977e-06
+[126] 5.988619e-06 5.681559e-06 5.441250e-06 5.304630e-06 5.193719e-06
+[131] 5.093590e-06 4.876060e-06 4.605875e-06 4.467919e-06 4.388076e-06
+[136] 4.293476e-06 4.216531e-06 3.902439e-06 3.824601e-06 3.689180e-06
+[141] 3.640943e-06 3.481446e-06 3.394284e-06 3.340555e-06 3.227580e-06
+[146] 3.115797e-06 3.013396e-06 2.971608e-06 2.908347e-06 2.839058e-06
+[151] 2.724947e-06 2.682001e-06 2.535752e-06 2.459155e-06 2.394446e-06
+[156] 2.335654e-06 2.196507e-06 2.114063e-06 2.037876e-06 1.994347e-06
+[161] 1.919870e-06 1.914949e-06 1.815555e-06 1.726223e-06 1.685242e-06
+[166] 1.639838e-06 1.527103e-06 1.456869e-06 1.415282e-06 1.390012e-06
+[171] 1.351156e-06 1.303696e-06 1.258990e-06 1.199232e-06 1.156238e-06
+[176] 1.133455e-06 1.051082e-06 1.006920e-06 9.363858e-07 9.262740e-07
+[181] 8.791972e-07 8.544296e-07 8.208705e-07 7.661062e-07 7.518760e-07
+[186] 7.145199e-07 6.870460e-07 6.606631e-07 6.291401e-07 5.816209e-07
+[191] 5.709944e-07 5.602866e-07 5.239054e-07 4.997710e-07 4.761835e-07
+[196] 4.732237e-07 4.398977e-07 4.041318e-07 3.909554e-07 3.864062e-07
+[201] 3.704129e-07 3.603055e-07 3.510277e-07 3.365122e-07 3.173817e-07
+[206] 2.982585e-07 2.830149e-07 2.677918e-07 2.658946e-07 2.528738e-07
+[211] 2.466423e-07 2.368520e-07 2.299626e-07 2.188495e-07 2.008480e-07
+[216] 1.865464e-07 1.805601e-07 1.739120e-07 1.724537e-07 1.649147e-07
+[221] 1.550133e-07 1.517301e-07 1.450113e-07 1.389093e-07 1.348611e-07
+[226] 1.316255e-07 1.293839e-07 1.233538e-07 1.193350e-07 1.173066e-07
+[231] 1.118370e-07 1.057387e-07 1.031572e-07 9.597950e-08 9.384536e-08
+[236] 8.910777e-08 8.634800e-08 8.076149e-08 7.970343e-08 7.819658e-08
+[241] 7.471827e-08 7.350296e-08 7.210800e-08 6.647312e-08 6.447544e-08
+[246] 6.171825e-08 5.991921e-08 5.887891e-08 5.764701e-08 5.611659e-08
+[251] 5.502039e-08 5.198532e-08 4.964987e-08 4.733071e-08 4.641339e-08
+[256] 4.294225e-08 4.219493e-08 4.139155e-08 3.989002e-08 3.858370e-08
+[261] 3.690747e-08 3.626762e-08 3.573295e-08 3.428036e-08 3.231117e-08
+[266] 3.143038e-08 2.975318e-08 2.823677e-08 2.703791e-08 2.641629e-08
+[271] 2.630691e-08 2.358029e-08 2.261352e-08 2.198754e-08 2.033906e-08</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># varianza acumulada primeros 10 comp</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>), pcoa2<span class="sc">$</span>values<span class="sc">$</span>Cum_corr_eig[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">las=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">'l'</span>,</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">'Componentes'</span>, <span class="at">ylab=</span><span class="st">"Prop. varianza explicada acumulada [%]"</span>)</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">3</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-22-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tres componentes sigue siendo el punto optimo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="nmds" class="level3" data-number="13.8.5">
+<h3 data-number="13.8.5" class="anchored" data-anchor-id="nmds"><span class="header-section-number">13.8.5</span> NMDS</h3>
+<p>Con distancia euclineada y normalizado con scale(), como pca toda la varianza de los datos a 2 componentes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"varechem"</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>nMDS <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(norm.reflec, <span class="at">distance=</span><span class="st">'euclidean'</span>, <span class="at">k=</span><span class="dv">2</span>, <span class="at">trymax=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>'comm' has negative data: 'autotransform', 'noshare' and 'wascores' set to FALSE</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Run 0 stress 0.08567827 
+Run 1 stress 0.08707874 
+Run 2 stress 0.08700257 
+Run 3 stress 0.08706744 
+Run 4 stress 0.09738579 
+Run 5 stress 0.09424915 
+Run 6 stress 0.09915137 
+Run 7 stress 0.09703085 
+Run 8 stress 0.08706703 
+Run 9 stress 0.08570621 
+... Procrustes: rmse 0.002084726  max resid 0.02884882 
+Run 10 stress 0.09045472 
+Run 11 stress 0.09045424 
+Run 12 stress 0.09454381 
+Run 13 stress 0.09164646 
+Run 14 stress 0.09915109 
+Run 15 stress 0.09048255 
+Run 16 stress 0.09520396 
+Run 17 stress 0.098817 
+Run 18 stress 0.09048315 
+Run 19 stress 0.08575637 
+... Procrustes: rmse 0.002432561  max resid 0.03929089 
+Run 20 stress 0.09703144 
+Run 21 stress 0.0857565 
+... Procrustes: rmse 0.002446891  max resid 0.03945787 
+Run 22 stress 0.09454357 
+Run 23 stress 0.09454348 
+Run 24 stress 0.09048214 
+Run 25 stress 0.09703029 
+Run 26 stress 0.09703115 
+Run 27 stress 0.09520334 
+Run 28 stress 0.08570573 
+... Procrustes: rmse 0.002135227  max resid 0.0304451 
+Run 29 stress 0.09994356 
+Run 30 stress 0.1021014 
+Run 31 stress 0.0916463 
+Run 32 stress 0.1093739 
+Run 33 stress 0.08570602 
+... Procrustes: rmse 0.002157373  max resid 0.03042614 
+Run 34 stress 0.08578578 
+... Procrustes: rmse 0.00261856  max resid 0.03962003 
+Run 35 stress 0.08570606 
+... Procrustes: rmse 0.002175005  max resid 0.03095916 
+Run 36 stress 0.08567825 
+... New best solution
+... Procrustes: rmse 5.853565e-05  max resid 0.00068425 
+... Similar to previous best
+*** Best solution repeated 1 times</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>env2 <span class="ot">=</span> <span class="fu">envfit</span>(nMDS, traits)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ordiplot(nMDS)</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(env2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con los datos de especies, y usando la distancia Bray-Curtis</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>nMDS2 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(varespec, <span class="at">distance=</span><span class="st">'bray'</span>, <span class="at">k=</span><span class="dv">2</span>, <span class="at">trymax=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Square root transformation
+Wisconsin double standardization
+Run 0 stress 0.1843196 
+Run 1 stress 0.2564773 
+Run 2 stress 0.1825658 
+... New best solution
+... Procrustes: rmse 0.04161701  max resid 0.1517574 
+Run 3 stress 0.1948413 
+Run 4 stress 0.2343662 
+Run 5 stress 0.18458 
+Run 6 stress 0.1843196 
+Run 7 stress 0.18458 
+Run 8 stress 0.1825658 
+... Procrustes: rmse 1.190558e-05  max resid 3.249662e-05 
+... Similar to previous best
+Run 9 stress 0.2058808 
+Run 10 stress 0.18584 
+Run 11 stress 0.195049 
+Run 12 stress 0.220789 
+Run 13 stress 0.1948413 
+Run 14 stress 0.18458 
+Run 15 stress 0.1976151 
+Run 16 stress 0.2088293 
+Run 17 stress 0.1955838 
+Run 18 stress 0.2345868 
+Run 19 stress 0.1955836 
+Run 20 stress 0.195049 
+*** Best solution repeated 1 times</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>env3 <span class="ot">=</span> <span class="fu">envfit</span>(nMDS2, varechem)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(nMDS2, <span class="at">type =</span> <span class="st">'text'</span>, <span class="at">las=</span><span class="dv">1</span>, <span class="at">main=</span><span class="st">'NMDS para especies con Bray-Curtis'</span>)</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(env3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="multivariante_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En NMDS es stress debe ser &lt; 1.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./non_params.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Est. No Paramétrica</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Denis Berroeta</div>   
+  </div>
+</footer>
+
+
+
+</body></html>
