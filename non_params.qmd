@@ -141,6 +141,221 @@ Datos pareados y two-way variance, Friedman.test Wilcox.test en R
 Visualizacióin de Friedman-test
 :::
 
+## Ajustar curvas no-paramétricas en scatterplots
+
+Es común querer ajustar una curva suavizada no paramétrica a través de los datos, especialmente cuando no hay un candidato obvio para una función paramétrica. R ofrece una serie de opciones:
+
+* **lowess** (un ﬁtador de curvas no paramétrico);
+* **loess** (una herramienta de modelización);
+* **gam** (ajusta modelos aditivos generalizados);
+* **lm** para la regresión polinómica (ﬁt un modelo lineal que implica potencias de x).
+
+::: {#fig-curvs-fitted}
+![](images/curvas_fitted.png){width='70%'}
+
+Diferentes tipos de ajustes de curvas de distribución
+:::
+
+R: Como es una función incorporada y no requiere que se cargue ningún paquete externo, loess (arriba a la derecha) es una buena opción; tiene un ajuste razonable, y no es demasiado curvado. Primero se ajusta un modelo de regresión, y luego utiliza predict con un vector de valores especificado para la variable explicativa, y luego dibuja la curva utilizando líneas.
+
+```{r eval=FALSE}
+plot(age, bone, pch=16, main="loess")
+model <- loess(bone ~ age)
+xv <- 0:50
+yv <- predict(model, data.frame(age=xv))
+lines(xv, yv, col="red")
+
+```
+
+
+## Regresiones No Paramétricas
+
+Así como se puede utilizar la función `lm` para ajustar regresiones lineales Gaussianos, `GLM` para ajustar regresiones lineales no Gaussianos, se puede usar modelos GAM para ajustar regresiones no-lineales y no-paramétricas, que es son los modelos GAM?
+
+GAM:
+: Generalized Additive Models → similar al concepto de GLM que vimos en regresiones, pero con relaciones no-lineales y no-paramétricas. Los GAM permiten suavizadores no-paramétricos además de las formas paramétricas. Utilizan las mismas familias de GLM (binomial, poisson, Gamma, etc).
+
+Se puede predecir y con una variable continua x de forma paramétrica, como GLM, usando:
+
+$$y \sim x$$
+
+O usando suavizadores no-paramétricos (smoothers) usando $s(x)$: 
+
+$$y \sim s(x)$$
+
+O una combinación:
+
+$$y \sim x1 + s(x_2)$$
+
+
+O términos que interaccionan entre sí:
+
+$$Y \sim s(x_1) + s(x_2) + s(x_1, x_2)$$
+
+## Non-parametric smoothers
+
+Aquí nos ocupamos de la utilización de suavizadores no paramétricos en la modelación estadística, cuyo objetivo es evaluar los méritos relativos de una serie de modelos diferentes para **explicar la variación de la variable de respuesta**. Una de las funciones de ajuste de modelos más sencillas es `loess`  
+
+El siguiente ejemplo muestra el cambio de la población: 
+
+$$Delta =log\left(\frac{N(t + 1)}{N(t)}\right)$$
+
+En función de la densidad de población $(N(t))$ en una investigación de la dependencia de la densidad en una población de ovejas. 
+
+:::{#fig-dis-cambio-pob}
+![](images/smothers_np.png){width='70%'}
+
+Distribución del cambio cambio de la población ($Delta$) en función de la densidad de la población $N(t)$
+:::
+
+El cambio de la población es positivo a bajas densidades $Delta > 0$ y negativo a altas densidades $Delta < 0$, pero hay una gran dispersión, y no evidente qué forma de función describiría mejor los datos. Aquí está el loess por defecto:
+
+
+:::{#fig-model-loess}
+
+![](images/loess_model.png){width='50%'}
+
+Evaluación del Modelo `loess`.
+:::
+
+:::{#fig-plot-model-loess}
+![](images/plot_loess_model.png){width=70%}
+
+Plot de Evaluación del Modelo `loess`.
+:::
+
+
+
+Comparar múltiples datos al mismo tiempo con la función `pairs`. Usemos de ejemplo con mediciones de radiación, velocidad de viento, y concentraciones de ozono: 
+
+```{r eval=FALSE}
+pairs(ozone.data, 
+      panel=function(x,y) { points(x,y); lines(lowess(x,y))} )
+```
+
+:::{#fig-ozono-pairs}
+![](images/ozono_pairs.png){width=70%}
+
+Comparar múltiples datos al mismo tiempo con la función `pairs`
+:::
+
+
+
+Ajustamos un modelo GAM para predecir la concentración de ozono usando predictores suavizados:
+
+:::{#fig-gam}
+![](images/gam_model.png){width=70%}
+
+Ejecución en R modelo GAM para predecir la concentración de ozono usando predictores suavizados
+:::
+
+
+Nótese que el intercepto se estima como un coeficiente paramétrico (42,10; tabla superior) y las tres variables explicativas se ajustan como términos suavizados. Las tres son signiﬁcantes, pero la radiación es la menos signiﬁcante con p = 0,00736**.
+
+Podemos comparar un GAM con y sin un término para la radiación utilizando el ANOVA de la forma normal:
+
+
+:::{#fig-gam-anova}
+![](images/anova_gam.png){width=70%}
+
+Ejecución en R de comparación un GAM con y sin un término para la radiación utilizando el ANOVA de la forma normal
+:::
+
+Radiación debe permanecer en el modelo! Aporta información significativa. Podemos ver ahora si variables como temperatura y viento interaccionan entre si usando `s(wind, temp)`: 
+
+:::{#fig-gam-suav}
+![](images/gam_s.png){width=70%}
+
+Ejecución en R de interacción de temperatura y viento entre si usando `s(wind, temp)`
+:::
+
+La interacción parece ser muy signiﬁcativa, pero el efecto principal de la temperatura se anula. Podemos inspeccionar el ajuste del modelo3 así:
+
+```{r eval=FALSE}
+par(mfrow=c(2,2))
+plot(model3, residuals=T, pch=1)
+
+```
+
+
+:::{#fig-plot-mod-3}
+![](images/plot-mod-3.png){width=70%}
+
+Visualización de ajuste de modelo 3
+:::
+
+
+- Las figuras muestran las relaciones de las variables lineales con su versión s(x).
+
+- Y la interacción al final, la cual muestra  relaciones complejas.
+
+- Las líneas punteadas son las desviación estándar, +- 1sdt
+
+
+## Análisis de Covarianza no-paramétrico o con función de distribución específica
+
+
+Así como se puede hacer un ANCOVA linear usando la función `lm` envés de `aov`, se puede hacer un _ANCOVA no-paramétrico y no-lineal_ con _GAM_ y lineal con _GLM_ (GAM NO permite experimento factorial) 
+
+Veamos un ejemplo donde la variable respuesta es el número de especies (riqueza; números enteros positivos) en áreas con distinta biomasa (números continuos positivos) y con diferentes pH (3 clases). Como la variable y es riqueza, vamos a usar la familia de distribución de Poisson.  
+
+
+:::{#fig-plot-glm-cov}
+![](images/glm_cov.png){width=70%}
+
+_ANCOVA no-paramétrico_ y _no-lineal_ con _GAM_
+:::
+
+Está claro que las especies disminuyen con la biomasa, y que el pH del suelo tiene un gran efecto sobre las especies, pero ¿la pendiente de la relación entre las especies y la biomasa depende del pH?
+
+:::{#fig-plot-glm-cov}
+![](images/glm_poisson.png){width=70%}
+Ejecución en R de Modelo GLM. Las relaciones se ven lineales a priori, así que usamos GLM con la familia poisson.
+:::
+
+
+
+
+Versión no paramétrica con GAM. Básicamente da =, ya que las relaciones no mostraban no-linealidades desde el principio. Quedarse entonces con el modelo más simple = lineal.
+
+
+```{r eval=FALSE}
+model3 <- gam(Species~ s(Biomass) + pH, poisson)
+summary(model3)
+```
+
+
+
+
+
+
+:::{#fig-plot-m3-poisson}
+![](images/modelo_3_poisson.png){width=70%}
+Versión no paramétrica con GAM
+:::
+
+
+
+
+## Transformación de datos
+
+Envés de usar modelos no-lineales, se pueden transformar los datos para obtener mejor linealidad entre sus relaciones entre las variables respuesta y predictivas. Las transformaciones más utilizadas son:
+
+- `log(y)` frente a `x` para relaciones exponenciales
+- `log(y)` contra `log(x)` para funciones de potencia;
+- `exp(y)` contra `x` para relaciones logarítmicas;
+- `1/y` contra `1/x` para las relaciones asintóticas;
+- `log(p/(1 - p))` contra `x` para datos de proporción.
+
+Otras transformaciones son útiles para la estabilización de la varianza:
+
+- `sqrt(y)` para estabilizar la varianza para datos de recuento;
+- `arcsin(y)` para estabilizar la varianza de los datos de porcentaje.
+
+
+
+
+
 
 ## Parte Práctica
 

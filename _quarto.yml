@@ -23,6 +23,7 @@ book:
     - ancova.qmd
     - non_params.qmd
     - multivariante.qmd
+    # - cluster.qmd
     - references.qmd
 
 

@@ -1,0 +1,409 @@
+---
+subtitletitle: "Análisis multivariado"
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+# Clusters
+
+## Práctico
+
+**Cargar librerías**
+
+```{r}
+
+library(vegan)
+library(ggpubr)
+library(factoextra)
+library(hopkins)
+library(NbClust)
+```
+
+Cargar Data
+
+Datos iris de plantas:
+
+:   Este famoso conjunto de datos de iris (de Fisher o de Anderson) da las medidas en centimetros de las variables longitud y ancho de los sepalos y longitud y ancho de los petalos, respectivamente, para 50 flores de cada una de las 3 especies de iris. Las especies son Iris setosa, versicolor y virginica.
+
+```{r}
+
+
+data("iris")
+
+# sacar informacion que no es necesaria
+df <- iris[, -5]
+
+```
+
+Generar datos aleatorios
+
+Generamos un dataset de mentira, usando valores aleatorios en los rangos de valores de cada columna vamos a usarlo para comparar la posibilidad de hacer clustering con datos aleatorios y agregados
+
+```{r}
+random_df <- apply(df, 2, # el argumento MARGIN = 2 quiere decir que se realizara la funcion sobre las columnas
+                   function(x){runif(length(x), min(x), (max(x)))}) # runif para crear x numero de observaciones
+random_df <- as.data.frame(random_df)
+```
+
+### PCA
+
+```{r}
+# hacer PCA, usar escalado p normalizacion de los datos
+pca = prcomp(df, scale = T)
+pca_random = prcomp(random_df, scale = T)
+
+```
+
+Plot PCA
+
+```{r}
+
+fviz_pca_ind(pca, title = "PCA - Iris data", 
+             habillage = iris$Species,  
+             palette = "jco",
+             geom = "text", # "text"
+             ggtheme = theme_classic(),
+             legend = "bottom")
+```
+
+```{r}
+# Plot the random df
+fviz_pca_ind(pca_random, 
+             title = "PCA - Random data",
+             habillage = iris$Species,  
+             palette = "jco",
+             geom = "point", 
+             ggtheme = theme_classic())
+
+```
+
+```{r}
+### fviz_pca_var ------------------------------------------------------------
+# La funcion fviz_pca_var grafica los vectores de las variables
+
+fviz_pca_var(pca,
+             geom = "arrow", # "text"
+             col.var = "red",
+             alpha.var = "contrib"
+               ) +
+  theme_minimal()
+```
+
+```{r}
+fviz_pca_var(pca_random,
+             geom = "arrow", # "text"
+             col.var = "red",
+             alpha.var = "contrib"
+) +
+  theme_minimal()
+
+```
+
+```{r}
+
+### fviz_pca_biplot ---------------------------------------------------------
+
+fviz_pca_biplot(pca)
+fviz_pca_biplot(pca_random)
+
+```
+
+### Inspección de los datos
+
+Hopkins statistics
+
+Opción 1:
+
+```{r}
+
+### get_clust_tendency ------------------------------------------------------
+# Esta funcion es iterativa, como nombramos en la case, por lo que valores > 0.5 
+# se concluyen que son clusterizables
+
+# data iris
+res <- get_clust_tendency(pca$x[, 1:2], n = nrow(df) - 1, graph = FALSE)
+res$hopkins_stat
+
+# data random
+res <- get_clust_tendency(random_df, n = nrow(random_df)-1, graph = FALSE)
+res$hopkins_stat
+```
+
+Opciópn 2:
+
+```{r}
+
+### clustertend -------------------------------------------------------------
+# Con esta funcion  es mas dicicil de interpretar, se basa en un test mas clasico estadistico
+# H0 = aleatorio
+# H1 = clusterizado
+# pero van a ver que el valor de P no es tan directo como P < 0.05
+
+hopkins(df)
+
+hopkins(random_df)
+
+```
+
+```{r}
+## Interpretacion visual  --------------------------------------------------
+# estimar matrices de disimilaridad usando distancia euclidiana
+# la funcion dist() sirve bien en este caso, para mas opciones usar vegdist (vegan)
+
+# datos Iris
+dm <- dist(df)
+fviz_dist(dm) 
+
+```
+
+```{r}
+# datos random
+dm <- dist(random_df)
+fviz_dist(dm) 
+
+```
+
+### Selección de K
+
+```{r}
+## Seleccion numero cluster para k-means  ----------------------------
+###  Metodo del codo --------------------------------------------------------
+# variacion inter-cluster (wss) (mas bajo mejor)
+fviz_nbclust(x = scale(df), FUNcluster = kmeans, method = "wss", k.max = 15) +
+  labs(title = "Número óptimo de clusters")
+```
+
+```{r}
+### Metodo de silueta -------------------------------------------------------
+# silhouette (numero mas alto mejor)
+fviz_nbclust(x = scale(df), FUNcluster = kmeans, method = "silhouette", k.max = 15) +
+  labs(title = "Número óptimo de clusters")
+
+```
+
+```{r}
+
+### Gap statistic -----------------------------------------------------------
+# Gap statistic (numero mas alto mejor)
+fviz_nbclust(x = scale(df), FUNcluster = kmeans,
+             method = "gap_stat", k.max = 15) +
+  labs(title = "Número óptimo de clusters")
+
+```
+
+### Kmeans
+
+```{r}
+## Kmeans ------------------------------------------------------------------
+
+kmeans1 <- kmeans(scale(df), centers = 3)
+kmeans1$cluster
+kmeans1$tot.withinss
+
+```
+
+```{r}
+## Estimar por varios metodos simultaneamente ----------------------------
+
+clusters1 <- NbClust(data = scale(df), distance = "euclidean", min.nc = 2,
+                     max.nc = 10, method = "kmeans", index = "alllong")
+fviz_nbclust(clusters1)
+# clusters1$All.index
+clusters1$Best.partition
+```
+
+```{r}
+### Resultados --------------------------------------------------------------
+# que observaciones corresponden a cada clase? 
+which(clusters1$Best.partition == 1)
+which(clusters1$Best.partition == 2)
+
+iris$Species[clusters1$Best.partition==1]
+iris$Species[clusters1$Best.partition==2]
+```
+
+```{r}
+# grafico con colores por clases
+fviz_pca_ind(pca, 
+             title = "PCA - Iris data", 
+             habillage = clusters1$Best.partition,  
+             palette = "jco",
+             geom = "point", 
+             ggtheme = theme_classic(),
+             legend = "bottom")
+
+```
+
+### Datos 2
+
+```{r eval=FALSE}
+# Datos de espectoscopia de campo -----------------------------------------
+# cargar foliares de pigmentos (clorofila, carotenoides, contenido de agua, ...) 
+# con datos hiperespectrales tomados por espectroscopia de campo 
+# (datos de reflectancia de teledetección = 2051 variables)
+
+# datos de rasgos de hojas + reflectancia
+data1 <- read.csv('https://raw.githubusercontent.com/JavierLopatin/Clases/master/M%C3%A9todos_avanzados_en_R/dataset/angers-leaf-optical-properties-database--2003.csv')
+```
+```{r echo=FALSE}
+# saveRDS(data1, "data/data_espectoscopia.rds")
+data1 <- readRDS("data/data_espectoscopia.rds")
+```
+
+```{r}
+# Filtrar datos -----------------------------------------------------------
+# solamente utilizar los datos de reflectancia, los de transmitancia no los utilizaremos.
+data1 <- data1[data1$Measurement_type == 'reflectance', ]
+```
+
+```{r}
+
+# obtener los los rasgos y cambiar el nombre de las columnas
+traits <- data1[, c(2, 4, 7, 9, 15)]
+colnames(traits) <- c('Car', 'Cab', 'Cw', 'Cm', 'N')
+head(traits)
+
+```
+
+```{r}
+# obtener la reflectancia
+reflec <- data1[, 22:ncol(data1)]
+# head(reflec)
+```
+
+## PCA
+
+```{r}
+pca <- prcomp(reflec, scale = TRUE)
+names(pca)
+
+```
+
+```{r eval=FALSE}
+## Cluster -----------------------------------------------------------------
+# numero ideal de clusters
+set.seed(123)
+clusters2 <- NbClust(data = pca$x[,1:2], distance = "euclidean", min.nc = 2,
+                     max.nc = 10, method = "kmeans", index = "alllong")
+fviz_nbclust(clusters2)
+clusters2$Best.partition
+```
+
+```{r echo=FALSE}
+# saveRDS(clusters2, "data/cluster2_pca.rds")
+clusters2  <- readRDS("data/cluster2_pca.rds")
+fviz_nbclust(clusters2)
+clusters2$Best.partition
+
+```
+
+```{r}
+### Plot --------------------------------------------------------------------
+
+env <- envfit(pca, traits) # La funcion ajusta vectores o factores ambientales en una ordenacion.
+plot(pca$x[,c(1,2)], col = clusters2$Best.partition, pch = 16)
+# dev.off()
+plot(env)
+```
+
+## Turberas
+
+```{r eval=FALSE}
+# Turbera con NMDS --------------------------------------------------------
+
+## Cargar datos ------------------------------------------------------------
+
+cob_data = read.csv('https://raw.githubusercontent.com/JavierLopatin/Clases/master/M%C3%A9todos_avanzados_en_R/dataset/Cover_spp_peatland.csv')
+veg_data = read.csv('https://raw.githubusercontent.com/JavierLopatin/Clases/master/M%C3%A9todos_avanzados_en_R/dataset/Peatland.csv')
+```
+
+```{r echo=FALSE}
+
+# saveRDS(cob_data, "data/cob_data.rds")
+# saveRDS(veg_data, "data/veg_data.rds")
+
+cob_data <- readRDS("data/cob_data.rds")
+veg_data <- readRDS("data/veg_data.rds")
+```
+
+
+```{r}
+# datos de presencia/cobertura (0-100) de especies
+cob_data[1:8, 1:5]
+
+# datos de vegetacion y suelo en tuerbera
+veg_data[1:8, 4:7]
+
+
+```
+
+```{r}
+
+# NMDS --------------------------------------------------------------------
+
+# Seleccionar el número de componentes (k) de acuerdo al stress
+nmds.stress <- sapply(1:6, function(x) metaMDS(cob_data[,2:ncol(cob_data)], distance='bray', k = x)$stress)
+
+plot(1:6, 
+     nmds.stress, 
+     xlab = "Número de componentes", 
+     ylab = 'Stress')
+abline(h = 0.15, lty = 2, col = "red")
+```
+
+Valores de stress bajo 0.15 son deseables, por lo que vamos a seleccionar 3 componentes en este caso. Una vez realizado el analisis, los valores de los componentes pueden ser accedidos por la funcion scores(). La variable trymax de metaMDS indica el número maximo de iteraciones aleatorias que el algoritmo va a emplear para encontrar una solucion.
+
+```{r}
+nmds <- metaMDS(cob_data[,2:44], 
+                k = 3, 
+                trymax = 1000)
+
+spp_env = envfit(nmds, cob_data[,4:7])
+
+ordiplot(nmds)
+plot(spp_env)
+
+```
+
+```{r}
+## K-means -----------------------------------------------------------------
+# seleccionar numero optimo de clusters
+clusters3 <-
+  NbClust(
+    data = scores(nmds)$sitios, #scores(nmds)$sitios
+    distance = "euclidean",
+    min.nc = 2,
+    max.nc = 10,
+    method = "kmeans",
+    index = "alllong"
+  )
+fviz_nbclust(clusters3)
+
+
+```
+
+```{r}
+### Plot con clases ---------------------------------------------------------
+
+par(mfrow = c(1, 1))
+plot(scores(nmds)[, 1:2], col = clusters3$Best.partition, pch = 16)
+plot(spp_env)
+
+```
+
+```{r}
+## Interpretacion ----------------------------------------------------------
+# Que especies estan an cada grupo? 
+# veamos las primeras 6 filas
+head(nmds$species)
+
+# Revicemos la composición de especies en los primeros dos ejes
+sort(nmds$species[,1])
+sort(nmds$species[,2])
+
+# Utilizando esta informacion puede a que especies dominantes corresponden cada 
+# valor de los componentes, y se puede deducir que especies tienen, ej., 
+# mas valor de carbono y altura de canopia.
+
+```
