@@ -254,12 +254,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#datos-pareados" id="toc-datos-pareados" class="nav-link" data-scroll-target="#datos-pareados"> <span class="header-section-number">12.3</span> Datos pareados</a></li>
   <li><a href="#datos-pareados-y-two-way-variance" id="toc-datos-pareados-y-two-way-variance" class="nav-link" data-scroll-target="#datos-pareados-y-two-way-variance"> <span class="header-section-number">12.4</span> Datos pareados y two-way variance</a></li>
-  <li><a href="#parte-práctica" id="toc-parte-práctica" class="nav-link" data-scroll-target="#parte-práctica"> <span class="header-section-number">12.5</span> Parte Práctica</a>
+  <li><a href="#ajustar-curvas-no-paramétricas-en-scatterplots" id="toc-ajustar-curvas-no-paramétricas-en-scatterplots" class="nav-link" data-scroll-target="#ajustar-curvas-no-paramétricas-en-scatterplots"> <span class="header-section-number">12.5</span> Ajustar curvas no-paramétricas en scatterplots</a></li>
+  <li><a href="#regresiones-no-paramétricas" id="toc-regresiones-no-paramétricas" class="nav-link" data-scroll-target="#regresiones-no-paramétricas"> <span class="header-section-number">12.6</span> Regresiones No Paramétricas</a></li>
+  <li><a href="#non-parametric-smoothers" id="toc-non-parametric-smoothers" class="nav-link" data-scroll-target="#non-parametric-smoothers"> <span class="header-section-number">12.7</span> Non-parametric smoothers</a></li>
+  <li><a href="#análisis-de-covarianza-no-paramétrico-o-con-función-de-distribución-específica" id="toc-análisis-de-covarianza-no-paramétrico-o-con-función-de-distribución-específica" class="nav-link" data-scroll-target="#análisis-de-covarianza-no-paramétrico-o-con-función-de-distribución-específica"> <span class="header-section-number">12.8</span> Análisis de Covarianza no-paramétrico o con función de distribución específica</a></li>
+  <li><a href="#transformación-de-datos" id="toc-transformación-de-datos" class="nav-link" data-scroll-target="#transformación-de-datos"> <span class="header-section-number">12.9</span> Transformación de datos</a></li>
+  <li><a href="#parte-práctica" id="toc-parte-práctica" class="nav-link" data-scroll-target="#parte-práctica"> <span class="header-section-number">12.10</span> Parte Práctica</a>
   <ul class="collapse">
-  <li><a href="#t-student-paramétrico" id="toc-t-student-paramétrico" class="nav-link" data-scroll-target="#t-student-paramétrico"> <span class="header-section-number">12.5.1</span> T-Student (Paramétrico)</a></li>
-  <li><a href="#wilcoxon-rank-sum-test-no-paramétrico" id="toc-wilcoxon-rank-sum-test-no-paramétrico" class="nav-link" data-scroll-target="#wilcoxon-rank-sum-test-no-paramétrico"> <span class="header-section-number">12.5.2</span> Wilcoxon rank-sum test (No Paramétrico)</a></li>
-  <li><a href="#tests-on-paired-samples" id="toc-tests-on-paired-samples" class="nav-link" data-scroll-target="#tests-on-paired-samples"> <span class="header-section-number">12.5.3</span> Tests on paired samples</a></li>
-  <li><a href="#friedman-test" id="toc-friedman-test" class="nav-link" data-scroll-target="#friedman-test"> <span class="header-section-number">12.5.4</span> Friedman test</a></li>
+  <li><a href="#t-student-paramétrico" id="toc-t-student-paramétrico" class="nav-link" data-scroll-target="#t-student-paramétrico"> <span class="header-section-number">12.10.1</span> T-Student (Paramétrico)</a></li>
+  <li><a href="#wilcoxon-rank-sum-test-no-paramétrico" id="toc-wilcoxon-rank-sum-test-no-paramétrico" class="nav-link" data-scroll-target="#wilcoxon-rank-sum-test-no-paramétrico"> <span class="header-section-number">12.10.2</span> Wilcoxon rank-sum test (No Paramétrico)</a></li>
+  <li><a href="#tests-on-paired-samples" id="toc-tests-on-paired-samples" class="nav-link" data-scroll-target="#tests-on-paired-samples"> <span class="header-section-number">12.10.3</span> Tests on paired samples</a></li>
+  <li><a href="#friedman-test" id="toc-friedman-test" class="nav-link" data-scroll-target="#friedman-test"> <span class="header-section-number">12.10.4</span> Friedman test</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -387,17 +392,179 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </section>
-<section id="parte-práctica" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="parte-práctica"><span class="header-section-number">12.5</span> Parte Práctica</h2>
+<section id="ajustar-curvas-no-paramétricas-en-scatterplots" class="level2 page-columns page-full" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="ajustar-curvas-no-paramétricas-en-scatterplots"><span class="header-section-number">12.5</span> Ajustar curvas no-paramétricas en scatterplots</h2>
+<p>Es común querer ajustar una curva suavizada no paramétrica a través de los datos, especialmente cuando no hay un candidato obvio para una función paramétrica. R ofrece una serie de opciones:</p>
+<ul>
+<li><strong>lowess</strong> (un ﬁtador de curvas no paramétrico);</li>
+<li><strong>loess</strong> (una herramienta de modelización);</li>
+<li><strong>gam</strong> (ajusta modelos aditivos generalizados);</li>
+<li><strong>lm</strong> para la regresión polinómica (ﬁt un modelo lineal que implica potencias de x).</li>
+</ul>
+<div id="fig-curvs-fitted" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/curvas_fitted.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.9: Diferentes tipos de ajustes de curvas de distribución</figcaption><p></p>
+</figure>
+</div>
+<p>R: Como es una función incorporada y no requiere que se cargue ningún paquete externo, loess (arriba a la derecha) es una buena opción; tiene un ajuste razonable, y no es demasiado curvado. Primero se ajusta un modelo de regresión, y luego utiliza predict con un vector de valores especificado para la variable explicativa, y luego dibuja la curva utilizando líneas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(age, bone, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">main=</span><span class="st">"loess"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">loess</span>(bone <span class="sc">~</span> age)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>xv <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>yv <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="fu">data.frame</span>(<span class="at">age=</span>xv))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xv, yv, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="regresiones-no-paramétricas" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="regresiones-no-paramétricas"><span class="header-section-number">12.6</span> Regresiones No Paramétricas</h2>
+<p>Así como se puede utilizar la función <code>lm</code> para ajustar regresiones lineales Gaussianos, <code>GLM</code> para ajustar regresiones lineales no Gaussianos, se puede usar modelos GAM para ajustar regresiones no-lineales y no-paramétricas, que es son los modelos GAM?</p>
+<dl>
+<dt>GAM:</dt>
+<dd>
+Generalized Additive Models → similar al concepto de GLM que vimos en regresiones, pero con relaciones no-lineales y no-paramétricas. Los GAM permiten suavizadores no-paramétricos además de las formas paramétricas. Utilizan las mismas familias de GLM (binomial, poisson, Gamma, etc).
+</dd>
+</dl>
+<p>Se puede predecir y con una variable continua x de forma paramétrica, como GLM, usando:</p>
+<p><span class="math display">y \sim x</span></p>
+<p>O usando suavizadores no-paramétricos (smoothers) usando <span class="math inline">s(x)</span>:</p>
+<p><span class="math display">y \sim s(x)</span></p>
+<p>O una combinación:</p>
+<p><span class="math display">y \sim x1 + s(x_2)</span></p>
+<p>O términos que interaccionan entre sí:</p>
+<p><span class="math display">Y \sim s(x_1) + s(x_2) + s(x_1, x_2)</span></p>
+</section>
+<section id="non-parametric-smoothers" class="level2 page-columns page-full" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="non-parametric-smoothers"><span class="header-section-number">12.7</span> Non-parametric smoothers</h2>
+<p>Aquí nos ocupamos de la utilización de suavizadores no paramétricos en la modelación estadística, cuyo objetivo es evaluar los méritos relativos de una serie de modelos diferentes para <strong>explicar la variación de la variable de respuesta</strong>. Una de las funciones de ajuste de modelos más sencillas es <code>loess</code></p>
+<p>El siguiente ejemplo muestra el cambio de la población:</p>
+<p><span class="math display">Delta =log\left(\frac{N(t + 1)}{N(t)}\right)</span></p>
+<p>En función de la densidad de población <span class="math inline">(N(t))</span> en una investigación de la dependencia de la densidad en una población de ovejas.</p>
+<div id="fig-dis-cambio-pob" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/smothers_np.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.10: Distribución del cambio cambio de la población (<span class="math inline">Delta</span>) en función de la densidad de la población <span class="math inline">N(t)</span></figcaption><p></p>
+</figure>
+</div>
+<p>El cambio de la población es positivo a bajas densidades <span class="math inline">Delta &gt; 0</span> y negativo a altas densidades <span class="math inline">Delta &lt; 0</span>, pero hay una gran dispersión, y no evidente qué forma de función describiría mejor los datos. Aquí está el loess por defecto:</p>
+<div id="fig-model-loess" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/loess_model.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.11: Evaluación del Modelo <code>loess</code>.</figcaption><p></p>
+</figure>
+</div>
+<div id="fig-plot-model-loess" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/plot_loess_model.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.12: Plot de Evaluación del Modelo <code>loess</code>.</figcaption><p></p>
+</figure>
+</div>
+<p>Comparar múltiples datos al mismo tiempo con la función <code>pairs</code>. Usemos de ejemplo con mediciones de radiación, velocidad de viento, y concentraciones de ozono:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(ozone.data, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel=</span><span class="cf">function</span>(x,y) { <span class="fu">points</span>(x,y); <span class="fu">lines</span>(<span class="fu">lowess</span>(x,y))} )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fig-ozono-pairs" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/ozono_pairs.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.13: Comparar múltiples datos al mismo tiempo con la función <code>pairs</code></figcaption><p></p>
+</figure>
+</div>
+<p>Ajustamos un modelo GAM para predecir la concentración de ozono usando predictores suavizados:</p>
+<div id="fig-gam" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/gam_model.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.14: Ejecución en R modelo GAM para predecir la concentración de ozono usando predictores suavizados</figcaption><p></p>
+</figure>
+</div>
+<p>Nótese que el intercepto se estima como un coeficiente paramétrico (42,10; tabla superior) y las tres variables explicativas se ajustan como términos suavizados. Las tres son signiﬁcantes, pero la radiación es la menos signiﬁcante con p = 0,00736**.</p>
+<p>Podemos comparar un GAM con y sin un término para la radiación utilizando el ANOVA de la forma normal:</p>
+<div id="fig-gam-anova" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/anova_gam.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.15: Ejecución en R de comparación un GAM con y sin un término para la radiación utilizando el ANOVA de la forma normal</figcaption><p></p>
+</figure>
+</div>
+<p>Radiación debe permanecer en el modelo! Aporta información significativa. Podemos ver ahora si variables como temperatura y viento interaccionan entre si usando <code>s(wind, temp)</code>:</p>
+<div id="fig-gam-suav" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/gam_s.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.16: Ejecución en R de interacción de temperatura y viento entre si usando <code>s(wind, temp)</code></figcaption><p></p>
+</figure>
+</div>
+<p>La interacción parece ser muy signiﬁcativa, pero el efecto principal de la temperatura se anula. Podemos inspeccionar el ajuste del modelo3 así:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model3, <span class="at">residuals=</span>T, <span class="at">pch=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fig-plot-mod-3" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/plot-mod-3.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.17: Visualización de ajuste de modelo 3</figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li><p>Las figuras muestran las relaciones de las variables lineales con su versión s(x).</p></li>
+<li><p>Y la interacción al final, la cual muestra relaciones complejas.</p></li>
+<li><p>Las líneas punteadas son las desviación estándar, +- 1sdt</p></li>
+</ul>
+</section>
+<section id="análisis-de-covarianza-no-paramétrico-o-con-función-de-distribución-específica" class="level2 page-columns page-full" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="análisis-de-covarianza-no-paramétrico-o-con-función-de-distribución-específica"><span class="header-section-number">12.8</span> Análisis de Covarianza no-paramétrico o con función de distribución específica</h2>
+<p>Así como se puede hacer un ANCOVA linear usando la función <code>lm</code> envés de <code>aov</code>, se puede hacer un <em>ANCOVA no-paramétrico y no-lineal</em> con <em>GAM</em> y lineal con <em>GLM</em> (GAM NO permite experimento factorial)</p>
+<p>Veamos un ejemplo donde la variable respuesta es el número de especies (riqueza; números enteros positivos) en áreas con distinta biomasa (números continuos positivos) y con diferentes pH (3 clases). Como la variable y es riqueza, vamos a usar la familia de distribución de Poisson.</p>
+<div id="fig-plot-glm-cov" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/glm_cov.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.18: <em>ANCOVA no-paramétrico</em> y <em>no-lineal</em> con <em>GAM</em></figcaption><p></p>
+</figure>
+</div>
+<p>Está claro que las especies disminuyen con la biomasa, y que el pH del suelo tiene un gran efecto sobre las especies, pero ¿la pendiente de la relación entre las especies y la biomasa depende del pH?</p>
+<div id="fig-plot-glm-cov" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/glm_poisson.png" class="img-fluid figure-img" style="width:70.0%"> Ejecución en R de Modelo GLM. Las relaciones se ven lineales a priori, así que usamos GLM con la familia poisson.</p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.19: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+<p>Versión no paramétrica con GAM. Básicamente da =, ya que las relaciones no mostraban no-linealidades desde el principio. Quedarse entonces con el modelo más simple = lineal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Species<span class="sc">~</span> <span class="fu">s</span>(Biomass) <span class="sc">+</span> pH, poisson)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fig-plot-m3-poisson" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="images/modelo_3_poisson.png" class="img-fluid figure-img" style="width:70.0%"> Versión no paramétrica con GAM</p>
+<p></p><figcaption class="figure-caption margin-caption">Figure 12.20: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="transformación-de-datos" class="level2" data-number="12.9">
+<h2 data-number="12.9" class="anchored" data-anchor-id="transformación-de-datos"><span class="header-section-number">12.9</span> Transformación de datos</h2>
+<p>Envés de usar modelos no-lineales, se pueden transformar los datos para obtener mejor linealidad entre sus relaciones entre las variables respuesta y predictivas. Las transformaciones más utilizadas son:</p>
+<ul>
+<li><code>log(y)</code> frente a <code>x</code> para relaciones exponenciales</li>
+<li><code>log(y)</code> contra <code>log(x)</code> para funciones de potencia;</li>
+<li><code>exp(y)</code> contra <code>x</code> para relaciones logarítmicas;</li>
+<li><code>1/y</code> contra <code>1/x</code> para las relaciones asintóticas;</li>
+<li><code>log(p/(1 - p))</code> contra <code>x</code> para datos de proporción.</li>
+</ul>
+<p>Otras transformaciones son útiles para la estabilización de la varianza:</p>
+<ul>
+<li><code>sqrt(y)</code> para estabilizar la varianza para datos de recuento;</li>
+<li><code>arcsin(y)</code> para estabilizar la varianza de los datos de porcentaje.</li>
+</ul>
+</section>
+<section id="parte-práctica" class="level2" data-number="12.10">
+<h2 data-number="12.10" class="anchored" data-anchor-id="parte-práctica"><span class="header-section-number">12.10</span> Parte Práctica</h2>
 <p>Importar data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/gardens.txt'</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> T,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/gardens.txt'</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> T,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  gardenA gardenB gardenC
 1       3       5       3
@@ -410,22 +577,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Comparacion de variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gardenA vs gardenB</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data1<span class="sc">$</span>gardenA, data1<span class="sc">$</span>gardenB, <span class="at">notch =</span> <span class="cn">TRUE</span>, <span class="at">ylab =</span> <span class="st">'Ozono'</span>, <span class="at">xlab =</span> <span class="st">"Garden"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gardenA vs gardenB</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data1<span class="sc">$</span>gardenA, data1<span class="sc">$</span>gardenB, <span class="at">notch =</span> <span class="cn">TRUE</span>, <span class="at">ylab =</span> <span class="st">'Ozono'</span>, <span class="at">xlab =</span> <span class="st">"Garden"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># distribucion de los datos</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data1<span class="sc">$</span>gardenC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># distribucion de los datos</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data1<span class="sc">$</span>gardenC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="t-student-paramétrico" class="level3" data-number="12.5.1">
-<h3 data-number="12.5.1" class="anchored" data-anchor-id="t-student-paramétrico"><span class="header-section-number">12.5.1</span> T-Student (Paramétrico)</h3>
+<section id="t-student-paramétrico" class="level3" data-number="12.10.1">
+<h3 data-number="12.10.1" class="anchored" data-anchor-id="t-student-paramétrico"><span class="header-section-number">12.10.1</span> T-Student (Paramétrico)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diferencias entre muestras de ozono usando el test parametrico t test</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data1<span class="sc">$</span>gardenA, data1<span class="sc">$</span>gardenB) <span class="co"># cual es el valor de p?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diferencias entre muestras de ozono usando el test parametrico t test</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data1<span class="sc">$</span>gardenA, data1<span class="sc">$</span>gardenB) <span class="co"># cual es el valor de p?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -441,10 +608,10 @@ mean of x mean of y
 </div>
 </div>
 </section>
-<section id="wilcoxon-rank-sum-test-no-paramétrico" class="level3" data-number="12.5.2">
-<h3 data-number="12.5.2" class="anchored" data-anchor-id="wilcoxon-rank-sum-test-no-paramétrico"><span class="header-section-number">12.5.2</span> Wilcoxon rank-sum test (No Paramétrico)</h3>
+<section id="wilcoxon-rank-sum-test-no-paramétrico" class="level3" data-number="12.10.2">
+<h3 data-number="12.10.2" class="anchored" data-anchor-id="wilcoxon-rank-sum-test-no-paramétrico"><span class="header-section-number">12.10.2</span> Wilcoxon rank-sum test (No Paramétrico)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(data1<span class="sc">$</span>gardenA, data1<span class="sc">$</span>gardenB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(data1<span class="sc">$</span>gardenA, data1<span class="sc">$</span>gardenB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in wilcox.test.default(data1$gardenA, data1$gardenB): cannot compute
 exact p-value with ties</code></pre>
@@ -469,16 +636,16 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </ul>
 <p>La prueba no parametrica es mucho mas apropiada que la prueba t cuando los errores no son normales, y la prueba no parametrica es aproximadamente un 95% tan poderosa con errores normales, y puede ser mas mas potente que la prueba t si la distribucion esta fuertemente sesgada por la presencia de valores atipicos. Tipicamente, como aqui, La prueba t dara el valor p mas bajo, por lo que se dice que la prueba de Wilcoxon es conservadora: si una diferencia es significativa bajo una prueba de Wilcoxon seria aun mas significativo bajo una prueba t.</p>
 </section>
-<section id="tests-on-paired-samples" class="level3" data-number="12.5.3">
-<h3 data-number="12.5.3" class="anchored" data-anchor-id="tests-on-paired-samples"><span class="header-section-number">12.5.3</span> Tests on paired samples</h3>
+<section id="tests-on-paired-samples" class="level3" data-number="12.10.3">
+<h3 data-number="12.10.3" class="anchored" data-anchor-id="tests-on-paired-samples"><span class="header-section-number">12.10.3</span> Tests on paired samples</h3>
 <p>A veces, los datos de dos muestras provienen de observaciones emparejadas. En este caso, podriamos esperar una correlacion entre las dos mediciones, porque se realizaron en el mismo individuo o se tomaron de la misma ubicacion.</p>
 <p><strong>Importar data</strong></p>
 <p>Los siguientes datos son una puntuacion de biodiversidad compuesta basada en una muestra de invertebrados acuaticos. Los elementos estan emparejados porque las dos muestras fueron tomadas en el mismo rio, una aguas arriba y otra aguas abajo del mismo canal de aguas residuales</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>streams <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/streams.txt'</span>,</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(streams)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>streams <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/streams.txt'</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(streams)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  down up
 1   20 23
@@ -491,14 +658,14 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <p>Comparacion de variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up, <span class="at">notch =</span> <span class="cn">TRUE</span>) <span class="co"># es correcto?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up, <span class="at">notch =</span> <span class="cn">TRUE</span>) <span class="co"># es correcto?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Asumiendo independencia</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up) <span class="co"># p = 0.6856</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up) <span class="co"># p = 0.6856</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -512,7 +679,7 @@ sample estimates:
 mean of x mean of y 
    12.500    13.375 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up) <span class="co"># p = 0.5559</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up) <span class="co"># p = 0.5559</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in wilcox.test.default(streams$down, streams$up): cannot compute exact
 p-value with ties</code></pre>
@@ -528,7 +695,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <p>Asumiendo que son datos pareados</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up, <span class="at">paired =</span> <span class="cn">TRUE</span>) <span class="co"># p = 0.0081</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up, <span class="at">paired =</span> <span class="cn">TRUE</span>) <span class="co"># p = 0.0081</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Paired t-test
@@ -542,7 +709,7 @@ sample estimates:
 mean of the differences 
                  -0.875 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up, <span class="at">paired =</span> <span class="cn">TRUE</span>) <span class="co"># p = 0.01406</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(streams<span class="sc">$</span>down, streams<span class="sc">$</span>up, <span class="at">paired =</span> <span class="cn">TRUE</span>) <span class="co"># p = 0.01406</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in wilcox.test.default(streams$down, streams$up, paired = TRUE): cannot
 compute exact p-value with ties</code></pre>
@@ -564,10 +731,10 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <p>Resultados de un experimento para comparar rendimientos (medidos por el peso seco de las plantas) obtenido bajo un control y dos condiciones de tratamiento diferentes.</p>
 <p>Importar data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset = PlantGrowth.csv</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/PlantGrowth.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset = PlantGrowth.csv</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/PlantGrowth.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  weight group
 1   4.17  ctrl
@@ -577,40 +744,40 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 5   4.50  ctrl
 6   4.61  ctrl</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(my_data)</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># group levels</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(my_data<span class="sc">$</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(my_data)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># group levels</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(my_data<span class="sc">$</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "ctrl" "trt1" "trt2"</code></pre>
 </div>
 </div>
 <p>Visualizacion</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no es necesario usar esta libreria, es solo un ejemplo mas bonito</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(my_data, <span class="at">x =</span> <span class="st">"group"</span>, <span class="at">y =</span> <span class="st">"weight"</span>, </span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"group"</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"ctrl"</span>, <span class="st">"trt1"</span>, <span class="st">"trt2"</span>),</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">"Weight"</span>, <span class="at">xlab =</span> <span class="st">"Treatment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no es necesario usar esta libreria, es solo un ejemplo mas bonito</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(my_data, <span class="at">x =</span> <span class="st">"group"</span>, <span class="at">y =</span> <span class="st">"weight"</span>, </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">"group"</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"ctrl"</span>, <span class="st">"trt1"</span>, <span class="st">"trt2"</span>),</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">"Weight"</span>, <span class="at">xlab =</span> <span class="st">"Treatment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggline</span>(my_data, <span class="at">x =</span> <span class="st">"group"</span>, <span class="at">y =</span> <span class="st">"weight"</span>, </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"group"</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"mean_se"</span>, <span class="st">"jitter"</span>), <span class="at">add.params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"ctrl"</span>, <span class="st">"trt1"</span>, <span class="st">"trt2"</span>),</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Weight"</span>, <span class="at">xlab =</span> <span class="st">"Treatment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggline</span>(my_data, <span class="at">x =</span> <span class="st">"group"</span>, <span class="at">y =</span> <span class="st">"weight"</span>, </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"group"</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"mean_se"</span>, <span class="st">"jitter"</span>), <span class="at">add.params =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"ctrl"</span>, <span class="st">"trt1"</span>, <span class="st">"trt2"</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Weight"</span>, <span class="at">xlab =</span> <span class="st">"Treatment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Comparacion de los tratamientos</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> my_data)) <span class="co"># p = 0.0159</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> my_data)) <span class="co"># p = 0.0159</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
 group        2  3.766  1.8832   4.846 0.0159 *
@@ -618,7 +785,7 @@ Residuals   27 10.492  0.3886
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> my_data) <span class="co"># p = 0.01842</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> my_data) <span class="co"># p = 0.01842</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kruskal-Wallis rank sum test
@@ -631,10 +798,10 @@ Kruskal-Wallis chi-squared = 7.9882, df = 2, p-value = 0.01842</code></pre>
 <p>Multiple pairwise-comparison between groups</p>
 <p>A partir del resultado de la prueba de Kruskal-Wallis, sabemos que existe una diferencia entre grupos, pero no sabemos que pares de grupos son diferentes. Es posible usar la funcion pairwise.wilcox.test() para calcular por pares comparaciones entre niveles de grupo con correcciones para pruebas multiples.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?pairwise.wilcox.test</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(PlantGrowth<span class="sc">$</span>weight, PlantGrowth<span class="sc">$</span>group,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">p.adjust.method =</span> <span class="st">"bonf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?pairwise.wilcox.test</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(PlantGrowth<span class="sc">$</span>weight, PlantGrowth<span class="sc">$</span>group,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">p.adjust.method =</span> <span class="st">"bonf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
 exact p-value with ties</code></pre>
@@ -654,16 +821,16 @@ P value adjustment method: bonferroni </code></pre>
 </div>
 <p>La comparacion por pares muestra que solo trt1 y trt2 son significativamente diferentes (p &lt; 0.05).</p>
 </section>
-<section id="friedman-test" class="level3" data-number="12.5.4">
-<h3 data-number="12.5.4" class="anchored" data-anchor-id="friedman-test"><span class="header-section-number">12.5.4</span> Friedman test</h3>
+<section id="friedman-test" class="level3" data-number="12.10.4">
+<h3 data-number="12.10.4" class="anchored" data-anchor-id="friedman-test"><span class="header-section-number">12.10.4</span> Friedman test</h3>
 <p>Importar data</p>
 <p>Usaremos el conjunto de datos de puntaje de autoestima medido en tres puntos de tiempo.Los datos estan disponibles en el paquete <code>datarium</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset = selfesteem.csv</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>selfesteem <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/selfesteem.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selfesteem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset = selfesteem.csv</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>selfesteem <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/selfesteem.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selfesteem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id time    score
 1  1   t1 4.005027
@@ -673,26 +840,26 @@ P value adjustment method: bonferroni </code></pre>
 5  5   t1 2.871243
 6  6   t1 2.045868</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(selfesteem)</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># trasnfromar id a factor</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>selfesteem<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">as.factor</span>(selfesteem<span class="sc">$</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(selfesteem)</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co"># trasnfromar id a factor</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>selfesteem<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">as.factor</span>(selfesteem<span class="sc">$</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vamos a probar los test que vienen dentro de R basico y </span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># de un paquete que se llama rstatix</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(selfesteem, <span class="at">x =</span> <span class="st">"time"</span>, <span class="at">y =</span> <span class="st">"score"</span>, <span class="at">add =</span> <span class="st">"jitter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vamos a probar los test que vienen dentro de R basico y </span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># de un paquete que se llama rstatix</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(selfesteem, <span class="at">x =</span> <span class="st">"time"</span>, <span class="at">y =</span> <span class="st">"score"</span>, <span class="at">add =</span> <span class="st">"jitter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Comparacion de Friedman test, de dos paquetes distintos --------------</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="do">### Basico ------------------------------------------------------------------</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">friedman.test</span>(score <span class="sc">~</span> time <span class="sc">|</span> id, <span class="at">data=</span>selfesteem) <span class="co"># p = 0.0001117</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Comparacion de Friedman test, de dos paquetes distintos --------------</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="do">### Basico ------------------------------------------------------------------</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">friedman.test</span>(score <span class="sc">~</span> time <span class="sc">|</span> id, <span class="at">data=</span>selfesteem) <span class="co"># p = 0.0001117</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Friedman rank sum test
@@ -702,10 +869,10 @@ Friedman chi-squared = 18.2, df = 2, p-value = 0.0001117</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">### rstatix -----------------------------------------------------------------</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>res.fried <span class="ot">&lt;-</span> <span class="fu">friedman_test</span>(score <span class="sc">~</span> time <span class="sc">|</span> id, <span class="at">data=</span>selfesteem)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>res.fried <span class="co"># p = 0.000112</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">### rstatix -----------------------------------------------------------------</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>res.fried <span class="ot">&lt;-</span> <span class="fu">friedman_test</span>(score <span class="sc">~</span> time <span class="sc">|</span> id, <span class="at">data=</span>selfesteem)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>res.fried <span class="co"># p = 0.000112</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 6
   .y.       n statistic    df        p method       
@@ -716,8 +883,8 @@ Friedman chi-squared = 18.2, df = 2, p-value = 0.0001117</code></pre>
 <p><strong>Comparacion de Wilcoxon test, de dos paquetes distintos</strong></p>
 <p>Basico</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(selfesteem<span class="sc">$</span>score, selfesteem<span class="sc">$</span>time, <span class="at">paired =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">p.adjust.method =</span> <span class="st">"bonf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(selfesteem<span class="sc">$</span>score, selfesteem<span class="sc">$</span>time, <span class="at">paired =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">p.adjust.method =</span> <span class="st">"bonf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pairwise comparisons using Wilcoxon signed rank exact test 
@@ -733,9 +900,9 @@ P value adjustment method: bonferroni </code></pre>
 </div>
 <p>rstatix</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(score <span class="sc">~</span> time, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                   , <span class="at">data=</span>selfesteem)</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>pwc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> <span class="fu">wilcox_test</span>(score <span class="sc">~</span> time, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                   , <span class="at">data=</span>selfesteem)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>pwc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 9
   .y.   group1 group2    n1    n2 statistic     p p.adj p.adj.signif
@@ -744,9 +911,9 @@ P value adjustment method: bonferroni </code></pre>
 2 score t1     t3        10    10         0 0.002 0.006 **          
 3 score t2     t3        10    10         1 0.004 0.012 *           </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agregar coordenadas y posiciones de los valores. Solo necesario para hacer graficos</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">=</span> <span class="fu">add_xy_position</span>(pwc, <span class="at">x =</span> <span class="st">"time"</span>)</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>pwc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agregar coordenadas y posiciones de los valores. Solo necesario para hacer graficos</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">=</span> <span class="fu">add_xy_position</span>(pwc, <span class="at">x =</span> <span class="st">"time"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>pwc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 13
   .y.   group1 group2    n1    n2 statistic     p p.adj p.adj.s…¹ y.pos…² groups
@@ -759,35 +926,35 @@ P value adjustment method: bonferroni </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(selfesteem, <span class="at">x =</span> <span class="st">"time"</span>, <span class="at">y =</span> <span class="st">"score"</span>, <span class="at">add =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(pwc, <span class="at">hide.ns =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">get_test_label</span>(res.fried,  <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">get_pwc_label</span>(pwc)</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(selfesteem, <span class="at">x =</span> <span class="st">"time"</span>, <span class="at">y =</span> <span class="st">"score"</span>, <span class="at">add =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(pwc, <span class="at">hide.ns =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">get_test_label</span>(res.fried,  <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">get_pwc_label</span>(pwc)</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non_params_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<p><img src="non_params_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot --------------------------------------------------------------------</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion para exportar el plot como svg. Despues de usarla, se debe </span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># correr el plot y para finalizar la exportacion, debemos aplicar el</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="fu">svg</span>(<span class="st">'plot.svg'</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">8</span>) </span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>plot_box <span class="ot">&lt;-</span> <span class="fu">ggboxplot</span>(selfesteem, <span class="at">x =</span> <span class="st">"time"</span>, <span class="at">y =</span> <span class="st">"score"</span>, <span class="at">add =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(pwc, <span class="at">hide.ns =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">get_test_label</span>(res.fried,  <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">get_pwc_label</span>(pwc)</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a><span class="co"># para visualizarlo</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>plot_box</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot --------------------------------------------------------------------</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion para exportar el plot como svg. Despues de usarla, se debe </span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># correr el plot y para finalizar la exportacion, debemos aplicar el</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">svg</span>(<span class="st">'plot.svg'</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">8</span>) </span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>plot_box <span class="ot">&lt;-</span> <span class="fu">ggboxplot</span>(selfesteem, <span class="at">x =</span> <span class="st">"time"</span>, <span class="at">y =</span> <span class="st">"score"</span>, <span class="at">add =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(pwc, <span class="at">hide.ns =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">get_test_label</span>(res.fried,  <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">get_pwc_label</span>(pwc)</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a><span class="co"># para visualizarlo</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>plot_box</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
