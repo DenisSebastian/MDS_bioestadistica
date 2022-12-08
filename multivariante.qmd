@@ -291,9 +291,14 @@ library(dplyr)
 Cargar foliares de pigmentos (clorofila, carotenoides, contenido de agua, ...) con datos hiperespectrales tomados por espectroscopia de campo (datos de reflectancia de teledetección = 2051 variables)
 
 
-```{r}
+```{r eval=FALSE}
 # datos de rasgos de hojas + reflectancia
 data1 = read.csv('https://raw.githubusercontent.com/JavierLopatin/Clases/master/M%C3%A9todos_avanzados_en_R/dataset/angers-leaf-optical-properties-database--2003.csv')
+```
+
+```{r echo=FALSE}
+# saveRDS(data1, "data/angers-leaf-optical-2003.csv")
+data1 <-  readRDS("data/angers-leaf-optical-2003.csv")
 ```
 
 
@@ -572,6 +577,144 @@ plot(env3)
 
 
 
+### MANOVA
 
+Multivariate Analysis of Variance
+
+```{r}
+data <- read.table("https://raw.githubusercontent.com/shifteight/R-lang/master/TRB/data/manova.txt", header=T, stringsAsFactors = TRUE)
+attach(data)
+names(data)
+ 
+```
+
+
+Primero, cree una variable de respuesta multivariada, Y, uniendo las tres variables de respuesta separadas (lagrima, brillo y opacidad), asi:
+
+```{r}
+Y <- cbind(tear, gloss, opacity)
+
+```
+
+
+Ajuste modelo 
+Luego ajuste el analisis de varianza multivariado usando la funcion manova:
+
+
+```{r}
+model <- manova(Y ~ rate * additive)
+summary(model)
+
+```
+
+Esto muestra efectos significativos tanto para la tasa como para el aditivo, pero no para la interaccion. Tenga en cuenta que las pruebas F se basan en 3 y 14 grados de libertad (no en 1 y 16). 
+
+
+El metodo predeterminado en summary.manova es el Estadistico de  Pillai-Bartlett. Otras opciones incluyen Wilks, Hotelling-Lawley y Roy. 
+
+En segundo lugar, observar cada una de las tres variables de respuesta por separado:
+
+```{r}
+summary.aov(model)
+```
+
+**Homogeneidad multivariante de las dispersiones de los grupos**
+
+
+```{r}
+library(vegan)
+
+
+data <- read.csv('data/data_ts.csv', sep = ',', dec=',', 
+                 stringsAsFactors = TRUE)
+str(data)
+```
+
+
+
+```{r}
+# subset de las columnas 4 a la 20
+var <- data[, 4:20]
+str(var)
+```
+
+
+Queremos saber que variables (vegetación) influyen en el tipo de piso.
+
+```{r}
+# aov1 <-  manova(as.matrix(var)~data$piso)
+# summary(aov1)
+```
+
+
+```{r}
+# escalar valores
+var <- scale(var)
+
+```
+
+
+Matriz de disimilaridad
+
+```{r}
+
+dis_veg <- dist(var)
+plot(dis_veg)
+
+# clases factoriales a usar en el analisis
+groups <- data$piso
+```
+
+
+**Dispersiones de los grupos**
+ 
+Anova en el espacio de dimensiones reducido de Principal Coordinates Analysis (PCoA)
+
+```{r}
+bdisp_veg <- betadisper(dis_veg, groups) 
+bdisp_veg
+
+```
+
+Visualización de los Componentes
+
+
+```{r}
+plot(bdisp_veg, axes = c(1, 2)) 
+plot(bdisp_veg, axes = c(1, 3))
+plot(bdisp_veg, axes = c(2, 3))
+```
+
+* con el argumento axes accedemos a los distintos componentes 
+
+
+Realizar prueba de significancia entre grupos
+
+```{r}
+anova(bdisp_veg)
+```
+
+
+**Tukey test**
+
+Compute Tukey Honest Significant Differences:
+: Crea un conjunto de intervalos de confianza sobre las diferencias entre las medias de los niveles de un factor con la probabilidad de cobertura especificada por familia. Los intervalos se basan en el estadístico de rango estudiado, el método de "diferencia significativa honesta" de Tukey.
+
+
+
+
+```{r}
+HSD_veg <- TukeyHSD(bdisp_veg); HSD_veg
+```
+
+Lower  y upper deben tener mismo signo (no pase por 0) para que sea significativas.
+
+
+EscAnd-AndSup p-adj < 0.05
+
+```{r}
+plot(HSD_veg)
+
+```
 
 

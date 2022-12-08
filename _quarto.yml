@@ -24,6 +24,7 @@ book:
     - non_params.qmd
     - multivariante.qmd
     # - cluster.qmd
+    - series_tiempo.qmd
     - references.qmd
 
 
